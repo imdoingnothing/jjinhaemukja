@@ -13,7 +13,12 @@
 	</classpathentry>
 	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.web.container"/>
 	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.module.container"/>
+<<<<<<< HEAD
 	<classpathentry kind="lib" path="D:/semi/dev/cos.jar"/>
 	<classpathentry kind="lib" path="D:/semi/dev/ojdbc6.jar"/>
+=======
+	<classpathentry kind="lib" path="C:/Users/82109/Desktop/gitubWorkspace/dev/ojdbc6.jar"/>
+	<classpathentry kind="lib" path="C:/Users/82109/Desktop/gitubWorkspace/dev/cos.jar"/>
+>>>>>>> refs/remotes/origin/kimsohyun
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>
