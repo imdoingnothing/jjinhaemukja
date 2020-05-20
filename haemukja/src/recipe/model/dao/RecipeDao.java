@@ -192,7 +192,6 @@ public class RecipeDao {
 		ResultSet rset = null;
 		ArrayList<Recipe> list = new ArrayList<>();
 		
-//		String query = "SELECT * FROM RLIST WHERE RNUM BETWEEN ? AND ? AND NCODE = ?";
 		String query = "SELECT * "
 				+ "FROM (SELECT ROWNUM AS RNUM1, BNO, BTITLE, BDATE, BCONTENT, BUP, BDOWN, BVIEWS, MID, NCODE FROM RLIST WHERE NCODE=?)"
 				+ "WHERE RNUM1 BETWEEN ? AND ?";
