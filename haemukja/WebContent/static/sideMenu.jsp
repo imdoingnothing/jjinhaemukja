@@ -25,5 +25,5 @@
           <a href="#" class="list-group-item list-group-item-light"
           	onclick="location.href='<%=request.getContextPath()%>/list.re?nCode=' + 'AME'">기타</a>
           <h4><a href="#" onclick="location.href='<%=request.getContextPath()%>/list.re?nCode=' + 'OC'">Other Countries</a></h4>
-          <h4><a href="qnaboard.jsp">문의게시판</a></h4>
+          <h4><a href="<%=request.getContextPath()%>/qna.qn">문의게시판</a></h4>
         </div>

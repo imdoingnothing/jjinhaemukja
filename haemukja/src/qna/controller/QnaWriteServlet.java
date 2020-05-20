@@ -30,7 +30,7 @@ public class QnaWriteServlet extends HttpServlet {
 		int result = new QnaService().insertQna(qna);
 		
 		if(result > 0) {
-			request.getRequestDispatcher("/qna.qn").forward(request, response);
+			request.getRequestDispatcher("/qna.qn?currentPage=1").forward(request, response);
 		} else {
 			//404
 		}

@@ -15,9 +15,22 @@
   <meta name="author" content="">
   <title>해먹자</title>
   <!-- Bootstrap core CSS -->
-  <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <!-- <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet"> -->
+  
   <!-- Custom styles for this template -->
-  <link href="css/sellerAndStatic.css" rel="stylesheet">
+  <!-- <link href="css/sellerAndStatic.css" rel="stylesheet"> -->
+  
+    <!-- Bootstrap core JavaScript -->
+  <!-- <script src="vendor/jquery/jquery.min.js"></script>
+  <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script> -->
+  
+   <link rel="stylesheet" href="//unpkg.com/bootstrap@4/dist/css/bootstrap.min.css">
+   <script src='//unpkg.com/jquery@3/dist/jquery.min.js'></script>
+   <script src='//unpkg.com/popper.js@1/dist/umd/popper.min.js'></script>
+   <script src='//unpkg.com/bootstrap@4/dist/js/bootstrap.min.js'></script>
+   <style>
+   @import url(https://fonts.googleapis.com/css2?family=Gamja+Flower&display=swap);*{font-family:'Nanum Gothic',sans-serif;font-size:15px}.logo{height:80px}.list-group a{font-size:18px;font-weight:700}.list-group-item{border-style:none}.panel-heading{background-color:orange;text-align:center;line-height:50px;vertical-align:middle;color:#fff;font-size:20px;font-weight:700}#login{background-color:orange;text-align:center;width:150px;height:200px;border-radius:15px;position:fixed}#loginBtn{background-color:#323232;text-align:center;border:none;border-radius:3px;color:#fff}a{color:#000;text-decoration:none}a:hover{color:orange;text-decoration:none}button{background-color:#323232;text-align:center;border:none;border-radius:3px;color:#fff}footer{background-color:#e6e6e6;height:200px}.notice{background-color:#ffbfdd}#write{text-align:right}.btn{float:right;background-color:#323232;color:#fff}.shipInfoBox{display:none}.form-control{display:inline}.result{border-style:none}
+   </style>
   <script defer src="https://use.fontawesome.com/releases/v5.0.8/js/solid.js"
     integrity="sha384-+Ga2s7YBbhOD6nie0DzrZpJes+b2K1xkpKxTFFcx59QmVPaSA8c7pycsNaFwUK6l"
     crossorigin="anonymous"></script>
@@ -210,9 +223,6 @@
   <!-- Footer -->
   <%@ include file="static/bottom.jsp"%>
 
-  <!-- Bootstrap core JavaScript -->
-  <script src="vendor/jquery/jquery.min.js"></script>
-  <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
   <script>
      function login(){
         location.href="<%=request.getContextPath()%>/member/loginHaemukja.jsp";
