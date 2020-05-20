@@ -17,7 +17,10 @@
   <title>아이디찾기</title>
 
   <!-- Bootstrap core CSS -->
-    <link href="<%=request.getContextPath() %>/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="//unpkg.com/bootstrap@4/dist/css/bootstrap.min.css">
+  <script src='//unpkg.com/jquery@3/dist/jquery.min.js'></script>
+  <script src='//unpkg.com/popper.js@1/dist/umd/popper.min.js'></script>
+  <script src='//unpkg.com/bootstrap@4/dist/js/bootstrap.min.js'></script>
 
   <!-- Custom styles for this template -->
   <link href="../css/idpw.css" rel="stylesheet">
@@ -27,6 +30,11 @@
   <script defer src="https://use.fontawesome.com/releases/v5.0.8/js/fontawesome.js"
     integrity="sha384-7ox8Q2yzO/uWircfojVuCQOZl+ZZBg2D2J5nkpLqzH1HY0C1dHlTKIbpRz/LG23c"
     crossorigin="anonymous"></script>
+    
+  <style>
+  @import url(https://fonts.googleapis.com/css2?family=Gamja+Flower&display=swap);*{font-family:'Nanum Gothic',sans-serif;font-size:15px}body{margin:0;font-size:.9rem;font-weight:400;line-height:1.6;color:#212529;text-align:left;background-color:#f5f8fa}.my-form{padding-top:1.5rem;padding-bottom:1.5rem}.my-form .row{margin-left:0;margin-right:0}.login-form{padding-top:1.5rem;padding-bottom:1.5rem}.login-form .row{margin-left:0;margin-right:0}button{width:100px}#id,#idFind-email,#idFind-name,#join-email,#join-id,#join-name,#join-nickname,#join-pwd1,#join-pwd2,#join-residenceDetail,#password,#pwdFind-email{width:250px}
+  </style>
+  
 </head>
 
 <body>
@@ -66,7 +74,7 @@
                
                 <br>
                 <div class="col-md-6 offset-md-4">            
-                  <button type="submit" class="btn btn-primary" id="findButton" style="background-color: orange; border: none;">
+                  <button type="submit" class="btn btn-primary" id="findButton" style="background-color: orange; border: none; width: 120px;">
                   아이디 찾기</button>&nbsp;&nbsp;
                   <button type="button" class="btn btn-primary" style="background-color: orange; border: none;">
                   취소</button><br>

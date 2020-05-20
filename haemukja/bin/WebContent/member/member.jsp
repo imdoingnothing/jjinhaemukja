@@ -24,17 +24,19 @@
     <title>회원 구매 페이지</title>
 
     <!-- Bootstrap core CSS -->
-    <link href="<%=request.getContextPath()%>/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-
-    <!-- Custom styles for this template -->
-    <link href="../css/sellerAndStatic.css" rel="stylesheet">
-    <link href="../css/writeBoard.css" rel="stylesheet">
-    <script defer src="https://use.fontawesome.com/releases/v5.0.8/js/solid.js"
-        integrity="sha384-+Ga2s7YBbhOD6nie0DzrZpJes+b2K1xkpKxTFFcx59QmVPaSA8c7pycsNaFwUK6l"
-        crossorigin="anonymous"></script>
-    <script defer src="https://use.fontawesome.com/releases/v5.0.8/js/fontawesome.js"
-        integrity="sha384-7ox8Q2yzO/uWircfojVuCQOZl+ZZBg2D2J5nkpLqzH1HY0C1dHlTKIbpRz/LG23c"
-        crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="//unpkg.com/bootstrap@4/dist/css/bootstrap.min.css">
+  <script src='//unpkg.com/jquery@3/dist/jquery.min.js'></script>
+  <script src='//unpkg.com/popper.js@1/dist/umd/popper.min.js'></script>
+  <script src='//unpkg.com/bootstrap@4/dist/js/bootstrap.min.js'></script>
+  
+  <!-- Custom styles for this template -->
+  <script defer src="https://use.fontawesome.com/releases/v5.0.8/js/solid.js"
+    integrity="sha384-+Ga2s7YBbhOD6nie0DzrZpJes+b2K1xkpKxTFFcx59QmVPaSA8c7pycsNaFwUK6l"
+    crossorigin="anonymous"></script>
+  <script defer src="https://use.fontawesome.com/releases/v5.0.8/js/fontawesome.js"
+    integrity="sha384-7ox8Q2yzO/uWircfojVuCQOZl+ZZBg2D2J5nkpLqzH1HY0C1dHlTKIbpRz/LG23c"
+    crossorigin="anonymous"></script>
+    
 </head>
 
 <body>
@@ -250,46 +252,35 @@
         
     	</div><!-- container -->
     </div> <!-- reciept -->
+    <script src="<%=request.getContextPath()%>/vendor/jquery/jquery.min.js"></script>
+  	<script src="<%=request.getContextPath()%>/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
     <script>
-	
-		$(function(){
-			$("#point").click(function(){
-				var curentPoint	=<%=loginMember.getMpoint()%>;
-				var usePoint = $("#point").val();
-				var allamprice = <%=allamprice%>
-				var loginId = <%=loginMember.getMid()%>;
+    
+	    $(function(){
+			$("#pointButton").click(function(){
+				var curentPoint	=<%=loginMember.getMpoint()%>; /*현재포인트*/
+				var usePoint = $("#point").val();			   /*사용할포인트*/
+				var allamprice = <%=allamprice%>;			   /*총가격*/	
 				
-				/* usePoint = Number(usePoint);
-				var resultPoint = currentPoint-usePoint;
-				var resultPrice =  allamprice-usePoint; */
-				$.ajax({
-					url:"point.me",
-					type:"post",
-					data:{currentPoint:currentPoint, usePoint:usePoint,allamprice:allamprice,loginId:loginId},
+				
+				var resultPrice = allamprice - usePoint;	   /*포인트사용된가격*/
+				var resultPoint = curentPoint - usePoint;	   /*남은포인트*/
+				
+				
+				if(resultPrice<0||resultPoint<0 ){
+					$("#point").focus();
+					$("#point").val("");
+					alert("다시입력하세요.")
+				}else{
 					
-					success:function(data){
-						$allamprice = $("#allamprice");
-						$allamprice.val("");
-						
-						
-						
-					
-						
-					},
-					error:function(request,status,error){
-					    alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
-					   }
-					
-				});
-			
-			
-			
-			});
-			
-			
+				
+				$("#allamprice").val(resultPrice);
+				$("#pointLabel").html(resultPoint+"점입니다.");
+			}
+		
 		});
-
-    	
+			
+	});
     	
     </script>
     

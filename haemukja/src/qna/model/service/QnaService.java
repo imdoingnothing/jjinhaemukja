@@ -6,6 +6,7 @@ import java.sql.Connection;
 import java.util.ArrayList;
 
 import qna.model.dao.QnaDao;
+import qna.model.vo.Comment;
 import qna.model.vo.Qna;
 public class QnaService {
 
@@ -87,5 +88,39 @@ public class QnaService {
 		return list;
 	}
 
+	public ArrayList<Comment> insertReply(Comment c) {
+		Connection conn = getConnection();
+		QnaDao qd = new QnaDao();
+		int result = qd.insertReply(conn, c);
+		//insert 완료
+		ArrayList<Comment> list = new ArrayList<Comment>();
+		
+		if(result > 0) {
+			commit(conn);
+			list = qd.selectReplyList(conn, c.getQid());
+		} else {
+			rollback(conn);
+		}
+		close(conn);
+		return list;
+	}
 
+	public ArrayList<Comment> selectReplyList(int qid) {
+		Connection conn = getConnection();
+		ArrayList<Comment> list = new QnaDao().selectReplyList(conn, qid);
+		close(conn);
+		return list;
+	}
+
+	
 }
+
+
+
+
+
+
+
+
+
+
