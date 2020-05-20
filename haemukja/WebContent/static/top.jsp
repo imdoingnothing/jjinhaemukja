@@ -5,7 +5,7 @@
       <a class="navbar-brand" href="<%=request.getContextPath() %>/index.jsp">
         <img class="logo" src="<%=request.getContextPath() %>/images/haemukjalogo.png" />
       </a>
-      <a class="navbar-brand" align="right" href="<%=request.getContextPath() %>/haemukshop/haemukshop_main.jsp">
+      <a class="navbar-brand" align="right" href="<%=request.getContextPath() %>/haemukshop/haemukshopMain.jsp">
         <img class="logo" src="<%=request.getContextPath() %>/images/haemukshoplogo.png" />
       </a>
     </div>

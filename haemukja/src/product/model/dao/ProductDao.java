@@ -6,11 +6,13 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 
 import common.Attachment;
 import product.model.vo.Product;
 import product.model.vo.Sale;
+import recipe.model.vo.Recipe;
 
 public class ProductDao {
 
@@ -236,6 +238,130 @@ public class ProductDao {
 		}
 		
 		return result;
+	}
+
+	public Sale selectSale2(Connection conn, int pId) {
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		Sale s = null;
+		
+		String query = "SELECT * FROM SELL WHERE PID=?";
+		
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setInt(1, pId);
+			
+			rset = pstmt.executeQuery();
+			while(rset.next()) {
+				s = new Sale(rset.getInt("SBNO"),
+						rset.getString("SBTITLE"),
+						rset.getDate("SBDATE"),
+						rset.getString("SBCONTENT"),
+						rset.getString("SBKIND"),
+						rset.getString("SID"),
+						rset.getInt("PID"));
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+			close(rset);
+		}
+		
+		return s;
+	}
+
+	public int getAllCount(Connection conn) {
+		Statement stmt = null;
+		ResultSet rset = null;
+		int result = 0;
+		
+		String query = "SELECT COUNT(*) FROM SELL";
+		
+		try {
+			stmt = conn.createStatement();
+			
+			rset = stmt.executeQuery(query);
+			while(rset.next()) {
+				result = rset.getInt(1);
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(stmt);
+			close(rset);
+		}
+		
+		return result;
+	}
+
+	public ArrayList<Sale> selectSList(Connection conn) {
+		Statement stmt = null;
+		ResultSet rset = null;
+		ArrayList<Sale> list = new ArrayList<>();
+		
+		String query = "SELECT * FROM (SELECT ROWNUM AS RNUM1, SBNO, SBTITLE, SBDATE, SBCONTENT, SBKIND, SID, PID FROM SLIST) WHERE RNUM1 BETWEEN 1 AND 9";
+		
+		try {
+			stmt = conn.createStatement();
+			
+			rset = stmt.executeQuery(query);
+			
+			while(rset.next()) {
+				Sale s = new Sale(rset.getInt("SBNO"),
+						rset.getString("SBTITLE"),
+						rset.getDate("SBDATE"),
+						rset.getString("SBCONTENT"),
+						rset.getString("SBKIND"),
+						rset.getString("SID"),
+						rset.getInt("PID"));
+				
+				list.add(s);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(stmt);
+			close(rset);
+		}
+		
+		System.out.println("Dao단에서 slist : " + list);
+		return list;
+	}
+
+	public Attachment selectThumbnail(Connection conn, int sbNo) {
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		Attachment thumbnail = null;
+		
+		String query = "SELECT * FROM ATTACHMENT WHERE SBNO=? AND FILELEVEL=0";
+		
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setInt(1, sbNo);
+			
+			rset = pstmt.executeQuery();
+			while(rset.next()) {
+				thumbnail = new Attachment(rset.getInt("AID"),
+						rset.getInt("BNO"),
+						rset.getInt("SBNO"),
+						rset.getString("FILENAME"), 
+						rset.getString("FILEPATH"),
+						rset.getDate("UPLOADDATE"),
+						rset.getInt("FILELEVEL"),
+						rset.getString("STATUS"),
+						rset.getString("TAG"));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+			close(rset);
+		}
+		
+		return thumbnail;
 	}
 
 }

@@ -46,9 +46,9 @@
     <div class="row">
       <div class="col-lg-2">
         <div class="list-group">
-          <h4><a href="sellerpage_register.html">제품 등록</a></h4>
-          <h4><a href="sellerpage_explain.html">제품 설명</a></h4>
-          <h4><a href="sellerpage_manage.html">제품 관리</a></h4>
+          <h4><a href="<%=request.getContextPath() %>/seller/sellerPageInsert.jsp">제품 등록</a></h4>
+          <h4><a href="<%=request.getContextPath() %>/seller/sellerPageExplain.jsp">제품 설명</a></h4>
+          <h4><a href="<%=request.getContextPath() %>/seller/sellerPageManage.jsp">제품 관리</a></h4>
           <h4><a href="sellerpage_order.html">주문 관리</a></h4>
           <h4><a href="sellerpage_qna.html">문의글 답변</a></h4>
           <h4><a href="<%=request.getContextPath() %>/seller/sellerPageEdit.jsp">상세페이지 수정</a></h4>
@@ -76,7 +76,7 @@
               <label for="image1"><h5>썸네일 : </h5></label>
               <input type="file" id="image1" name="image1">
               <br><br>
-              <textarea name="content" cols="110" rows="20"></textarea>
+              <textarea name="content" cols="110" rows="20">내용을 입력하세요</textarea>
               <input type="file" name="image2">
               <input type="file" name="image3">
               <input type="file" name="image4">

@@ -1,19 +1,25 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+    pageEncoding="UTF-8" import="java.util.*, product.model.vo.*, common.Attachment"%>
+<%
+	ArrayList<Sale> slist = (ArrayList<Sale>)request.getAttribute("slist");
+	ArrayList<Attachment> flist = (ArrayList<Attachment>)request.getAttribute("flist");
+%>
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <meta name="description" content="">
   <meta name="author" content="">
 
-  <title>해먹샵</title>
+  <title>해먹샵메인</title>
 
   <!-- Bootstrap core CSS -->
-  <link href="../vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-
+  <link rel="stylesheet" href="//unpkg.com/bootstrap@4/dist/css/bootstrap.min.css">
+  <script src='//unpkg.com/jquery@3/dist/jquery.min.js'></script>
+  <script src='//unpkg.com/popper.js@1/dist/umd/popper.min.js'></script>
+  <script src='//unpkg.com/bootstrap@4/dist/js/bootstrap.min.js'></script>
+  
   <!-- Custom styles for this template -->
   <script defer src="https://use.fontawesome.com/releases/v5.0.8/js/solid.js"
     integrity="sha384-+Ga2s7YBbhOD6nie0DzrZpJes+b2K1xkpKxTFFcx59QmVPaSA8c7pycsNaFwUK6l"
@@ -21,6 +27,7 @@
   <script defer src="https://use.fontawesome.com/releases/v5.0.8/js/fontawesome.js"
     integrity="sha384-7ox8Q2yzO/uWircfojVuCQOZl+ZZBg2D2J5nkpLqzH1HY0C1dHlTKIbpRz/LG23c"
     crossorigin="anonymous"></script>
+    
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Gamja+Flower&display=swap');
   
@@ -120,27 +127,33 @@
     }
   
     li>a {
-      margin-left: 60px;
+      margin-left: 40px;
     }
   </style>
+  
 </head>
 
 <body>
+
   <div class="container" style="height: 120px; padding: 20px;">
     <div class="row">
       <div class="col-lg-4">
-        <a href="../index.jsp"><img class="logo" src="../images/haemukjalogo_size.png"></a>
+        <a href="<%=request.getContextPath() %>/index.jsp">
+        	<img class="logo" src="<%=request.getContextPath() %>/images/haemukjalogo_size.png">
+        </a>
       </div>
 
       <div class="col-lg-4" align="center">
-        <a href="haemukshop_main.jsp"><img class="logo" src="../images/haemukshoplogo.png"></a>
+        <a href="<%=request.getContextPath() %>/haemukshop/haemukshopMain.jsp">
+        	<img class="logo" src="<%=request.getContextPath() %>/images/haemukshoplogo.png">
+        </a>
       </div>
 
       <div class="col-lg-4" align="right">
         <div class="user" style="border: 2px solid orange; width: 200px;" align="center">
           <h4>비회원</h4>
-          <a href="login_haemukshop.jsp" style="font-size: 15px;">로그인</a><br>
-          <a href="join.jsp" style="font-size: 15px">회원가입</a>
+          <a href="login_haemukshop.html" style="font-size: 15px;">로그인</a><br>
+          <a href="join.html" style="font-size: 15px">회원가입</a>
         </div>
       </div>
     </div>
@@ -171,6 +184,10 @@
             <li class="nav-item">
               <a class="nav-link" href="#" style="color: white;">베이커리 치즈</a>
             </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#" style="color: white;">면 양념 
+              오일</a>
+            </li>
           </ul>
         </div>
       </nav>
@@ -185,7 +202,7 @@
           </ol>
           <div class="carousel-inner" role="listbox" >
             <div class="carousel-item active" >
-              <img class="d-block img-fluid" src="images/ad.jpg" alt="First slide">
+              <img class="d-block img-fluid" src="<%=request.getContextPath() %>/images/ad.jpg" alt="First slide">
             </div>
             <div class="carousel-item">
               <img class="d-block img-fluid" src="http://placehold.it/900x350" alt="Second slide">
@@ -205,106 +222,29 @@
         </div>
         
         <div class="row">
+        <% for(int i = 0; i < slist.size(); i++) { 
+        	Sale s = slist.get(i); %>
           <div class="col-lg-4 col-md-6 mb-4">
             <div class="card h-100">
-              <a href="#"><img class="card-img-top" src="images/apple.jpg" alt=""></a>
-               <div class="card-body">
-                <h4 class="card-title">사과</h4>
-                <h5><a href="#">맛있는 제철사과!</a></h5>
-                <p class="card-text">가격 : 5900원</p>
-              </div>
+              <% for(int j = 0; j < flist.size(); j++) { 
+		      		Attachment a = flist.get(j); %>
+		        			
+		        	<% if(s.getSbNo() == a.getSbNo()) {  %>
+		        		<input type="hidden" value="<%= a.getSbNo() %>">
+		        		<a href="#" class="detail"><img class="card-img-top" 
+		        			src="<%= request.getContextPath() %>/uploadFiles/<%= a.getFileName() %>">
+		        		</a>
+				        <div class="card-body">
+				        	<h5><a href="#"><%= s.getSbTitle() %></a></h5>
+				            <p class="card-text"><%= s.getSbDate() %></p>
+				            <p class="card-text"><%= s.getsId() %></p>
+				        </div>
+		        	<% } %>
+		        			
+		    	<% } %>
             </div>
           </div>
-
-          <div class="col-lg-4 col-md-6 mb-4">
-            <div class="card h-100">
-              <a href="#"><img class="card-img-top" src="images/cucumber.jpg" alt=""></a>
-              <div class="card-body">
-                <h4 class="card-title">오이</h4>
-                <h5><a href="#">아삭아삭한 오이</a></h5>
-                <p class="card-text">가격 : 4000원</p>
-              </div>
-            </div>
-          </div>
-
-          <div class="col-lg-4 col-md-6 mb-4">
-            <div class="card h-100">
-              <a href="#"><img class="card-img-top" src="http://placehold.it/700x400" alt=""></a>
-               <div class="card-body">
-                <h4 class="card-title">사과</h4>
-                <h5><a href="#">맛있는 제철사과!</a></h5>
-                <p class="card-text">가격 : 5900원</p>
-              </div>
-            </div>
-          </div>
-
-          <div class="col-lg-4 col-md-6 mb-4">
-            <div class="card h-100">
-              <a href="#"><img class="card-img-top" src="http://placehold.it/700x400" alt=""></a>
-               <div class="card-body">
-                <h4 class="card-title">사과</h4>
-                <h5><a href="#">맛있는 제철사과!</a></h5>
-                <p class="card-text">가격 : 5900원</p>
-              </div>
-            </div>
-          </div>
-
-          <div class="col-lg-4 col-md-6 mb-4">
-            <div class="card h-100">
-              <a href="#"><img class="card-img-top" src="http://placehold.it/700x400" alt=""></a>
-                <div class="card-body">
-                <h4 class="card-title">사과</h4>
-                <h5><a href="#">맛있는 제철사과!</a></h5>
-                <p class="card-text">가격 : 5900원</p>
-              </div>
-            </div>
-          </div>
-
-          <div class="col-lg-4 col-md-6 mb-4">
-            <div class="card h-100">
-              <a href="#"><img class="card-img-top" src="http://placehold.it/700x400" alt=""></a>
-               <div class="card-body">
-                <h4 class="card-title">사과</h4>
-                <h5><a href="#">맛있는 제철사과!</a></h5>
-                <p class="card-text">가격 : 5900원</p>
-              </div>
-            </div>
-          </div>
-
-          <div class="col-lg-4 col-md-6 mb-4">
-            <div class="card h-100">
-              <a href="#"><img class="card-img-top" src="http://placehold.it/700x400" alt=""></a>
-               <div class="card-body">
-                <h4 class="card-title">사과</h4>
-                <h5><a href="#">맛있는 제철사과!</a></h5>
-                <p class="card-text">가격 : 5900원</p>
-              </div>
-            </div>
-          </div>
-
-          <div class="col-lg-4 col-md-6 mb-4">
-            <div class="card h-100">
-              <a href="#"><img class="card-img-top" src="http://placehold.it/700x400" alt=""></a>
-               <div class="card-body">
-                <h4 class="card-title">사과</h4>
-                <h5><a href="#">맛있는 제철사과!</a></h5>
-                <p class="card-text">가격 : 5900원</p>
-              </div>
-            </div>
-          </div>
-
-          <div class="col-lg-4 col-md-6 mb-4">
-            <div class="card h-100">
-              <a href="#"><img class="card-img-top" src="http://placehold.it/700x400" alt=""></a>
-               <div class="card-body">
-                <h4 class="card-title">사과</h4>
-                <h5><a href="#">맛있는 제철사과!</a></h5>
-                <p class="card-text">가격 : 5900원</p>
-              </div>
-            </div>
-          </div>
-
-
+        <% } %>
         </div>
       </div>
       <!-- /.col-lg-9 -->
@@ -330,5 +270,4 @@
   <script src="../vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
 </body>
-
 </html>

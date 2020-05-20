@@ -85,4 +85,45 @@ public class ProductService {
 		return result1;
 	}
 
+	public Sale selectSale2(int pId) {
+		Connection conn = getConnection();
+		
+		Sale s = new ProductDao().selectSale2(conn, pId);
+		
+		close(conn);
+		
+		return s;
+	}
+
+	public int getAllCount() {
+		Connection conn = getConnection();
+		
+		int result = new ProductDao().getAllCount(conn);
+		
+		close(conn);
+		
+		return result;
+	}
+
+	public ArrayList<Sale> selectSList() {
+		Connection conn = getConnection();
+		
+		ArrayList<Sale> slist = new ProductDao().selectSList(conn);
+		System.out.println("service단에서 slist : " + slist);
+		
+		close(conn);
+		
+		return slist;
+	}
+
+	public Attachment selectThumbnail(int sbNo) {
+		Connection conn = getConnection();
+		
+		Attachment at = new ProductDao().selectThumbnail(conn, sbNo);
+		
+		close(conn);
+		
+		return at;
+	}
+
 }
