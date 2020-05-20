@@ -170,7 +170,7 @@ public class RecipeDao {
 				thumbnail = new Attachment(rset.getInt("AID"),
 						rset.getInt("BNO"),
 						rset.getInt("SBNO"),
-						rset.getString("FILENAME"),
+						rset.getString("FILENAME"), 
 						rset.getString("FILEPATH"),
 						rset.getDate("UPLOADDATE"),
 						rset.getInt("FILELEVEL"),
