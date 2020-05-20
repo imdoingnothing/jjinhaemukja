@@ -134,6 +134,33 @@ public class ProductDao {
 		
 		return result;
 	}
+	
+	public int insertAttachment2(Connection conn, ArrayList<Attachment> fileList, int sbNo) {
+		PreparedStatement pstmt = null;
+		int result = 0;
+		
+		System.out.println(sbNo);
+		String query = "INSERT INTO ATTACHMENT VALUES(SEQ_A.NEXTVAL,NULL,?,?,?,SYSDATE,?,'N',NULL)";
+		
+		try {
+			for(int i = 0; i < fileList.size(); i++) {
+				Attachment at = fileList.get(i);
+				pstmt = conn.prepareStatement(query);
+				pstmt.setInt(1, sbNo);
+				pstmt.setString(2, at.getFileName());
+				pstmt.setString(3, at.getFilePath());
+				pstmt.setInt(4, at.getLevel());
+				
+				result += pstmt.executeUpdate();
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+		
+		return result;
+	}
 
 	public Sale selectSale(Connection conn, int sbNo) {
 		PreparedStatement pstmt = null;
@@ -165,6 +192,50 @@ public class ProductDao {
 		}
 		
 		return s;
+	}
+
+	public int updateSale(Connection conn, int sbNo, Sale s) {
+		PreparedStatement pstmt = null;
+		int result = 0;
+		
+		String query = "UPDATE SELL SET SBTITLE=?, SBDATE=SYSDATE, SBCONTENT=? WHERE SBNO=?";
+		
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setString(1, s.getSbTitle());
+			pstmt.setString(2, s.getSbContent());
+			pstmt.setInt(3, sbNo);
+			
+			result = pstmt.executeUpdate();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+		
+		return result;
+	}
+
+	public int deleteAttachment(Connection conn, int sbNo) {
+		PreparedStatement pstmt = null;
+		int result = 0;
+		
+		String query = "DELETE FROM ATTACHMENT WHERE SBNO=?";
+		
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setInt(1, sbNo);
+			
+			result = pstmt.executeUpdate();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+		
+		return result;
 	}
 
 }

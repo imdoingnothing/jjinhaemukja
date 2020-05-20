@@ -66,4 +66,23 @@ public class ProductService {
 		return s;
 	}
 
+	public int updateSale(Sale s, ArrayList<Attachment> fileList) {
+		Connection conn = getConnection();
+		ProductDao pd = new ProductDao();
+		
+		int result1 = pd.updateSale(conn, s.getSbNo(), s);
+		int result2 = pd.deleteAttachment(conn, s.getSbNo());
+		int result3 = pd.insertAttachment2(conn, fileList, s.getSbNo());
+		
+		if(result1 > 0) {
+			commit(conn);
+		} else {
+			rollback(conn);
+		}
+		
+		close(conn);
+		
+		return result1;
+	}
+
 }
