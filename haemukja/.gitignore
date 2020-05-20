@@ -1,2 +1,5 @@
-/build/
+.classpath
+context.xml
+/classes/
+.settings/
 /bin/

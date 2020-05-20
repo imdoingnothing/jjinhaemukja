@@ -64,8 +64,8 @@
                 <div class="form-group row">
                   <label for="userType" class="col-md-4 col-form-label text-md-right">회원구분</label>
                   <div class="col-md-6">
-                    <input type="radio" name="userType" value="member" checked>해먹자 회원
-               <input type="radio" name="userType" value="seller">해먹샵 회원
+                    <input type="radio" name="userType" value="member" checked>일반회원
+               <input type="radio" name="userType" value="seller">판매회원
                   </div>
                 <br><br>
                 <div class="col-md-6 offset-md-4">

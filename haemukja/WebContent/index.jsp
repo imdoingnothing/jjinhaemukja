@@ -173,7 +173,7 @@
           <i class="fas fa-user" style="font-size: 30px;"></i>
           <br><br>
              <%=loginMember.getMnickname() %><br>반갑습니다!<br><br>
-          <a href="mypage/mypagePoint.jsp" style="color: white; margin-bottom: 10px;">마이페이지</a>
+          <a href="sellerpage_register.html" style="color: white; margin-bottom: 10px;">마이페이지</a>
           <br>
           <button type="button" id="loginBtn" onclick="logout();">로그아웃</button>
         </div>
