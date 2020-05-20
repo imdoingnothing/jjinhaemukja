@@ -13,17 +13,19 @@
     <title>회원 구매 페이지</title>
 
     <!-- Bootstrap core CSS -->
-    <link href="<%=request.getContextPath()%>/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-
-    <!-- Custom styles for this template -->
-    <link href="../css/sellerAndStatic.css" rel="stylesheet">
-    <link href="../css/writeBoard.css" rel="stylesheet">
-    <script defer src="https://use.fontawesome.com/releases/v5.0.8/js/solid.js"
-        integrity="sha384-+Ga2s7YBbhOD6nie0DzrZpJes+b2K1xkpKxTFFcx59QmVPaSA8c7pycsNaFwUK6l"
-        crossorigin="anonymous"></script>
-    <script defer src="https://use.fontawesome.com/releases/v5.0.8/js/fontawesome.js"
-        integrity="sha384-7ox8Q2yzO/uWircfojVuCQOZl+ZZBg2D2J5nkpLqzH1HY0C1dHlTKIbpRz/LG23c"
-        crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="//unpkg.com/bootstrap@4/dist/css/bootstrap.min.css">
+  <script src='//unpkg.com/jquery@3/dist/jquery.min.js'></script>
+  <script src='//unpkg.com/popper.js@1/dist/umd/popper.min.js'></script>
+  <script src='//unpkg.com/bootstrap@4/dist/js/bootstrap.min.js'></script>
+  
+  <!-- Custom styles for this template -->
+  <script defer src="https://use.fontawesome.com/releases/v5.0.8/js/solid.js"
+    integrity="sha384-+Ga2s7YBbhOD6nie0DzrZpJes+b2K1xkpKxTFFcx59QmVPaSA8c7pycsNaFwUK6l"
+    crossorigin="anonymous"></script>
+  <script defer src="https://use.fontawesome.com/releases/v5.0.8/js/fontawesome.js"
+    integrity="sha384-7ox8Q2yzO/uWircfojVuCQOZl+ZZBg2D2J5nkpLqzH1HY0C1dHlTKIbpRz/LG23c"
+    crossorigin="anonymous"></script>
+    
 </head>
 
 <body>

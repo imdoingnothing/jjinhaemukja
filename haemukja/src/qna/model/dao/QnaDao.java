@@ -8,6 +8,7 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
 
+import qna.model.vo.Comment;
 import qna.model.vo.Qna;
 
 public class QnaDao {
@@ -242,6 +243,54 @@ public class QnaDao {
 						rs.getString("ANSWER"));
 				list.add(q);
 			}
+		} catch(Exception e) {
+			e.printStackTrace();
+		} finally {
+			close(rs);
+			close(pstmt);
+		}
+		return list;
+	}
+
+	public int insertReply(Connection conn, Comment c) {
+		PreparedStatement pstmt = null;
+		int result = 0;
+		//질문글번호, 댓글내용, 날짜, 아이디
+		String sql = "INSERT INTO QNACOM VALUES(SEQ_QC.NEXTVAL, ?, ?, SYSDATE, ?)";
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, c.getQid());
+			pstmt.setString(2, c.getComment());
+			pstmt.setString(3, c.getWriter());
+			result = pstmt.executeUpdate();
+		} catch(Exception e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+		return result;
+	}
+
+	public ArrayList<Comment> selectReplyList(Connection conn, int qid) {
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		ArrayList<Comment> list = new ArrayList<Comment>();
+		String sql = "SELECT ROWNUM, F.* FROM (SELECT Q.QID, Q.QCOMMENT, M.MNICKNAME, Q.QDATE FROM QNACOM Q JOIN MEMBER M ON (Q.MID = M.MID) WHERE QID=?) F";
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, qid);
+			rs = pstmt.executeQuery();
+			
+			while(rs.next()) {
+				Comment c = new Comment(rs.getInt("ROWNUM"),
+						rs.getInt("QID"),
+						rs.getString("QCOMMENT"),
+						rs.getString("MNICKNAME"),
+						rs.getDate("QDATE"));
+				list.add(c);
+			}
+//			System.out.println(list);
 		} catch(Exception e) {
 			e.printStackTrace();
 		} finally {
