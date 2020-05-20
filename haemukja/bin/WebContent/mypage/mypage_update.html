@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <title>개인정보수정</title>
+
+  <!-- Bootstrap core CSS -->
+  <link href="../vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- Custom styles for this template -->
+  <link href="../css/sellerAndStatic.css" rel="stylesheet">
+  <script defer src="https://use.fontawesome.com/releases/v5.0.8/js/solid.js"
+    integrity="sha384-+Ga2s7YBbhOD6nie0DzrZpJes+b2K1xkpKxTFFcx59QmVPaSA8c7pycsNaFwUK6l"
+    crossorigin="anonymous"></script>
+  <script defer src="https://use.fontawesome.com/releases/v5.0.8/js/fontawesome.js"
+    integrity="sha384-7ox8Q2yzO/uWircfojVuCQOZl+ZZBg2D2J5nkpLqzH1HY0C1dHlTKIbpRz/LG23c"
+    crossorigin="anonymous"></script>
+  <style>
+    table {
+      text-align: center;
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- Navigation -->
+  <nav class="navbar navbar-default bg-white">
+    <div class="container">
+      <a class="navbar-brand" href="../index.html">
+        <img class="logo" src="../images/haemukjalogo.png" />
+      </a>
+      <a class="navbar-brand" align="right" href="#">
+        <img class="logo" src="../images/haemukshoplogo.png" />
+      </a>
+    </div>
+  </nav>
+
+  <!-- Page Content -->
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-2">
+        <div class="list-group">
+          <h4><a href="mypage_update.html">개인정보 수정</a></h4>
+          <h4><a href="mypage_order.html">주문/배송</a></h4>
+          <h4><a href="mypage_refund.html">교환/환불</a></h4>
+          <h4><a href="mypage_cart.html">장바구니</a></h4>
+          <h4><a href="mypage_point.html">포인트 내역</a></h4>
+        </div>
+
+      </div>
+      <!-- /.col-lg-2 -->
+
+      <div class="col-lg-9">
+        <!-- panel -->
+        <div class="panel panel-default">
+          <div class="panel-heading">&nbsp;마이페이지</div>
+        </div>
+        <!-- /panel -->
+        <br>
+        <div class="container">
+          <div class="row">
+            <h3>개인정보 수정</h3>
+          </div>
+        </div>
+
+        <hr>
+
+        <form>
+        <div class="form-group row col-lg-9">
+            <label for="modify-name" class="col-md-4 col-form-label text-md-right">이름</label>
+            <div class="col-md-6">
+                <input type="text" id="modfiy-name" class="form-control size" name="modify-name" required autofocus value="조정규" disabled="">
+            </div>
+        </div>
+
+          <div class="form-group row col-lg-9">
+              <label for="modify-id" class="col-md-4 col-form-label text-md-right">아이디</label>
+              <div class="col-md-6">
+                  <input type="text" id="modfiy-id" class="form-control size" name="mpdify-id" required autofocus value="jojungkyu32" disabled="">
+              </div>
+              
+          </div>
+
+
+
+        <div class="form-group row col-lg-9">
+            <label for="modify-pwd1" class="col-md-4 col-form-label text-md-right">비밀번호</label>
+            <div class="col-md-6">
+                <input type="password" id="modify-pwd1" class="form-control size" name="modify-pwd1" placeholder="비밀번호를 입력하세요" required autofocus><br>
+                <span id="resultPwd1" class="result"></span>
+            </div>
+             
+        </div>
+
+
+        <div class="form-group row col-lg-9">
+            <label for="modify-pwd2" class="col-md-4 col-form-label text-md-right">비밀번호 확인</label>
+            <div class="col-md-6">
+                <input type="password" id="modify-pwd2" class="form-control size" name="modify-pwd2" placeholder="비밀번호를 입력하세요" required autofocus><br>
+                <span id="resultPwd2" class="result"></span>
+            </div>
+         </div>  
+
+
+          <div class="form-group row col-lg-9">
+              <label for="modify-nickname" class="col-md-4 col-form-label text-md-right">닉네임</label>
+              <div class="col-md-6">
+                  <input type="email_address" id="modify-nickname" class="form-control size" name="modify-nickname" placeholder="닉네임을 입력하세요" required>
+              </div>
+            </div>   
+
+          <div class="form-group row col-lg-9">
+              <label for="join-phone1" class="col-md-4 col-form-label text-md-right">전화번호</label>
+              <div class="col-md-6">
+                <select id="join-phone1" class="form-control phone-class" name="join-phone1" required autofocus style="width: 75px">
+                  <option>010</option>
+                  <option>011</option>
+                  <option>016</option>
+                  <option>019</option>
+                </select> -
+                  <input type="text" id="join-phone2" class="form-control phone-class" name="join-phone2"  required autofocus style="width: 75px"> - 
+                  <input type="text" id="join-phone3" class="form-control phone-class" name="join-phone3"  required autofocus style="width: 75px">
+                </div>
+            </div>
+
+
+          <div class="form-group row col-lg-9">
+              <label for="modfiy-email" class="col-md-4 col-form-label text-md-right">이메일</label>
+              <div class="col-md-6">
+                  <input type="email_address" id="modify-email" class="form-control size" name="modify-email" placeholder="abc1234@hamukja.com" required>
+              </div>
+          </div>
+        </form>
+        <div class="col-md-12" align="right">
+        <button type="submit" class="btn btn-primary" style="background-color: rgb(50, 50, 50); width: 80px; border: none;">수정</button>
+      
+      </div>
+
+
+          </div>
+      <!-- /.col-lg-9 -->
+      <div class="col-lg-1">
+        <div id="login">
+          <br>
+          <i class="fas fa-user" style="font-size: 30px;"></i>
+          <br><br>
+          홍길동님<br>반갑습니다!<br><br>
+          <a href="mypage_update.html" style="color: white; margin-bottom: 10px;">마이페이지</a>
+          <br>
+          <button type="button" id="loginBtn">로그아웃</button>
+        </div>
+      </div>
+    </div>
+    <!-- /.row -->
+  </div>
+  <!-- /.container -->
+  <br><br>
+  <!-- Footer -->
+  <footer>
+    <div class="container">
+      <br>
+      <div class="row">
+        <div class="col-md-12" style="text-align: center">
+          <h5>Copyright &copy; 2020</h5>
+          <h5>김예지 지정수 조정규 박두리 김소현 고범석</h5>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Bootstrap core JavaScript -->
+  <script src="../vendor/jquery/jquery.min.js"></script>
+  <script src="../vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+</body>
+
+</html>

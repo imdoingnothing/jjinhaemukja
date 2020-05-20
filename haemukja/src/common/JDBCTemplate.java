@@ -4,7 +4,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
-// 주석
+// 주석 또
 public class JDBCTemplate {
 
 	public static Connection getConnection() {
