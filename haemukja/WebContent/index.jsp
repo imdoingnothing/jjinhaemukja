@@ -6,6 +6,7 @@
    Seller loginSeller = (Seller)session.getAttribute("loginSeller");
    
 %>
+<!-- 내겐 너무 어려운 깃허브 -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
