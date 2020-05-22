@@ -8,6 +8,7 @@
 	
 	ArrayList<Recipe> rlist = (ArrayList<Recipe>)request.getAttribute("rlist");
 	ArrayList<Attachment> flist = (ArrayList<Attachment>)request.getAttribute("flist");
+	ArrayList<String> nicknames = (ArrayList<String>)request.getAttribute("nicknames");
 	RPageInfo rp = (RPageInfo)request.getAttribute("rp");
 
 	int listCount = rp.getListCount();
@@ -47,6 +48,20 @@
   	  font-size: 20px;
   	  background-color: orange;
   	}
+  	
+  	.thumbnailArea {
+ 	  width: 252px;
+ 	  height: 150px;
+  	}
+  	
+  	.thumbnail {
+      width: 100%;
+      height: 100%;
+      max-width: 525px;
+      max-height: 300px;
+      vertical-align: middle;
+      cursor: pointer;
+    }
   </style>
   
 </head>
@@ -95,14 +110,16 @@
 		        			Attachment a = flist.get(j); %>
 		        			
 		        			<% if(r.getbNo() == a.getbNo()) {  %>
-		        				<input type="hidden" value="<%= a.getbNo() %>">
-		        				<a href="#" class="detail"><img class="card-img-top" 
-		        					src="<%= request.getContextPath() %>/uploadFiles/<%= a.getFileName() %>">
-		        				</a>
+		        				<input type="hidden" value="<%= a.getbNo() %>" class="bNo">
+			        				<div class="thumbnailArea ">
+				        				<a href="#" class="detail">
+				        					<img class="card-img-top thumbnail" src="<%= request.getContextPath() %>/uploadFiles/<%= a.getFileName() %>">
+				        				</a>
+			        				</div>
 				             	<div class="card-body">
-				                	<h5><a href="#"><%= r.getbTitle() %></a></h5>
+				                	<h5><a href="#" class="detail"><%= r.getbTitle() %></a></h5>
 				                	<p class="card-text"><%= r.getbDate() %></p>
-				                	<p class="card-text"><%= r.getmId() %></p>
+				                	<p class="card-text"><%= nicknames.get(i) %></p>
 				              	</div>
 		        			<% } %>
 		        			
@@ -121,50 +138,8 @@
             <% } %>
             </div>
           </div>
-          <div class="row">
-            <div class="col-sm-4"></div>
-            <div class="col-sm-8">
-              <form>
-                <div class="input-group">
-                  <select id="searchOption">
-                    <option id="id" name="id">ID</option>
-                    <option id="title" name="title">제목</option>
-                    <option id="content" name="content">내용</option>
-                  </select>&nbsp;
-                  <input type="text"placeholder="검색어를 입력하세요">
-                  <span class="input-group-btn">
-                    &nbsp;<button type="submit">찾기</button>
-                  </span>
-                </div>
-              </form>
-            </div>
-          </div>
       </div>
 
-      <div class="col-lg-1">
-        <%if(loginMember != null) { %>
-        <input type="hidden" id="loginStatus" value="1">
-        <div id="login">
-          <br>
-          <i class="fas fa-user" style="font-size: 30px;"></i>
-          <br><br>
-          	<%=loginMember.getMnickname() %><br>반갑습니다!<br><br>
-          <a href="sellerpage_register.html" style="color: white; margin-bottom: 10px;">판매관리페이지</a>
-          <br>
-          <button type="button" id="loginBtn" onclick="logout();">로그아웃</button>
-        </div>
-		<%} else { %>
-		<input type="hidden" id="loginStatus" value="0">
-        <div id="login">
-          <br>
-          <i class="fas fa-user" style="font-size: 30px;"></i>
-          <br><br>
-          	<button onclick="login();">로그인</button>
-        </div>	
-        <%} %>
-      </div>
-    </div>
-    
     <div class="col-lg-1">
          <%if(loginMember != null && loginSeller == null) { %>
          <input type="hidden" id="loginStatus" value="1">
@@ -214,6 +189,7 @@
            });
         </script>
       </div>
+     </div>
     <br><br><br><br>
     <!-- /.row -->
     
@@ -270,7 +246,7 @@
   <script>
   	$(function(){
   		$(".detail").click(function(){
-  			var bNo = $(this).parent().children("input").val();
+  			var bNo = $(".bNo").val();
   			
 			location.href="<%= request.getContextPath() %>/detail2.re?bNo=" + bNo;
   		});

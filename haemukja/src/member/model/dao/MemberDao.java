@@ -45,6 +45,8 @@ public class MemberDao {
          close(rs);
          close(pstmt);
       }
+      System.out.println("[LoginService]"+loginMember);
+
       
       return loginMember;
    }
@@ -103,7 +105,7 @@ public class MemberDao {
 			close(rset);
 		}
 		
-		System.out.println("Dao¿¡¼­ id : " + id);
+		System.out.println("Daoï¿½ï¿½ï¿½ï¿½ id : " + id);
 		return id;
 	}
 
@@ -185,7 +187,7 @@ public class MemberDao {
 		int result =0;
 		int shipno = (int)(Math.random() * 1000000 + 1);
 		
-		String query = "INSERT INTO NMORDERLIST VALUES(OID_SEQ.NEXTVAL, SYSDATE , ? , SYSDATE, 'Y','CJ´ëÇÑÅë¿î',?,'N',5)";
+		String query = "INSERT INTO NMORDERLIST VALUES(OID_SEQ.NEXTVAL, SYSDATE , ? , SYSDATE, 'Y','CJï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½',?,'N',5)";
 		try {
 			pstmt = conn.prepareStatement(query);
 			pstmt.setString(1, payment);
@@ -206,7 +208,7 @@ public class MemberDao {
 		int result =0;
 		int shipno = (int)(Math.random() * 1000000 + 1);
 		
-		String query= "INSERT INTO MORDERLIST VALUES(OID_SEQ.NEXTVAL, SYSDATE, ? , SYSDATE, 'Y', 'CJ´ëÇÑÅë¿î', ?, 'N' ,? , ? , ?, ? ";
+		String query= "INSERT INTO MORDERLIST VALUES(OID_SEQ.NEXTVAL, SYSDATE, ? , SYSDATE, 'Y', 'CJï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½', ?, 'N' ,? , ? , ?, ? ";
 		try {
 			pstmt = conn.prepareStatement(query);
 			pstmt.setString(1, payment);

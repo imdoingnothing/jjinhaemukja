@@ -1,12 +1,13 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8" import="member.model.vo.*"%>
+    pageEncoding="UTF-8" import="java.util.*, member.model.vo.*, recipe.model.vo.Recipe, common.Attachment"%>
 <%
-
    Member loginMember = (Member)session.getAttribute("loginMember");
    Seller loginSeller = (Seller)session.getAttribute("loginSeller");
    
+   ArrayList<Recipe> rlist = (ArrayList<Recipe>)request.getAttribute("rlist");
+   ArrayList<Attachment> flist = (ArrayList<Attachment>)request.getAttribute("flist");
+   ArrayList<String> nicknames = (ArrayList<String>)request.getAttribute("nicknames");
 %>
-<!-- 내겐 너무 어려운 깃허브 -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -35,6 +36,20 @@
   
   <style>
   @import url(https://fonts.googleapis.com/css2?family=Gamja+Flower&display=swap);*{font-family:'Nanum Gothic',sans-serif;font-size:15px}.logo{height:80px}.list-group a{font-size:18px;font-weight:700}.list-group-item{border-style:none}.panel-heading{background-color:orange;text-align:center;line-height:50px;vertical-align:middle;color:#fff;font-size:20px;font-weight:700}#login{background-color:orange;text-align:center;width:150px;height:200px;border-radius:15px;position:fixed}#loginBtn{background-color:#323232;text-align:center;border:none;border-radius:3px;color:#fff}a{color:#000;text-decoration:none}a:hover{color:orange;text-decoration:none}button{background-color:#323232;text-align:center;border:none;border-radius:3px;color:#fff}footer{background-color:#e6e6e6;height:200px}.notice{background-color:#ffbfdd}#write{text-align:right}.btn{float:right;background-color:#323232;color:#fff}.shipInfoBox{display:none}.form-control{display:inline}.result{border-style:none}
+  
+  .thumbnailArea {
+ 	  width: 252px;
+ 	  height: 150px;
+  }
+  	
+  .thumbnail {
+      width: 100%;
+      height: 100%;
+      max-width: 525px;
+      max-height: 300px;
+      vertical-align: middle;
+      cursor: pointer;
+   }
   </style>
   
 </head>
@@ -92,78 +107,36 @@
         </div>
         <!-- panel -->
         <div class="panel panel-default">
-          <div class="panel-heading">&nbsp;주간 베스트 레시피</div>
+          <div class="panel-heading">&nbsp;베스트 레시피</div>
         </div>
         <br>
         <!-- /panel -->
+        
         <div class="row">
-
+        <% for(int i = 0; i < rlist.size(); i++) { 
+        	Recipe r = rlist.get(i); %>
           <div class="col-lg-4 col-md-6 mb-4">
             <div class="card h-100">
-              <a href="#"><img class="card-img-top" src="http://placehold.it/700x400" alt=""></a>
-              <div class="card-body">
-                <h4 class="card-title">1위</h4>
-                <h5><a href="#">지옥에서온 물조장 고범석!</a></h5>
-                <p class="card-text">작성자 : <a href="#">고범석</a></p>
-              </div>
+            <% for(int j = 0; j < flist.size(); j++) { 
+            	Attachment a = flist.get(j); %>
+            	
+            	<% if(r.getbNo() == a.getbNo()) { %>
+            	  <input type="hidden" value="<%=a.getbNo() %>">
+	              <div class="thumbnailArea ">
+				  	<a href="#" class="detail">
+				    	<img class="card-img-top thumbnail" src="<%= request.getContextPath() %>/uploadFiles/<%= a.getFileName() %>">
+				    </a>
+			      </div>
+	              <div class="card-body">
+	                 <h4><%=i+1 %>위</h4>
+	                 <h5><a href="#"><%= r.getbTitle() %></a></h5>
+				     <p class="card-text"><%= nicknames.get(i) %></p>
+	              </div>
+	           <% } %>
+	        <% } %>
             </div>
           </div>
-
-          <div class="col-lg-4 col-md-6 mb-4">
-            <div class="card h-100">
-              <a href="#"><img class="card-img-top" src="http://placehold.it/700x400" alt=""></a>
-              <div class="card-body">
-                <h4 class="card-title">2위</h4>
-                <h5><a href="#">지옥에서온 고범따리!</a></h5>
-                <p class="card-text">작성자 : <a href="#">고범석</a></p>
-              </div>
-            </div>
-          </div>
-
-          <div class="col-lg-4 col-md-6 mb-4">
-            <div class="card h-100">
-              <a href="#"><img class="card-img-top" src="http://placehold.it/700x400" alt=""></a>
-              <div class="card-body">
-                <h4 class="card-title">3위</h4>
-                <h5><a href="#">지옥에서온 피자!</a></h5>
-                <p class="card-text">작성자 : <a href="#">고범석</a></p>
-              </div>
-            </div>
-          </div>
-
-          <div class="col-lg-4 col-md-6 mb-4">
-            <div class="card h-100">
-              <a href="#"><img class="card-img-top" src="http://placehold.it/700x400" alt=""></a>
-              <div class="card-body">
-                <h4 class="card-title">4위</h4>
-                <h5><a href="#">지옥에서온 고범석!</a></h5>
-                <p class="card-text">작성자 : <a href="#">고범석</a></p>
-              </div>
-            </div>
-          </div>
-
-          <div class="col-lg-4 col-md-6 mb-4">
-            <div class="card h-100">
-              <a href="#"><img class="card-img-top" src="http://placehold.it/700x400" alt=""></a>
-              <div class="card-body">
-                <h4 class="card-title">5위</h4>
-                <h5><a href="#">지옥에서온 딸기케이크!</a></h5>
-                <p class="card-text">작성자 : <a href="#">고범석</a></p>
-              </div>
-            </div>
-          </div>
-
-          <div class="col-lg-4 col-md-6 mb-4">
-            <div class="card h-100">
-              <a href="#"><img class="card-img-top" src="http://placehold.it/700x400" alt=""></a>
-              <div class="card-body">
-                <h4 class="card-title">6위</h4>
-                <h5><a href="#">지옥에서온 초코케이크!</a></h5>
-                <p class="card-text">작성자 : <a href="#">고범석</a></p>
-              </div>
-            </div>
-          </div>
-
+        <% } %>
         </div>
         <!-- /.row -->
 
@@ -228,8 +201,8 @@
         location.href="<%=request.getContextPath()%>/member/loginHaemukja.jsp";
      }
      function logout(){
-        location.href="<%=request.getContextPath()%>/logout.me";
-     }
+         location.href="<%=request.getContextPath()%>/logout.me";
+      }
      function memberJoin(){
         
      }

@@ -13,6 +13,8 @@ public class MemberService {
 	public Member loginMember(Member member) {
 	      Connection conn = getConnection();
 	       Member loginMember = new MemberDao().loginMember(conn, member);
+	       System.out.println("[LoginService]"+loginMember);
+
 	       close(conn);
 	       return loginMember;
 	}
@@ -28,7 +30,7 @@ public class MemberService {
 		Connection conn = getConnection();
 		
 		String id = new MemberDao().findId(conn,name,email);
-		System.out.println("Service¿¡¼­ id : " + id);
+		System.out.println("Serviceï¿½ï¿½ï¿½ï¿½ id : " + id);
 		
 		close(conn);
 		

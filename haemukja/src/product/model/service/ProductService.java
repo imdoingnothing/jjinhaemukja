@@ -109,7 +109,6 @@ public class ProductService {
 		Connection conn = getConnection();
 		
 		ArrayList<Sale> slist = new ProductDao().selectSList(conn);
-		System.out.println("service단에서 slist : " + slist);
 		
 		close(conn);
 		

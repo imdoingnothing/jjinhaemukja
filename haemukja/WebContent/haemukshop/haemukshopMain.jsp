@@ -138,13 +138,13 @@
   <div class="container" style="height: 120px; padding: 20px;">
     <div class="row">
       <div class="col-lg-4">
-        <a href="<%=request.getContextPath() %>/index.jsp">
+        <a href="<%=request.getContextPath() %>/main.re">
         	<img class="logo" src="<%=request.getContextPath() %>/images/haemukjalogo_size.png">
         </a>
       </div>
 
       <div class="col-lg-4" align="center">
-        <a href="<%=request.getContextPath() %>/haemukshop/haemukshopMain.jsp">
+        <a href="<%=request.getContextPath() %>/mainList.sh">
         	<img class="logo" src="<%=request.getContextPath() %>/images/haemukshoplogo.png">
         </a>
       </div>
@@ -232,8 +232,8 @@
 		        	<% if(s.getSbNo() == a.getSbNo()) {  %>
 		        		<input type="hidden" value="<%= a.getSbNo() %>">
 		        		<a href="#" class="detail"><img class="card-img-top" 
-		        			src="<%= request.getContextPath() %>/uploadFiles/<%= a.getFileName() %>">
-		        		</a>
+				        	src="<%= request.getContextPath() %>/uploadFiles/<%= a.getFileName() %>">
+				        </a>
 				        <div class="card-body">
 				        	<h5><a href="#"><%= s.getSbTitle() %></a></h5>
 				            <p class="card-text"><%= s.getSbDate() %></p>

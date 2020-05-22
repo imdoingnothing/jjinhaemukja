@@ -327,7 +327,6 @@ public class ProductDao {
 			close(rset);
 		}
 		
-		System.out.println("Dao단에서 slist : " + list);
 		return list;
 	}
 

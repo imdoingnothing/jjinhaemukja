@@ -71,11 +71,18 @@ public class RecipeListServlet extends HttpServlet {
 			flist.add(at);
 		}
 		
+		ArrayList<String> nicknames = new ArrayList<>();
+		for(int i = 0; i < rlist.size(); i++) {
+			String nickname = rs.selectMNickname(rlist.get(i).getbNo());
+			nicknames.add(nickname);
+		}
+		
 		RequestDispatcher view = null;
 		if(rlist != null && flist != null) {
 			view = request.getRequestDispatcher("recipe/recipeBoardList.jsp");
 			request.setAttribute("rlist", rlist);
 			request.setAttribute("flist", flist);
+			request.setAttribute("nicknames", nicknames);
 			request.setAttribute("rp", rp);
 		}
 		
