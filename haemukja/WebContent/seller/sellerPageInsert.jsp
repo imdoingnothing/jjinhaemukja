@@ -46,8 +46,8 @@
         <div class="list-group">
           <h4><a href="<%=request.getContextPath() %>/seller/sellerPageInsert.jsp">제품 등록</a></h4>
           <h4><a href="<%=request.getContextPath() %>/seller/sellerPageExplain.jsp">제품 설명</a></h4>
-          <h4><a href="<%=request.getContextPath() %>/seller/sellerPageManage.jsp">제품 관리</a></h4>
-          <h4><a href="sellerpage_order.html">주문 관리</a></h4>
+          <h4><a href="<%=request.getContextPath() %>/list.pr">제품 관리</a></h4>
+          <h4><a href="<%=request.getContextPath() %>/seller/sellerPageOrder.jsp">주문 관리</a></h4>
           <h4><a href="<%=request.getContextPath() %>/seller/sellerPageEdit.jsp">상세페이지 수정</a></h4>
         </div>
 

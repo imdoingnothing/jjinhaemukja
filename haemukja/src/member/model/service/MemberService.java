@@ -11,26 +11,29 @@ import static common.JDBCTemplate.*;
 public class MemberService {
 	
 	public Member loginMember(Member member) {
-	      Connection conn = getConnection();
-	       Member loginMember = new MemberDao().loginMember(conn, member);
-	       System.out.println("[LoginService]"+loginMember);
+		Connection conn = getConnection();
+		
+	    Member loginMember = new MemberDao().loginMember(conn, member);
 
-	       close(conn);
-	       return loginMember;
+	    close(conn);
+	    
+	    return loginMember;
 	}
 
 	public Seller loginSeller(Seller seller) {
-	      Connection conn = getConnection();
-	       Seller loginSeller = new MemberDao().loginSeller(conn, seller);
-	       close(conn);
-	       return loginSeller;
+		Connection conn = getConnection();
+	    
+		Seller loginSeller = new MemberDao().loginSeller(conn, seller);
+	    
+		close(conn);
+	    
+		return loginSeller;
 	}
 	
 	public String findId(String name, String email) {
 		Connection conn = getConnection();
 		
 		String id = new MemberDao().findId(conn,name,email);
-		System.out.println("Service���� id : " + id);
 		
 		close(conn);
 		
@@ -41,20 +44,19 @@ public class MemberService {
 		Connection conn = getConnection();
 		
 		MemberDao mDao = new MemberDao();
-		int result = mDao.findPwd(conn,id,name,email);
-		String changePwd = mDao.selectPwd(conn,id);
-
 		
-	
+		int result = mDao.findPwd(conn,id,name,email);
+		
+		String changePwd = mDao.selectPwd(conn,id,name,email);
+
 		if(result>0) {
 			commit(conn);
-			
-			System.out.println("service : " + changePwd);
 		}else {
 			rollback(conn);
 		}
 		
 		close(conn);
+		
 		return changePwd;
 	}
 
@@ -62,22 +64,27 @@ public class MemberService {
 		Connection conn = getConnection();
 		
 		MemberDao mdao = new MemberDao();
+		
 		int result1 = mdao.nonMember(conn,name,phone,address);
+		
 		if(result1>0) {
-			
 			int result2 = mdao.nMOrderList(conn,payment);
 			commit(conn);
 			
 		}else {
 			rollback(conn);
 		}
+		
 		close(conn);
+		
 		return result1;
 	}
 
 	public int memOrderList(String payment, int count, String userId,String product , int amountPrice) {
 		Connection conn = getConnection();
+		
 		int productNo = new MemberDao().selectProdeuctNo(conn,product);
+		
 		int result = new MemberDao().mOrderList(conn,payment,count,userId, productNo,amountPrice);
 		
 		if(result>0) {
@@ -85,7 +92,9 @@ public class MemberService {
 		}else {
 			rollback(conn);
 		}
+		
 		close(conn);
+		
 		return result;
 	}
 

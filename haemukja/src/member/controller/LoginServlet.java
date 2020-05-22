@@ -36,8 +36,8 @@ public class LoginServlet extends HttpServlet {
 	            view = request.getRequestDispatcher("/main.re");
 	            
 	         } else {
-	            //404
-
+	            view = request.getRequestDispatcher("member/loginHaemukja.jsp");
+	            request.setAttribute("msg", "회원 정보가 없습니다");
 	         }
 	      } else {
 	         Seller seller = new Seller(id, pw);
@@ -48,8 +48,8 @@ public class LoginServlet extends HttpServlet {
 	            session.setAttribute("loginSeller", loginSeller);
 	            view = request.getRequestDispatcher("/main.re");
 	         } else {
-	            //404
-
+	        	 view = request.getRequestDispatcher("member/loginHaemukja.jsp");
+		         request.setAttribute("msg", "회원 정보가 없습니다");
 	         }
 	         
 	      }

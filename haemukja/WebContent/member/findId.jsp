@@ -2,7 +2,7 @@
     pageEncoding="UTF-8" import="member.model.vo.Member"%>
 <%
 	String mid = (String)request.getAttribute("id");
-
+	String msg = (String)request.getAttribute("msg");
 %>
 <!DOCTYPE html>
 <html lang="en">
@@ -61,23 +61,25 @@
                 <div class="form-group row">
                   <label for="idFind-email" class="col-md-4 col-form-label text-md-right">이메일</label>
                   <div class="col-md-6">
-                    <input type="email" id="idFind-email" class="form-control" name="email" placeholder="abc1234@hamukja.com" required>
+                    <input type="email" id="idFind-email" class="form-control" name="email" placeholder="abc1234@haemukja.com" required>
                   </div>
                 </div>
                 <br>
 				  	<%if(mid!=null){%>
 				  		 <div align="center"><h3>찾으시는 아이디는 '<%=mid %>' 입니다.</h3></div>
-				  	<%}else{%>
-				  		
-				  	
+				  	<%}else if(mid==null && msg != null){%>
+				  		 <div align="center"><h3><%=msg %></h3></div>
 				  	<%}%>
                
                 <br>
                 <div class="col-md-6 offset-md-4">            
                   <button type="submit" class="btn btn-primary" id="findButton" style="background-color: orange; border: none; width: 120px;">
-                  아이디 찾기</button>&nbsp;&nbsp;
-                  <button type="button" class="btn btn-primary" style="background-color: orange; border: none;">
-                  취소</button><br>
+                  아이디 찾기</button>
+                  &nbsp;&nbsp;
+                  <button type="button" class="btn btn-primary" style="background-color: orange; border: none;"
+                  		onclick="location.href = '<%=request.getContextPath()%>/member/loginHaemukja.jsp'">
+                  로그인</button><br><br>
+                  <a href="<%=request.getContextPath()%>/member/findPwd.jsp" class="btn btn-link">비밀번호를 잊으셨나요?</a>
                 </div>
               </form>
             </div> <!-- card-body -->

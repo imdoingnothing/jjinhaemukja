@@ -125,4 +125,64 @@ public class ProductService {
 		return at;
 	}
 
+	public ArrayList<Product> selectPlist(int currentPage, int limit, String sId) {
+		Connection conn = getConnection();
+		
+		ArrayList<Product> plist = new ProductDao().selectPlist(conn, currentPage, limit, sId);
+		
+		close(conn);
+		
+		return plist;
+	}
+
+	public int updateProduct(int pId) {
+		Connection conn = getConnection();
+		ProductDao pd = new ProductDao();
+		int result = 0;
+		
+		Product p = pd.selectProduct(conn, pId);
+		
+		if(p.getSoldout().equals("N")) {
+			result = new ProductDao().updateProduct(conn, pId, 1);			
+		} else {
+			result = new ProductDao().updateProduct(conn, pId, 2);
+		}
+		
+		if(result > 0) {
+			commit(conn);
+		} else {
+			rollback(conn);
+		}
+		
+		close(conn);
+		
+		return result;
+	}
+
+	public int deleteProduct(int pId) {
+		Connection conn = getConnection();
+		
+		int result = new ProductDao().deleteProduct(conn, pId);
+		
+		if(result > 0) {
+			commit(conn);
+		} else {
+			rollback(conn);
+		}
+		
+		close(conn);
+		
+		return result;
+	}
+
+	public int getListCount(String sId) {
+		Connection conn = getConnection();
+		
+		int count = new ProductDao().getListCount(conn, sId);
+		
+		close(conn);
+		
+		return count;
+	}
+
 }

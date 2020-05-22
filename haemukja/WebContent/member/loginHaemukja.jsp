@@ -1,5 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%
+	String msg = (String)request.getAttribute("msg");
+%>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -46,7 +49,7 @@
           <div class="card">
 
             <div class="card-header" align="center">
-              <img src="../images/haemukjalogo.png" width="400px">
+              <img src="<%=request.getContextPath()%>/images/haemukjalogo.png" width="400px">
             </div>
 
             <div class="card-body">
@@ -83,9 +86,9 @@
                     회원가입
                   </button>
                   <br><br>
-                  <a href="findId.jsp" class="btn btn-link">아이디를 잊으셨나요?</a>
+                  <a href="<%=request.getContextPath()%>/member/findId.jsp" class="btn btn-link">아이디를 잊으셨나요?</a>
                   <br>
-                  <a href="findPwd.jsp" class="btn btn-link">비밀번호를 잊으셨나요?</a>
+                  <a href="<%=request.getContextPath()%>/member/findPwd.jsp" class="btn btn-link">비밀번호를 잊으셨나요?</a>
                 </div> <!-- col-md-6 offset-md-4 -->
               </form>
               <!-- /form -->
@@ -99,7 +102,11 @@
   <!-- Bootstrap core JavaScript -->
   <script src="../vendor/jquery/jquery.min.js"></script>
   <script src="../vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  
   <script>
+  	<% if(msg != null) { %>
+		alert("회원 정보가 없습니다.");
+	<% } %>
   </script>
 </body>
 

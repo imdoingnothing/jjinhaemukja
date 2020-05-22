@@ -1,6 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<% String pw = (String)request.getAttribute("changePwd"); %>
+<% 
+	String pw = (String)request.getAttribute("changePwd");
+	String msg = (String)request.getAttribute("msg");
+%>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -51,14 +54,16 @@
                 <div class="form-group row">
                   <label for="pwdFind-id" class="col-md-4 col-form-label text-md-right">아이디</label>
                   <div class="col-md-6">
-                    <input type="text" id="pwdFind-id" class="form-control" name="id" placeholder="아이디를 입력하세요" required autofocus>
+                    <input type="text" id="pwdFind-id" class="form-control" name="id" placeholder="아이디를 입력하세요" required autofocus
+                    		style="width: 250px;">
                   </div>
                 </div>
                 <br>
                 <div class="form-group row">
                   <label for="pwdFind-name" class="col-md-4 col-form-label text-md-right">이름</label>
                   <div class="col-md-6">
-                    <input type="text" id="pwdFind-name" class="form-control" name="name" placeholder="이름을 입력하세요" required autofocus>
+                    <input type="text" id="pwdFind-name" class="form-control" name="name" placeholder="이름을 입력하세요" required autofocus
+                    		style="width: 250px;">
                   </div>
                 </div>
                 <br>
@@ -72,14 +77,17 @@
                 <%if(pw!=null){ %>
                 <div align="center"><h4>임시로 발급된 비밀번호는 '<%=pw %>' 입니다.<br>
                 마이페이지에서 수정해주세요.</h4></div>
-                <%}else{ %>
+                <%}else if(pw == null && msg != null){ %>
+                <div align="center"><h3><%=msg %></h3></div>
                 <%} %>
                 <br>
                 <div class="col-md-6 offset-md-4">
                   <button type="submit" class="btn btn-primary" style="background-color: orange; border: none; width: 120px;">
-                  비밀번호 찾기</button>&nbsp;&nbsp;
-                  <button type="submit" class="btn btn-primary" style="background-color: orange; border: none;">
-                  취소</button><br>
+                  비밀번호 찾기</button>
+                  &nbsp;&nbsp;
+                  <button type="button" class="btn btn-primary" style="background-color: orange; border: none;"
+                  		onclick="location.href='<%=request.getContextPath()%>/member/loginHaemukja.jsp'">
+                  로그인</button><br>
                 </div>
               </form>
             </div> <!-- card-body -->

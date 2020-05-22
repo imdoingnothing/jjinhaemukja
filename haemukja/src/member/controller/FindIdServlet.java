@@ -34,23 +34,20 @@ public class FindIdServlet extends HttpServlet {
 			
 			String name = request.getParameter("name");
 			String email = request.getParameter("email");
-			System.out.println("Servlet에서 name : " + name);
-			System.out.println("Servlet에서 email : " + email);
-
 			
 			String id = new MemberService().findId(name,email);
-			System.out.println("Servlet에서 id : " + id);
+			
 			RequestDispatcher view = null;
 			
 			if(id != null) {
 				view = request.getRequestDispatcher("member/findId.jsp");
 				request.setAttribute("id", id);
 			} else {
-				
+				view = request.getRequestDispatcher("member/findId.jsp");
+				request.setAttribute("msg", "입력하신 회원 정보가 없습니다.");
 			}
 			
 			view.forward(request, response);
-			
 
 	}
 
