@@ -1,19 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%
-	Cookie[] cookie = request.getCookies();
-	String id = "";
-	String type = "";
-	if(cookie != null){
-		for(Cookie c : cookie){
-			if(c.getName().equals("ch")){
-				id = c.getValue();
-			}
-			if(c.getName().equals("type")){
-				type = c.getValue();
-			}
-		}
-	}
+	String msg = (String)request.getAttribute("msg");
 %>
 <!DOCTYPE html>
 <html lang="en">
@@ -61,27 +49,18 @@
           <div class="card">
 
             <div class="card-header" align="center">
-              <img src="../images/haemukjalogo.png" width="400px">
+              <img src="<%=request.getContextPath()%>/images/haemukjalogo.png" width="400px">
             </div>
 
             <div class="card-body">
                <!-- form -->
               <form action="<%=request.getContextPath()%>/login.me" method="post">
-                	<%if(id.length() > 1) { //쿠키에 아이디가 있을 경우 %>
-	                	<div class="form-group row">
-	                  	<label for="email_address" class="col-md-4 col-form-label text-md-right">아이디</label>
-	                  	<div class="col-md-6">
-	                    <input type="text" id="id" class="form-control" name="id" value="<%=id %>" required autofocus>
-	                    <label for="rememberId">아이디 기억하기</label>
-	                  	<input type="checkbox" id="rememberId" name="rememberId" checked="checked">
-                  	<%} else { %>
-	                  	<div class="form-group row">
-	                  	<label for="email_address" class="col-md-4 col-form-label text-md-right">아이디</label>
-	                  	<div class="col-md-6">
-	                    <input type="text" id="id" class="form-control" name="id" required autofocus>
-	                    <label for="rememberId">아이디 기억하기</label>
-	                  	<input type="checkbox" id="rememberId" name="rememberId">
-                  	<%} %>
+                <div class="form-group row">
+                  <label for="email_address" class="col-md-4 col-form-label text-md-right">아이디</label>
+                  <div class="col-md-6">
+                    <input type="text" id="id" class="form-control" name="id" required autofocus>
+                    <label for="rememberId">아이디 기억하기</label>
+                  <input type="checkbox" id="rememberId" name="rememberId">
                   </div>
                 </div> <!-- form-group row -->
 
@@ -95,13 +74,8 @@
                 <div class="form-group row">
                   <label for="userType" class="col-md-4 col-form-label text-md-right">회원구분</label>
                   <div class="col-md-6">
-                  	<%if (type.equals("seller")) {%>
-	                    <input type="radio" name="userType" value="member">일반회원
-	               		<input type="radio" name="userType" value="seller" checked>판매회원
-               		<%} else {%>
-               			<input type="radio" name="userType" value="member" checked>일반회원
-	               		<input type="radio" name="userType" value="seller">판매회원
-               		<%} %>
+                    <input type="radio" name="userType" value="member" checked>일반회원
+               <input type="radio" name="userType" value="seller">판매회원
                   </div>
                 <br><br>
                 <div class="col-md-6 offset-md-4">
@@ -112,9 +86,9 @@
                     회원가입
                   </button>
                   <br><br>
-                  <a href="findId.jsp" class="btn btn-link">아이디를 잊으셨나요?</a>
+                  <a href="<%=request.getContextPath()%>/member/findId.jsp" class="btn btn-link">아이디를 잊으셨나요?</a>
                   <br>
-                  <a href="findPwd.jsp" class="btn btn-link">비밀번호를 잊으셨나요?</a>
+                  <a href="<%=request.getContextPath()%>/member/findPwd.jsp" class="btn btn-link">비밀번호를 잊으셨나요?</a>
                 </div> <!-- col-md-6 offset-md-4 -->
               </form>
               <!-- /form -->
@@ -128,7 +102,11 @@
   <!-- Bootstrap core JavaScript -->
   <script src="../vendor/jquery/jquery.min.js"></script>
   <script src="../vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  
   <script>
+  	<% if(msg != null) { %>
+		alert("회원 정보가 없습니다.");
+	<% } %>
   </script>
 </body>
 

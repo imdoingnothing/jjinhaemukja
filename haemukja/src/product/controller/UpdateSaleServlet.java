@@ -69,7 +69,7 @@ public class UpdateSaleServlet extends HttpServlet {
 			String saleBoardNo = multiRequest.getParameter("sbNo");
 			sbNo = Integer.parseInt(saleBoardNo);	
 		} catch(NumberFormatException e) {
-			e.getMessage();
+			e.getStackTrace();
 		}
 		
 		String title = multiRequest.getParameter("title");

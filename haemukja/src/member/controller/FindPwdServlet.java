@@ -43,11 +43,11 @@ public class FindPwdServlet extends HttpServlet {
 		RequestDispatcher view = null;
 		
 		if(changePwd != null) {
-		
 			view = request.getRequestDispatcher("member/findPwd.jsp");
 			request.setAttribute("changePwd", changePwd);
 		}else {
-			
+			view = request.getRequestDispatcher("member/findPwd.jsp");
+			request.setAttribute("msg", "입력하신 회원 정보가 없습니다.");
 		}
 		view.forward(request, response);
 	}

@@ -69,7 +69,7 @@ public class InsertSaleServlet extends HttpServlet {
 			String productId = multiRequest.getParameter("pId");
 			pId = Integer.parseInt(productId);	
 		} catch(NumberFormatException e) {
-			e.getMessage();
+			e.getStackTrace();
 		}
 		
 		String title = multiRequest.getParameter("title");
@@ -121,7 +121,7 @@ public class InsertSaleServlet extends HttpServlet {
 				failedFile.delete();				
 			}
 			view = request.getRequestDispatcher("seller/sellerPageExplain.jsp");
-			request.setAttribute("msg", "이미 해당 제품의 판매글이 존재합니다.");
+			request.setAttribute("msg", "해당 제품의 판매글이 존재하거나 해당 제품에 대한 권한이 없습니다.");
 		}
 		
 		view.forward(request, response);

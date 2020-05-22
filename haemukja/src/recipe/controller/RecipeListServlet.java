@@ -11,8 +11,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import common.Attachment;
+import common.PageInfo;
 import recipe.model.service.RecipeService;
-import recipe.model.vo.RPageInfo;
 import recipe.model.vo.Recipe;
 
 /**
@@ -61,7 +61,7 @@ public class RecipeListServlet extends HttpServlet {
 			endPage = maxPage;
 		}
 		
-		RPageInfo rp = new RPageInfo(currentPage, listCount, limit, maxPage, startPage, endPage);
+		PageInfo pi = new PageInfo(currentPage, listCount, limit, maxPage, startPage, endPage);
 		
 		ArrayList<Recipe> rlist = rs.selectRList(currentPage, limit, nCode);
 		
@@ -83,7 +83,7 @@ public class RecipeListServlet extends HttpServlet {
 			request.setAttribute("rlist", rlist);
 			request.setAttribute("flist", flist);
 			request.setAttribute("nicknames", nicknames);
-			request.setAttribute("rp", rp);
+			request.setAttribute("pi", pi);
 		}
 		
 		view.forward(request, response);

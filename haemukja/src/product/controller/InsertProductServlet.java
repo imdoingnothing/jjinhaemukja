@@ -56,7 +56,7 @@ public class InsertProductServlet extends HttpServlet {
 			}
 			
 		} catch(NumberFormatException e) {
-			e.getMessage();
+			e.getStackTrace();
 		}
 		
 		int result = new ProductService().insertProudct(plist);
