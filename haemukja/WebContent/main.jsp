@@ -121,15 +121,15 @@
             	Attachment a = flist.get(j); %>
             	
             	<% if(r.getbNo() == a.getbNo()) { %>
-            	  <input type="hidden" value="<%=a.getbNo() %>">
+            	  <input type="hidden" value="<%=a.getbNo() %>" class="bNo">
 	              <div class="thumbnailArea ">
 				  	<a href="#" class="detail">
-				    	<img class="card-img-top thumbnail" src="<%= request.getContextPath() %>/uploadFiles/<%= a.getFileName() %>">
+				    	<img class="card-img-top thumbnail" class="detail" src="<%= request.getContextPath() %>/uploadFiles/<%= a.getFileName() %>">
 				    </a>
 			      </div>
 	              <div class="card-body">
 	                 <h4><%=i+1 %>위</h4>
-	                 <h5><a href="#"><%= r.getbTitle() %></a></h5>
+	                 <h5><a href="#" class="detail"><%= r.getbTitle() %></a></h5>
 				     <p class="card-text"><%= nicknames.get(i) %></p>
 	              </div>
 	           <% } %>
@@ -198,6 +198,12 @@
   <%@ include file="static/bottom.jsp"%>
 
   <script>
+	 $(".detail").click(function(){
+	    var bNo = $(".bNo").val();
+	      
+	    location.href="<%= request.getContextPath() %>/detail2.re?bNo=" + bNo;
+	 });
+  
      function login(){
         location.href="<%=request.getContextPath()%>/member/loginHaemukja.jsp";
      }

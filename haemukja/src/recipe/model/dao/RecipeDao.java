@@ -433,7 +433,6 @@ public class RecipeDao {
 		return result;
 	}
 
-<<<<<<< HEAD
 	public ArrayList<RComment> selectComments(Connection conn, int bNo) {
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -496,7 +495,7 @@ public class RecipeDao {
 		}
 		return result;
 	}
-=======
+
 	public ArrayList<Recipe> selectRList(Connection conn) {
 		Statement stmt = null;
 		ResultSet rset = null;
@@ -534,9 +533,6 @@ public class RecipeDao {
 		
 		return rlist;
 	}
-	
-	
->>>>>>> refs/remotes/origin/master
 
 }
 

@@ -130,25 +130,14 @@
 		        			Attachment a = flist.get(j); %>
 		        			
 		        			<% if(r.getbNo() == a.getbNo()) {  %>
-<<<<<<< HEAD
-		        				<input type="hidden" value="<%= a.getbNo() %>">
-		        				<a href="<%= request.getContextPath() %>/detail2.re?bNo=<%=r.getbNo()%>" class="detail"><img class="card-img-top" 
-		        					src="<%= request.getContextPath() %>/uploadFiles/<%= a.getFileName() %>">
-		        				</a>
-=======
-		        				<input type="hidden" value="<%= a.getbNo() %>" class="bNo">
+		        				<input type="hidden" value="<%= r.getbNo() %>" class="bNo">
 			        				<div class="thumbnailArea ">
 				        				<a href="#" class="detail">
 				        					<img class="card-img-top thumbnail" src="<%= request.getContextPath() %>/uploadFiles/<%= a.getFileName() %>">
 				        				</a>
 			        				</div>
->>>>>>> refs/remotes/origin/master
 				             	<div class="card-body">
-<<<<<<< HEAD
-				                	<h5><a href="<%= request.getContextPath() %>/detail2.re?bNo=<%=r.getbNo()%>"><%= r.getbTitle() %></a></h5>
-=======
 				                	<h5><a href="#" class="detail"><%= r.getbTitle() %></a></h5>
->>>>>>> refs/remotes/origin/master
 				                	<p class="card-text"><%= r.getbDate() %></p>
 				                	<p class="card-text"><%= nicknames.get(i) %></p>
 				              	</div>
@@ -170,12 +159,7 @@
             </div>
           </div>
       </div>
-<<<<<<< HEAD
-    
-=======
-
->>>>>>> refs/remotes/origin/master
-    <div class="col-lg-1">
+      <div class="col-lg-1">
          <%if(loginMember != null && loginSeller == null) { %>
          <input type="hidden" id="loginStatus" value="1">
         <div id="login">

@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8" import="member.model.vo.Member,mypage.model.vo.*,java.util.ArrayList" %>
+    pageEncoding="UTF-8" import="member.model.vo.Member,mypage.model.vo.*,java.util.ArrayList,common.Attachment"%>
 <%
 	Member loginMember = (Member)session.getAttribute("loginMember");
 	
@@ -22,7 +22,7 @@
   <meta name="description" content="">
   <meta name="author" content="">
 
-  <title>교환/환불</title>
+  <title>장바구니</title>
 
   <!-- Bootstrap core CSS -->
   <link rel="stylesheet" href="//unpkg.com/bootstrap@4/dist/css/bootstrap.min.css">
@@ -65,7 +65,8 @@
 <body>
 
   <!-- Navigation -->
-<%@ include file="../static/top.jsp"%>
+   <%@ include file="../static/top.jsp"%>
+
 
   <!-- Page Content -->
   <div class="container">
@@ -124,45 +125,14 @@
                   <td style="width: 100px;"><span></span></td>
                   <td style="width: 100px;"><span></span></td>
                 </tr>
-              	
               	</tbody>
-              	
               <%} %>
             </table> <!-- table -->
           </div>
         </div>
+
+        <br>
         
-     <div class="row">
-      <div class="col-sm-12" style="text-align: center; font-size: 25px;">
-         <!-- 맨 처음으로(<<) -->
-         <button class="paging" onclick="location.href='<%=request.getContextPath() %>/refund.my?currentPage=1'"> << </button>
-         
-         <!-- 이전 페이지로(<) -->
-         <%if(currentPage == 1){ %>
-         <button class="paging" disabled> < </button>
-         <%}else{ %>
-         <button class="paging" onclick="location.href='<%=request.getContextPath() %>/refund.my?currentPage=<%=currentPage - 1 %>'"> < </button>
-         <%} %>
-         
-         <!-- 10개의 페이지 목록 -->
-         <%for(int p = startPage ; p<=endPage ; p++){ %>
-            <%if(currentPage == p){ %>
-               <button class="paging" disabled><%=p %></button>
-            <%} else {%>
-               <button class="paging" onclick="location.href='<%=request.getContextPath() %>/refund.my?currentPage=<%=p %>'"><%=p %></button>
-            <%} %>
-         <%} %>
-         <!-- 다음 페이지로(>) -->
-         <%if(currentPage == maxPage){ %>
-         <button class="paging" disabled> > </button>
-         <%}else{ %>
-         <button class="paging" onclick="location.href='<%=request.getContextPath() %>/refund.my?currentPage=<%=currentPage + 1 %>'"> > </button>
-         <%} %>
-         
-         <!-- 맨 끝으로(>>) -->
-         <button class="paging" onclick="location.href='<%=request.getContextPath() %>/refund.my?currentPage=<%=maxPage%>'"> >> </button>
-      </div>
-    </div>
       </div>
       <!-- /.col-lg-9 -->
       <div class="col-lg-1">
@@ -170,14 +140,46 @@
           <br>
           <i class="fas fa-user" style="font-size: 30px;"></i>
           <br><br>
-          <%=loginMember.getMnickname()%>님<br>반갑습니다!<br><br>
-          <a href="mypageUpdate.jsp" style="color: white; margin-bottom: 10px;">마이페이지</a>
+          <%=loginMember.getMnickname() %>님<br>반갑습니다!<br><br>
+          <a href="mypage_update.html" style="color: white; margin-bottom: 10px;">마이페이지</a>
           <br>
           <button type="button" id="loginBtn" onclick="logout();">로그아웃</button>
         </div>
       </div>
     </div>
     <!-- /.row -->
+
+    <div class="row">
+      <div class="col-sm-12" style="text-align: center; font-size: 25px;">
+         <!-- 맨 처음으로(<<) -->
+         <button class="paging" onclick="location.href='<%=request.getContextPath() %>/cart.my?currentPage=1'"> << </button>
+         
+         <!-- 이전 페이지로(<) -->
+         <%if(currentPage == 1){ %>
+         <button class="paging" disabled> < </button>
+         <%}else{ %>
+         <button class="paging" onclick="location.href='<%=request.getContextPath() %>/cart.my?currentPage=<%=currentPage - 1 %>'"> < </button>
+         <%} %>
+         
+         <!-- 10개의 페이지 목록 -->
+         <%for(int p = startPage ; p<=endPage ; p++){ %>
+            <%if(currentPage == p){ %>
+               <button class="paging" disabled><%=p %></button>
+            <%} else {%>
+               <button class="paging" onclick="location.href='<%=request.getContextPath() %>/cart.my?currentPage=<%=p %>'"><%=p %></button>
+            <%} %>
+         <%} %>
+         <!-- 다음 페이지로(>) -->
+         <%if(currentPage == maxPage){ %>
+         <button class="paging" disabled> > </button>
+         <%}else{ %>
+         <button class="paging" onclick="location.href='<%=request.getContextPath() %>/cart.my?currentPage=<%=currentPage + 1 %>'"> > </button>
+         <%} %>
+         
+         <!-- 맨 끝으로(>>) -->
+         <button class="paging" onclick="location.href='<%=request.getContextPath() %>/cart.my?currentPage=<%=maxPage%>'"> >> </button>
+      </div>
+    </div>
   </div>
   <!-- /.container -->
   <br><br>
@@ -187,14 +189,11 @@
   <!-- Bootstrap core JavaScript -->
   <script src="<%=request.getContextPath()%>/vendor/jquery/jquery.min.js"></script>
   <script src="<%=request.getContextPath()%>/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-	
-	<script>
-	  
-	  	function logout(){
-	  		location.href="<%=request.getContextPath()%>/logout.me";
-	  	}
-
-   </script>
+   <script>
+     function logout(){
+        location.href="<%=request.getContextPath()%>/logout.me";
+     }
+  </script>
 </body>
 
 </html>
