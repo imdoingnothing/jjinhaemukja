@@ -11,6 +11,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import common.Attachment;
+import qna.model.service.QnaService;
+import qna.model.vo.Notice;
 import recipe.model.service.RecipeService;
 import recipe.model.vo.Recipe;
 
@@ -36,11 +38,12 @@ public class RecipeDetailServlet extends HttpServlet {
 		int bNo = (int) request.getAttribute("bNo");
 		
 		RecipeService rs = new RecipeService();
+		QnaService qs = new QnaService();
 		
 		String nickname = rs.selectMNickname(bNo);
 		Recipe recipe = rs.selectRecipe(bNo);
 		ArrayList<Attachment> files = rs.selectFiles(bNo);
-		
+	
 		RequestDispatcher view = null;
 		if(recipe != null) {
 			view = request.getRequestDispatcher("recipe/recipeBoardDetail.jsp");
@@ -48,7 +51,7 @@ public class RecipeDetailServlet extends HttpServlet {
 			request.setAttribute("files", files);
 			request.setAttribute("nickname", nickname);
 		} else {
-			
+			//404
 		}
 		
 		view.forward(request, response);

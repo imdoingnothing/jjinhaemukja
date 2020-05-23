@@ -10,6 +10,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 
 import common.Attachment;
+import recipe.model.vo.RComment;
 import recipe.model.vo.Recipe;
 
 public class RecipeDao {
@@ -432,6 +433,70 @@ public class RecipeDao {
 		return result;
 	}
 
+<<<<<<< HEAD
+	public ArrayList<RComment> selectComments(Connection conn, int bNo) {
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		ArrayList<RComment> comments = new ArrayList<RComment>();
+		String sql = "SELECT ROWNUM, D.*\r\n" + 
+				"FROM (SELECT R.CNO, LPAD( '└', (DEPTH) * 2 ) || R.CCOMENT AS \"COMMENT\", R.CDATE, R.BNO, M.MNICKNAME, R.GROUPNO, R.PARENTNO, R.DEPTH, R.ORDERNO\r\n" + 
+				"FROM RECIPECOM R\r\n" + 
+				"    JOIN MEMBER M ON R.MID = M.MID\r\n" + 
+				"WHERE R.BNO = ?\r\n" + 
+				"ORDER BY GROUPNO ASC, ORDERNO ASC) D";
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, bNo);
+			rs = pstmt.executeQuery();
+			
+			while(rs.next()) {
+				RComment r = new RComment(rs.getInt("ROWNUM"),
+						rs.getInt("CNO"),
+						rs.getString("COMMENT"),
+						rs.getDate("CDATE"),
+						rs.getInt("BNO"),
+						rs.getString("MNICKNAME"),
+						rs.getInt("GROUPNO"),
+						rs.getInt("PARENTNO"),
+						rs.getInt("DEPTH"),
+						rs.getInt("ORDERNO"));
+				comments.add(r);
+			}
+			/*
+			 * for(RComment c : comments) { System.out.println(c); }
+			 */
+		} catch(Exception e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+			close(rs);
+		}
+		
+		return comments;
+		
+	}
+
+	public int insertComment(Connection conn, RComment rc) {
+		PreparedStatement pstmt = null;
+		int result = 0;
+		String sql = "INSERT INTO RECIPECOM\r\n" + 
+				"VALUES(SEQ_RECIPECOM.NEXTVAL, ?, SYSDATE, ?, ?, SEQ_RECIPECOM.CURRVAL, 0, 0, 1)";
+		//댓글내용, 레시피게시판번호, 회원아이디 '확인하기'
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, rc.getCcoment());
+			pstmt.setInt(2, rc.getbNo());
+			pstmt.setString(3, rc.getNickname());
+			result = pstmt.executeUpdate();
+		} catch(Exception e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+		return result;
+	}
+=======
 	public ArrayList<Recipe> selectRList(Connection conn) {
 		Statement stmt = null;
 		ResultSet rset = null;
@@ -471,5 +536,24 @@ public class RecipeDao {
 	}
 	
 	
+>>>>>>> refs/remotes/origin/master
 
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

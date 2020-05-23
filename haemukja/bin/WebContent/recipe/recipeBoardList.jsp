@@ -1,20 +1,40 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8" import="java.util.*, member.model.vo.*, recipe.model.vo.*, common.*"%>
+    pageEncoding="UTF-8" import="java.util.*, member.model.vo.*, recipe.model.vo.*, common.*, qna.model.vo.Notice"%>
 <%
-	Member loginMember = (Member)session.getAttribute("loginMember");
-	Seller loginSeller = (Seller)session.getAttribute("loginSeller");
+Member loginMember = (Member)session.getAttribute("loginMember");
+Seller loginSeller = (Seller)session.getAttribute("loginSeller");
 
-	String nCode = request.getParameter("nCode");
-	
-	ArrayList<Recipe> rlist = (ArrayList<Recipe>)request.getAttribute("rlist");
-	ArrayList<Attachment> flist = (ArrayList<Attachment>)request.getAttribute("flist");
-	PageInfo pi = (PageInfo)request.getAttribute("pi");
+String nCode = request.getParameter("nCode");
 
-	int listCount = pi.getListCount();
-	int currentPage = pi.getCurrentPage();
-	int maxPage = pi.getMaxPage();
-	int startPage = pi.getStartPage();
-	int endPage = pi.getEndPage();
+ArrayList<Recipe> rlist = (ArrayList<Recipe>)request.getAttribute("rlist");
+ArrayList<Attachment> flist = (ArrayList<Attachment>)request.getAttribute("flist");
+PageInfo pi = (PageInfo)request.getAttribute("pi");
+ArrayList<Notice> noticeList = (ArrayList<Notice>)request.getAttribute("noticeList");
+
+int listCount = pi.getListCount();
+int currentPage = pi.getCurrentPage();
+int maxPage = pi.getMaxPage();
+int startPage = pi.getStartPage();
+int endPage = pi.getEndPage();
+
+String panelName = "";
+switch(nCode){
+	case "ASK" : panelName = "한국"; break;
+	case "ASC" : panelName = "중국"; break;
+	case "ASJ" : panelName = "일본"; break;
+	case "ASE" : panelName = "기타"; break;
+	case "EUI" : panelName = "이탈리아"; break;
+	case "EUF" : panelName = "프랑스"; break;
+	case "EUS" : panelName = "스페인"; break;
+	case "EUE" : panelName = "기타"; break;
+	case "AMU" : panelName = "미국"; break;
+	case "AME" : panelName = "기타"; break;
+	case "AF" : panelName = "아프리카"; break;
+	case "OC" : panelName = "그 밖 지역"; break;
+	default : panelName = "레시피 게시판"; break;
+}
+
+ArrayList<String> nicknames = (ArrayList<String>)request.getAttribute("nicknames");
 %>
 <!DOCTYPE html>
 <html>

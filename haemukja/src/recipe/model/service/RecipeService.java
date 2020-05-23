@@ -7,6 +7,7 @@ import java.util.ArrayList;
 
 import common.Attachment;
 import recipe.model.dao.RecipeDao;
+import recipe.model.vo.RComment;
 import recipe.model.vo.Recipe;
 
 public class RecipeService {
@@ -159,6 +160,28 @@ public class RecipeService {
 		return result2;
 	}
 
+	public ArrayList<RComment> selectComments(int bNo) {
+		Connection conn = getConnection();
+		ArrayList<RComment> comments = new RecipeDao().selectComments(conn, bNo);
+		close(conn);
+		return comments;
+	}
+
+	public ArrayList<RComment> insertComment(RComment rc) {
+		Connection conn = getConnection();
+		RecipeDao rd = new RecipeDao();
+		int result = new RecipeDao().insertComment(conn, rc);
+		ArrayList<RComment> list = new ArrayList<RComment>();
+		if(result > 0) {
+			commit(conn);
+			list = rd.selectComments(conn, rc.getbNo());
+		} else {
+			rollback(conn);
+		}
+		close(conn);
+		return list;
+	}
+
 	public ArrayList<Recipe> selectRList() {
 		Connection conn = getConnection();
 		
@@ -170,3 +193,17 @@ public class RecipeService {
 	}
 
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+

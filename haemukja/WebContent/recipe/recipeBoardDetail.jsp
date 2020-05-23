@@ -1,11 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8" import="java.util.*, member.model.vo.*, recipe.model.vo.*, common.Attachment"%>
+    pageEncoding="UTF-8" import="java.util.*, member.model.vo.*, recipe.model.vo.*, common.Attachment, recipe.model.vo.*"%>
 <%
 
 	Member loginMember = (Member)session.getAttribute("loginMember");
 	Seller loginSeller = (Seller)session.getAttribute("loginSeller");
 	Recipe recipe = (Recipe)request.getAttribute("recipe");
 	ArrayList<Attachment> files = (ArrayList<Attachment>)request.getAttribute("files");
+	ArrayList<RComment> comments = (ArrayList<RComment>)request.getAttribute("comments");
 	
 	String[] contents = recipe.getbContent().split("\\|");
 	
@@ -24,6 +25,9 @@
 	if(loginMember != null) {
 		loginId = loginMember.getMid();	
 	}
+	/* for(RComment r : comments){
+		System.out.println(r);
+	} */
 %>
 <!DOCTYPE html>
 <html>
@@ -145,8 +149,7 @@
           <div class="col-md-12" align="right">
           	<% if(loginMember != null && loginId.equals(recipe.getmId())) { %>
 		      <!-- <button type="button">수정</button> -->
-		      <button onclick="deleteRecipe()">
-		      	삭제</button>
+		      <button onclick="deleteRecipe()">삭제</button>
           	<% } %>
           </div>
         </div>
@@ -159,6 +162,12 @@
           </div>
         </div>
         <br><br>
+        <div class="row">
+          <div class="col-md-12" align="left">
+            <button type="button" onclick="goBack();">목록으로</button>
+          </div>
+        </div>
+        <br><br>
         <div class="full-right" align="center">
           <div id="advertisement" style="width: 800px; height: 200px;">
             <img src="<%=request.getContextPath() %>/images/ad.jpg" id="ad">
@@ -168,6 +177,7 @@
 
         <div class="container">
           <hr>
+          <!-- 댓글테이블 -->
             <table class="table">
               <thead>
                 <tr>
@@ -178,54 +188,47 @@
                   <th></th>
                 </tr>
               </thead>
-              <tbody>
-                <tr>
-                  <td>1</td>
-                  <td>저도 그래서 나갔어요..</td>
-                  <td><a href="#">윤기보</a></td>
-                  <td>20-05-09</td>
-                  <td><button class="replyBtn">답글 작성</td>
-                </tr>
-                <tr class="replyText">
-                  <form method="get">
-                    <td colspan="4">
-                      <textarea rows="2" cols="85" name="reply"></textarea>
-                    </td>
-                    <td>
-                      <button type="submit">답글 등록</button>
-                    </td>
-                  </form>
-                </tr>
-                <tr>
-                  <td>2</td>
-                  <td>ㄴ222, 그 조장이란놈 좀 이상해요</td>
-                  <td><a href="#">이병현</a></td>
-                  <td>20-05-09</td>
-                  <td><button class="replyBtn">답글 작성</td>
-                </tr>
-                <tr class="replyText">
-                  <form method="get">
-                    <td colspan="4">
-                      <textarea rows="2" cols="85" name="reply"></textarea>
-                    </td>
-                    <td>
-                      <button type="submit">답글 등록</button>
-                    </td>
-                  </form>
-                </tr>
+              <tbody id="commentTable">
+              	<%if(comments.isEmpty()){ %>
+              		<tr>
+              			<td colspan='4'>댓글이 없습니다.</td>
+              		</tr>
+              	<%} else {%>
+					<%for(RComment r : comments) {%>
+						<tr>  
+		                  <td><%=r.getrNo() %></td>
+		                  <td><%=r.getCcoment() %></td>
+		                  <td><%=r.getNickname() %></td>
+		                  <td><%=r.getcDate() %></td>
+		                  <td><button class="replyBtn">답글 작성</button></td>
+		                </tr>
+		                <tr class="replyText">
+		                  <form method="get" action="#">
+		                    <td colspan="4">
+		                      <textarea rows="2" cols="85" name="reply"></textarea>
+		                    </td>
+		                    <td>
+		                      <button type="submit">답글 등록</button>
+		                    </td>
+		                  </form>
+		                </tr> 
+					<%} %>
+				<%} %>
               </tbody>
             </table>
-              
-            <form class="form-horizontal">
+          <!-- /댓글테이블 -->
+
+            <div class="form-horizontal">
                 <div class="form-group">
                   <label>댓글</label>
                   <textarea class="form-control" rows="2" id="commentContent"></textarea>
                   <br>
                   <div align="right">
-                    <button type="submit">등록</button>
+                    <button id="addReply">등록</button>
                   </div>
                 </div>
-            </form>
+            </div>
+            
           </div>
       </div>
       <!-- /.col-lg-9 -->
@@ -298,6 +301,58 @@
       $(".image").click(function(){
     	 $(this).parent().next().toggle(); 
       });
+      $("#addReply").click(function(){	//데이터를 집어 넣은 다음, 쿼리문이 실행되어 여기 실행되게 끔 한다.
+			<%if(loginMember != null){ %>
+				var writer = "<%=loginMember.getMid()%>";
+				var bid = <%=recipe.getbNo()%>;
+				var content = $("#commentContent").val();
+				
+				$.ajax({
+					url:"insertComment.bd",
+					type:"post",
+					data:{writer:writer, content:content, bid:bid},
+					// InsertReplyServlet 만들러 가자!!!
+					
+					//다 작성후 여기볼것
+					success:function(data){
+						$commentTable = $("#commentTable");
+						$commentTable.html(""); // 기존 테이블 정보 초기화
+						
+						for(var key in data){
+							//rlistArray > rlistObj(comment 객체의 필드값들)
+							
+							var $tr = $("<tr>");
+							var $noTd = $("<td>").text(data[key].rnum);
+							var $contentTd = $("<td>").text(data[key].comment);
+							var $writerTd = $("<td>").text(data[key].nickname);
+							var $replyButton = $('<td><button class="replyBtn">답글 작성</button></td>');
+							var $dateTd = $("<td>").text(data[key].cdate);
+							
+							$tr.append($noTd);
+							$tr.append($contentTd);
+							$tr.append($writerTd);
+							$tr.append($dateTd);
+							$tr.append($replyButton);
+							$commentTable.append($tr);
+							
+							var $tr2 = $("<tr class='replyText'>");
+							$tr2.append("<form method='get' action='#'><td colspan='4'><textarea rows='2' cols='85' name='reply'></textarea></td><td><button type='submit'>답글 등록</button></td></form>");
+							$commentTable.append($tr);
+							
+						}
+						$("#commentContent").val("");
+					},
+					error:function(request,status,error){
+					    alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+					   }
+				});
+				
+			<%} else { %>
+				//그렇지 않을때
+				alert('해당 게시글의 글쓴이, 관리자만 작성할 수 있습니다.');
+			<%}%>
+			
+		});
     });
     
     function login(){
@@ -311,7 +366,15 @@
   	function deleteRecipe() {
   		location.href="<%=request.getContextPath()%>/delete.re?bNo=<%=recipe.getbNo()%>&nCode=<%=recipe.getnCode()%>";
   	}
-  	
+  	function goBack(){
+   	 	history.back();
+    }
+  	function pleaseLogin(){
+  		<%if(loginMember == null){%>
+  			alert("일반회원에게만 권한이 있습니다.");
+  			//그리고 비회원일 경우 작성 불가하게끔
+  		<%}%>
+  	}
   	$(function(){
   		$("#up").click(function(){
   			var bNo = $(this).parent().children("input").val();
@@ -329,6 +392,7 @@
   			alert("추천 -1");
   		});
   	})
+  	
   </script>
 
 </body>

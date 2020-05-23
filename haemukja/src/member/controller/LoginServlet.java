@@ -28,7 +28,7 @@ public class LoginServlet extends HttpServlet {
 	      RequestDispatcher view = null;
 	      if(userType.equals("member")) {
 	         Member member = new Member(id, pw);
-	         Member loginMember = new MemberService().loginMember(member);         
+	         Member loginMember = new MemberService().loginMember(member);
 
 	         if(loginMember != null) {
 	            session = request.getSession();
@@ -55,7 +55,6 @@ public class LoginServlet extends HttpServlet {
 	      }
 	      
 	      view.forward(request, response);
-	      
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
