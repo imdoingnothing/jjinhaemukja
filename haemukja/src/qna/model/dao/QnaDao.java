@@ -9,6 +9,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 
 import qna.model.vo.Comment;
+import qna.model.vo.Notice;
 import qna.model.vo.Qna;
 
 public class QnaDao {
@@ -300,7 +301,89 @@ public class QnaDao {
 		return list;
 	}
 
-	
+	public Notice getNotice(Connection conn, int nno) {
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		Notice notice = null;
+		String sql = "SELECT * FROM NOTICE WHERE NNO = ?";
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, nno);
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				notice = new Notice(rs.getInt("NNO"),
+						rs.getString("NTITLE"),
+						rs.getString("NCONTENT"));
+			}
+		} catch(Exception e) {
+			e.printStackTrace();
+		} finally{
+			close(rs);
+			close(pstmt);
+		}
+		return notice;
+	}
+	public int answerComplete(Connection conn, int qid) {
+		PreparedStatement pstmt = null;
+		int result = 0;
+		String sql = "UPDATE QNA SET ANSWER = 'Y' WHERE QID = ?";
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, qid);
+			result = pstmt.executeUpdate();
+		} catch(Exception e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+		return result;
+	}
+
+	public ArrayList<Notice> selectNotice(Connection conn) {
+		Statement stmt = null;
+		ResultSet rs = null;
+		ArrayList<Notice> noticeList = new ArrayList<Notice>();
+		String sql = "SELECT * FROM NOTICE";
+		
+		try {
+			stmt = conn.createStatement();
+			rs = stmt.executeQuery(sql);
+			
+			while(rs.next()) {
+				Notice notice = new Notice(rs.getInt("NNO"),
+						rs.getString("NTITLE"),
+						rs.getString("NCONTENT"));
+				noticeList.add(notice);
+			}
+		} catch(Exception e) {
+			e.printStackTrace();
+		} finally {
+			close(rs);
+			close(stmt);
+		}
+		return noticeList;
+	}
+
+	public int deleteQnaComments(Connection conn, int qid) {
+		PreparedStatement pstmt = null;
+		int result = 0;
+		String sql = "DELETE FROM QNACOM WHERE QID = ?";
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, qid);
+			result = pstmt.executeUpdate();
+			
+		} catch(Exception e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+		return result;
+	}
 }
 
 

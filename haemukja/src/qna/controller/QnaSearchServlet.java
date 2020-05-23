@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import qna.model.service.QnaService;
+import qna.model.vo.Notice;
 import qna.model.vo.PageInfo;
 import qna.model.vo.Qna;
 
@@ -55,14 +56,18 @@ public class QnaSearchServlet extends HttpServlet {
 			endRow = totalCount;
 		}
 		
+		ArrayList<Notice> noticeList = new QnaService().selectNotice();
+		
 		if(!list.isEmpty()) {
 			for(int i = startRow - 1; i < endRow; i++) {
 				sortedList.add(list.get(i));
 			}
 			request.setAttribute("list", sortedList);
 			request.setAttribute("pi", pi);
+			request.setAttribute("notice", noticeList);
 			request.setAttribute("searchOption", searchOption);
 			request.setAttribute("searchContent", searchContent);
+			
 			request.getRequestDispatcher("qna/qnaboard.jsp").forward(request, response);
 		} else {
 			//404

@@ -7,6 +7,7 @@ import java.util.ArrayList;
 
 import qna.model.dao.QnaDao;
 import qna.model.vo.Comment;
+import qna.model.vo.Notice;
 import qna.model.vo.Qna;
 public class QnaService {
 
@@ -112,6 +113,38 @@ public class QnaService {
 		return list;
 	}
 
+	public Notice getNotice(int nno) {
+		Connection conn = getConnection();
+		Notice notice = new QnaDao().getNotice(conn, nno);
+		close(conn);
+		return notice;
+	}
+	public int answerComplete(int qid) {
+		Connection conn = getConnection();
+		int result = new QnaDao().answerComplete(conn, qid);
+		if(result > 0) {
+			commit(conn);
+		} else {
+			rollback(conn);
+		}
+		close(conn);
+		return result;
+	}
+
+	public ArrayList<Notice> selectNotice() {
+		Connection conn = getConnection();
+		ArrayList<Notice> noticeList = new QnaDao().selectNotice(conn);
+		close(conn);
+		return noticeList;
+	}
+
+	public int deleteQnaComment(int qid) {
+		Connection conn = getConnection();
+		int result = new QnaDao().deleteQnaComments(conn, qid);
+		commit(conn);
+		close(conn);
+		return result;
+	}
 	
 }
 
