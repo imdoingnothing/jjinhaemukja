@@ -69,13 +69,14 @@ public class InsertSaleServlet extends HttpServlet {
 			String productId = multiRequest.getParameter("pId");
 			pId = Integer.parseInt(productId);	
 		} catch(NumberFormatException e) {
-			e.getMessage();
+			e.getStackTrace();
 		}
 		
 		String title = multiRequest.getParameter("title");
 		String content = multiRequest.getParameter("content");
 		
 		Product p = ps.selectProduct(pId);
+		Sale sale = ps.selectSale2(pId);
 		
 		int result = 0;
 		String sellerId = "";
@@ -83,7 +84,7 @@ public class InsertSaleServlet extends HttpServlet {
 			sellerId = p.getsId();
 		}
 		
-		if(sellerId.equals(id)) {
+		if(sellerId.equals(id) && sale == null) {
 			Sale s = new Sale();
 			s.setpId(pId);
 			s.setSbTitle(title);
@@ -119,6 +120,8 @@ public class InsertSaleServlet extends HttpServlet {
 				File failedFile = new File(savePath + saveFiles.get(i));
 				failedFile.delete();				
 			}
+			view = request.getRequestDispatcher("seller/sellerPageExplain.jsp");
+			request.setAttribute("msg", "해당 제품의 판매글이 존재하거나 해당 제품에 대한 권한이 없습니다.");
 		}
 		
 		view.forward(request, response);

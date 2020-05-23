@@ -159,4 +159,14 @@ public class RecipeService {
 		return result2;
 	}
 
+	public ArrayList<Recipe> selectRList() {
+		Connection conn = getConnection();
+		
+		ArrayList<Recipe> rlist = new RecipeDao().selectRList(conn);
+		
+		close(conn);
+		
+		return rlist;
+	}
+
 }

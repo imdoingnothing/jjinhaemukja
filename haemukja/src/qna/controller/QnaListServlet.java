@@ -3,7 +3,6 @@ package qna.controller;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -11,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import qna.model.service.QnaService;
+import qna.model.vo.Notice;
 import qna.model.vo.PageInfo;
 import qna.model.vo.Qna;
 
@@ -39,9 +39,11 @@ public class QnaListServlet extends HttpServlet {
 		}
 		PageInfo pi = new PageInfo(totalCount, currentPage, displayRow, displayPage, maxPage, beginPage, endPage);
 		ArrayList<Qna> list = qs.selectList(currentPage, displayRow);
-		if(!list.isEmpty()) {
+		ArrayList<Notice> noticeList = qs.selectNotice();
+		if(!list.isEmpty() && !noticeList.isEmpty()) {
 			request.setAttribute("list", list);
 			request.setAttribute("pi", pi);
+			request.setAttribute("notice", noticeList);
 			// 여기 주의할것
 //			String path = "qna.qn?currentPage=" + pi.getCurrentPage();
 //			System.out.println(path);

@@ -8,6 +8,8 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
 
+import qna.model.vo.Comment;
+import qna.model.vo.Notice;
 import qna.model.vo.Qna;
 
 public class QnaDao {
@@ -251,7 +253,137 @@ public class QnaDao {
 		return list;
 	}
 
-	
+	public int insertReply(Connection conn, Comment c) {
+		PreparedStatement pstmt = null;
+		int result = 0;
+		//질문글번호, 댓글내용, 날짜, 아이디
+		String sql = "INSERT INTO QNACOM VALUES(SEQ_QC.NEXTVAL, ?, ?, SYSDATE, ?)";
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, c.getQid());
+			pstmt.setString(2, c.getComment());
+			pstmt.setString(3, c.getWriter());
+			result = pstmt.executeUpdate();
+		} catch(Exception e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+		return result;
+	}
+
+	public ArrayList<Comment> selectReplyList(Connection conn, int qid) {
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		ArrayList<Comment> list = new ArrayList<Comment>();
+		String sql = "SELECT ROWNUM, F.* FROM (SELECT Q.QID, Q.QCOMMENT, M.MNICKNAME, Q.QDATE FROM QNACOM Q JOIN MEMBER M ON (Q.MID = M.MID) WHERE QID=?) F";
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, qid);
+			rs = pstmt.executeQuery();
+			
+			while(rs.next()) {
+				Comment c = new Comment(rs.getInt("ROWNUM"),
+						rs.getInt("QID"),
+						rs.getString("QCOMMENT"),
+						rs.getString("MNICKNAME"),
+						rs.getDate("QDATE"));
+				list.add(c);
+			}
+//			System.out.println(list);
+		} catch(Exception e) {
+			e.printStackTrace();
+		} finally {
+			close(rs);
+			close(pstmt);
+		}
+		return list;
+	}
+
+	public Notice getNotice(Connection conn, int nno) {
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		Notice notice = null;
+		String sql = "SELECT * FROM NOTICE WHERE NNO = ?";
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, nno);
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				notice = new Notice(rs.getInt("NNO"),
+						rs.getString("NTITLE"),
+						rs.getString("NCONTENT"));
+			}
+		} catch(Exception e) {
+			e.printStackTrace();
+		} finally{
+			close(rs);
+			close(pstmt);
+		}
+		return notice;
+	}
+	public int answerComplete(Connection conn, int qid) {
+		PreparedStatement pstmt = null;
+		int result = 0;
+		String sql = "UPDATE QNA SET ANSWER = 'Y' WHERE QID = ?";
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, qid);
+			result = pstmt.executeUpdate();
+		} catch(Exception e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+		return result;
+	}
+
+	public ArrayList<Notice> selectNotice(Connection conn) {
+		Statement stmt = null;
+		ResultSet rs = null;
+		ArrayList<Notice> noticeList = new ArrayList<Notice>();
+		String sql = "SELECT * FROM NOTICE";
+		
+		try {
+			stmt = conn.createStatement();
+			rs = stmt.executeQuery(sql);
+			
+			while(rs.next()) {
+				Notice notice = new Notice(rs.getInt("NNO"),
+						rs.getString("NTITLE"),
+						rs.getString("NCONTENT"));
+				noticeList.add(notice);
+			}
+		} catch(Exception e) {
+			e.printStackTrace();
+		} finally {
+			close(rs);
+			close(stmt);
+		}
+		return noticeList;
+	}
+
+	public int deleteQnaComments(Connection conn, int qid) {
+		PreparedStatement pstmt = null;
+		int result = 0;
+		String sql = "DELETE FROM QNACOM WHERE QID = ?";
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, qid);
+			result = pstmt.executeUpdate();
+			
+		} catch(Exception e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+		return result;
+	}
 }
 
 

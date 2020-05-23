@@ -20,8 +20,10 @@ public class QnaDeleteServlet extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		int qid = Integer.valueOf(request.getParameter("qid"));
-		int result = new QnaService().deleteQna(qid);
-		if(result > 0) {
+		int dleQnaComments = new QnaService().deleteQnaComment(qid);	//해당 게시글의 댓글 삭제
+		int delQna = new QnaService().deleteQna(qid);	//해당 게시글 삭제
+		
+		if(delQna > 0) {
 //			request.getRequestDispatcher("qna/qnaboard.jsp").forward(request, response); 여기는 왜 servlet으로 가는지!
 			request.getRequestDispatcher("/qna.qn").forward(request, response);
 		} else {

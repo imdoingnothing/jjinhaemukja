@@ -1,6 +1,8 @@
 package member.controller;
 
 import java.io.IOException;
+
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -13,8 +15,13 @@ public class LogoutServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		RequestDispatcher view = null;
+		
 		request.getSession().invalidate();
-		response.sendRedirect("index.jsp");
+		view = request.getRequestDispatcher("/main.re");
+		
+		view.forward(request, response);
+		
 	}
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		doGet(request, response);

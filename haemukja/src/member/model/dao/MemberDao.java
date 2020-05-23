@@ -17,6 +17,7 @@ public class MemberDao {
       PreparedStatement pstmt = null;
       ResultSet rs = null;
       Member loginMember = null;
+      
       String sql = "SELECT * FROM MEMBER WHERE MID = ? AND MPW = ?";
       
       try {
@@ -38,7 +39,8 @@ public class MemberDao {
                   rs.getDate("INFOUPDATE"),
                   rs.getString("MOUT"),
                   rs.getDate("DATE"),
-                  rs.getInt("MSCORE"));
+                  rs.getInt("MSCORE"),
+                  rs.getString("MCODE"));
          }
       } catch(Exception e) {
          e.printStackTrace();
@@ -46,7 +48,7 @@ public class MemberDao {
          close(rs);
          close(pstmt);
       }
-      
+
       return loginMember;
    }
    
@@ -54,6 +56,7 @@ public class MemberDao {
       PreparedStatement pstmt = null;
       ResultSet rs = null;
       Seller loginSeller = null;
+      
       String sql = "SELECT * FROM SELLER WHERE SID = ? AND SPW = ?";
       
       try {
@@ -104,7 +107,6 @@ public class MemberDao {
 			close(rset);
 		}
 		
-		System.out.println("Dao���� id : " + id);
 		return id;
 	}
 
@@ -114,6 +116,7 @@ public class MemberDao {
 		String pwd = String.valueOf((int)(Math.random() * 10000 + 1));
 	
 		String query = "UPDATE MEMBER SET MPW=? WHERE MID = ? AND MNAME=? AND MEMAIL=?";
+		
 		try {
 			pstmt= conn.prepareStatement(query);
 			pstmt.setString(1, pwd);
@@ -126,25 +129,25 @@ public class MemberDao {
 			
 			
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
 		
 		return result;
 	}
 
-	public String selectPwd(Connection conn, String id) {
+	public String selectPwd(Connection conn, String id, String name, String email) {
 		PreparedStatement pstmt = null;
 		ResultSet rset = null;
 		String pwd = null;
 		
-		String query = "SELECT * FROM MEMBER WHERE MID=?";
+		String query = "SELECT * FROM MEMBER WHERE MID=? AND MNAME=? AND MEMAIL=?";
 		
 		try {
 			pstmt= conn.prepareStatement(query);
 			
 			pstmt.setString(1, id);
+			pstmt.setString(2, name);
+			pstmt.setString(3, email);
 			
 			rset = pstmt.executeQuery();
 			
@@ -152,7 +155,6 @@ public class MemberDao {
 				pwd = rset.getString("mpw");
 			}
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
@@ -164,8 +166,8 @@ public class MemberDao {
 		PreparedStatement pstmt = null;
 		int result =0;
 		
-		
 		String query = "INSERT INTO NONMEMBER VALUES(NMNO_SEQ.NEXTVAL, ?,?,?)";
+		
 		try {
 			pstmt = conn.prepareStatement(query);
 			pstmt.setString(1, name);
@@ -175,9 +177,9 @@ public class MemberDao {
 			result = pstmt.executeUpdate();
 			
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
 		return result;
 	}
 
@@ -186,7 +188,8 @@ public class MemberDao {
 		int result =0;
 		int shipno = (int)(Math.random() * 1000000 + 1);
 		
-		String query = "INSERT INTO NMORDERLIST VALUES(OID_SEQ.NEXTVAL, SYSDATE , ? , SYSDATE, 'Y','CJ�������',?,'N',5)";
+		String query = "INSERT INTO NMORDERLIST VALUES(OID_SEQ.NEXTVAL, SYSDATE , ? , SYSDATE, 'Y','CJ占쏙옙占쏙옙占쏙옙占�',?,'N',5)";
+		
 		try {
 			pstmt = conn.prepareStatement(query);
 			pstmt.setString(1, payment);
@@ -194,10 +197,8 @@ public class MemberDao {
 			
 			result = pstmt.executeUpdate();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
 		
 		return result;
 	}
@@ -207,6 +208,7 @@ public class MemberDao {
 		ResultSet rset = null;
 		String query = "SELECT PID FROM PRODUCT WHERE PTITLE = ?";
 		int pid=0;
+		
 		try {
 			pstmt = conn.prepareStatement(query);
 			pstmt.setString(1, ptitle);
@@ -232,7 +234,6 @@ public class MemberDao {
 			pstmt.setInt(1, allPrice);
 			result= pstmt.executeUpdate();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}finally {
 			close(pstmt);
@@ -247,6 +248,7 @@ public class MemberDao {
 		ResultSet rset = null;
 		int oid = 0;
 		String query = "SELECT OID FROM OID_VIEW WHERE ROWNUM=1";
+
 		try {
 			pstmt = conn.prepareStatement(query);
 			rset = pstmt.executeQuery();
@@ -315,13 +317,106 @@ public class MemberDao {
 		}
 		return result;
 	}
-
 	
+	public int insertMember(Connection conn, Member member) {
+		PreparedStatement pstmt = null;
+		int result = 0;
+		
+		String query = "INSERT INTO MEMBER VALUES(?,?,?,?,?,?,?,0,?,SYSDATE,'N',SYSDATE,5,?)";
+		
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setString(1, member.getMid());
+			pstmt.setString(2, member.getMpw());
+			pstmt.setString(3, member.getMname());
+			pstmt.setString(4, member.getMtel());
+			pstmt.setString(5, member.getAddr());
+			pstmt.setString(6, member.getEmail());
+			pstmt.setString(7, member.getMno());
+			pstmt.setString(8, member.getMnickname());
+			pstmt.setString(9, member.getMcode());
+			
+			result = pstmt.executeUpdate();
+			System.out.println("회원가입 결과 확인 : " + result);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(conn);
+		}
+		
+		return result;
+	}
 	
+	public int insertMember(Connection conn, Seller seller) {
+		PreparedStatement pstmt = null;
+		int result = 0;
+		
+		String query = "INSERT INTO SELLER VALUES(?,?,?,?,?,?,'N',?)";
+		
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setString(1, seller.getSid());
+			pstmt.setString(2, seller.getSpw());
+			pstmt.setString(3, seller.getCompany());
+			pstmt.setString(4, seller.getStel());
+			pstmt.setString(5, seller.getCaddr());
+			pstmt.setString(6, seller.getCno());
+			pstmt.setString(7, seller.getScode());
+			
+			result = pstmt.executeUpdate();
+			System.out.println("회원가입 결과 확인 : " + result);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(conn);
+		}
+		
+		return result;
+	}
 
+	public int updateMember(Connection conn, String mpw, String mtel, String email, String mnickname, String mid) {
+		PreparedStatement pstmt = null;
+		int result = 0;
+		
+		String query = "UPDATE MEMBER SET MPW = ?, MTEL = ?, MEMAIL = ?, MNICKNAME =? WHERE MID =?";
+		
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setString(1, mpw);
+			pstmt.setString(2, mtel);
+			pstmt.setString(3, email);
+			pstmt.setString(4, mnickname);
+			pstmt.setString(5, mid);
+			
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+		   return result;
+	}
 	
-
-
+	    public int deleteMember(Connection conn, String mid) {
+		
+		PreparedStatement pstmt = null;
+		int result = 0;
+		
+		String query = "DELETE FROM MEMBER WHERE MID =?";
+		
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setString(1, mid);
+			
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+		
+		return result;
+	}
 
 }
 
