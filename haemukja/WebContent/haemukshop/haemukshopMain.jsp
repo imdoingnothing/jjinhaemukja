@@ -148,7 +148,7 @@
         	<img class="logo" src="<%=request.getContextPath() %>/images/haemukshoplogo.png">
         </a>
       </div>
-
+	  <!-- 로그인 정보 추가 -->
       <div class="col-lg-4" align="right">
         <div class="user" style="border: 2px solid orange; width: 200px;" align="center">
           <h4>비회원</h4>
