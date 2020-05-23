@@ -16,13 +16,9 @@ public class Seller implements Serializable {
 	private String caddr;         // 회사 주소 
 	private String cno;            // 사업자번호(개인 포함)
 	private String sout;         // 판매회원 탈퇴여부
+	private String scode;
 	   
-	public Seller(String sid, String spw) {
-		this.sid = sid;
-	    this.spw = spw;
-	}
-	
-	public Seller(String sid, String spw, String company, String stel, String caddr, String cno, String sout) {
+	public Seller(String sid, String spw, String company, String stel, String caddr, String cno, String sout, String scode) {
 		this.sid = sid;
 	    this.spw = spw;
 	    this.company = company;
@@ -30,8 +26,25 @@ public class Seller implements Serializable {
 	    this.caddr = caddr;
 	    this.cno = cno;
 	    this.sout = sout;
+	    this.scode = scode;
 	}
 	
+	public Seller(String sid, String spw) {
+		this.sid = sid;
+	    this.spw = spw;
+	}
+	
+	
+	public Seller(String sid, String spw, String company, String stel, String caddr, String cno, String scode) {
+		this.sid = sid;
+	    this.spw = spw;
+	    this.company = company;
+	    this.stel = stel;
+	    this.caddr = caddr;
+	    this.cno = cno;
+	    this.scode = scode;
+	}
+
 	public String getSid() {
 	    return sid;
 	}
@@ -54,6 +67,7 @@ public class Seller implements Serializable {
 	    return stel;
 	}
 	public void setStel(String stel) {
+		
 	    this.stel = stel;
 	}
 	public String getCaddr() {
@@ -74,14 +88,23 @@ public class Seller implements Serializable {
 	public void setSout(String sout) {
 	    this.sout = sout;
 	}
+	
+	public String getScode() {
+		return scode;
+	}
+
+	public void setScode(String scode) {
+		this.scode = scode;
+	}
+
 	public static long getSerialversionuid() {
 	    return serialVersionUID;
 	}
-	
+
 	@Override
 	public String toString() {
-	    return "Seller [sid=" + sid + ", spw=" + spw + ", company=" + company + ", stel=" + stel + ", caddr=" + caddr
-	            + ", cno=" + cno + ", sout=" + sout + "]";
-	}	
+		return "Seller [sid=" + sid + ", spw=" + spw + ", company=" + company + ", stel=" + stel + ", caddr=" + caddr
+				+ ", cno=" + cno + ", sout=" + sout + ", scode=" + scode + "]";
+	}
 
 }
