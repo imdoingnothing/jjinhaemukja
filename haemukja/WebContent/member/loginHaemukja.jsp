@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%
-	Cookie[] cookie = request.getCookies();
+	/* Cookie[] cookie = request.getCookies();
 	String id = "";
 	String type = "";
 	if(cookie != null){
@@ -13,7 +13,7 @@
 				type = c.getValue();
 			}
 		}
-	}
+	} */
 %>
 <!DOCTYPE html>
 <html lang="en">
@@ -39,7 +39,7 @@
    <script src='//unpkg.com/bootstrap@4/dist/js/bootstrap.min.js'></script>
    <style>
    @import url(https://fonts.googleapis.com/css2?family=Gamja+Flower&display=swap);*{font-family:'Nanum Gothic',sans-serif;font-size:15px}body{margin:0;font-size:.9rem;font-weight:400;line-height:1.6;color:#212529;text-align:left;background-color:#f5f8fa}.my-form{padding-top:1.5rem;padding-bottom:1.5rem}.my-form .row{margin-left:0;margin-right:0}.login-form{padding-top:1.5rem;padding-bottom:1.5rem}.login-form .row{margin-left:0;margin-right:0}button{width:100px}#id,#idFind-email,#idFind-name,#join-email,#join-id,#join-name,#join-nickname,#join-pwd1,#join-pwd2,#join-residenceDetail,#password,#pwdFind-email{width:250px}
-   </style>s
+   </style>
   <script defer src="https://use.fontawesome.com/releases/v5.0.8/js/solid.js"
     integrity="sha384-+Ga2s7YBbhOD6nie0DzrZpJes+b2K1xkpKxTFFcx59QmVPaSA8c7pycsNaFwUK6l"
     crossorigin="anonymous"></script>
@@ -67,7 +67,7 @@
             <div class="card-body">
                <!-- form -->
               <form action="<%=request.getContextPath()%>/login.me" method="post">
-                	<%if(id.length() > 1) { //쿠키에 아이디가 있을 경우 %>
+                	<%-- <%if(id.length() > 1) { //쿠키에 아이디가 있을 경우 %>
 	                	<div class="form-group row">
 	                  	<label for="email_address" class="col-md-4 col-form-label text-md-right">아이디</label>
 	                  	<div class="col-md-6">
@@ -81,7 +81,13 @@
 	                    <input type="text" id="id" class="form-control" name="id" required autofocus>
 	                    <label for="rememberId">아이디 기억하기</label>
 	                  	<input type="checkbox" id="rememberId" name="rememberId">
-                  	<%} %>
+                  	<%} %> --%>
+                  	<div class="form-group row">
+	                  	<label for="email_address" class="col-md-4 col-form-label text-md-right">아이디</label>
+	                  	<div class="col-md-6">
+	                    <input type="text" id="id" class="form-control" name="id" required autofocus>
+	                    <label for="rememberId">아이디 기억하기</label>
+	                  	<input type="checkbox" id="rememberId" name="rememberId">
                   </div>
                 </div> <!-- form-group row -->
 
@@ -95,13 +101,15 @@
                 <div class="form-group row">
                   <label for="userType" class="col-md-4 col-form-label text-md-right">회원구분</label>
                   <div class="col-md-6">
-                  	<%if (type.equals("seller")) {%>
+<%--                   	<%if (type.equals("seller")) {%>
 	                    <input type="radio" name="userType" value="member">일반회원
 	               		<input type="radio" name="userType" value="seller" checked>판매회원
                		<%} else {%>
                			<input type="radio" name="userType" value="member" checked>일반회원
 	               		<input type="radio" name="userType" value="seller">판매회원
-               		<%} %>
+               		<%} %> --%>
+               		<input type="radio" name="userType" value="member" checked>일반회원
+	               		<input type="radio" name="userType" value="seller">판매회원
                   </div>
                 <br><br>
                 <div class="col-md-6 offset-md-4">

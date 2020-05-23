@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8" import="java.util.*, member.model.vo.*, recipe.model.vo.*, common.Attachment"%>
+    pageEncoding="UTF-8" import="java.util.*, member.model.vo.*, recipe.model.vo.*, common.Attachment, qna.model.vo.*"%>
 <%
 	Member loginMember = (Member)session.getAttribute("loginMember");
 	Seller loginSeller = (Seller)session.getAttribute("loginSeller");
@@ -9,12 +9,31 @@
 	ArrayList<Recipe> rlist = (ArrayList<Recipe>)request.getAttribute("rlist");
 	ArrayList<Attachment> flist = (ArrayList<Attachment>)request.getAttribute("flist");
 	RPageInfo rp = (RPageInfo)request.getAttribute("rp");
-
+	ArrayList<Notice> noticeList = (ArrayList<Notice>)request.getAttribute("noticeList");
+	
 	int listCount = rp.getListCount();
 	int currentPage = rp.getCurrentPage();
 	int maxPage = rp.getMaxPage();
 	int startPage = rp.getStartPage();
 	int endPage = rp.getEndPage();
+	
+	String panelName = "";
+	switch(nCode){
+		case "ASK" : panelName = "한국"; break;
+		case "ASC" : panelName = "중국"; break;
+		case "ASJ" : panelName = "일본"; break;
+		case "ASE" : panelName = "기타"; break;
+		case "EUI" : panelName = "이탈리아"; break;
+		case "EUF" : panelName = "프랑스"; break;
+		case "EUS" : panelName = "스페인"; break;
+		case "EUE" : panelName = "기타"; break;
+		case "AMU" : panelName = "미국"; break;
+		case "AME" : panelName = "기타"; break;
+		case "AF" : panelName = "아프리카"; break;
+		case "OC" : panelName = "그 밖 지역"; break;
+		default : panelName = "레시피 게시판"; break;
+	}
+	
 %>
 <!DOCTYPE html>
 <html>
@@ -79,9 +98,10 @@
       <div class="col-lg-9">
         <!-- panel -->
         <div class="panel panel-default">
-          <div class="panel-heading">한국</div>
-          <div class="notice">!공지! 상대를 비방하는 게시글이나 댓글은 별도의 알림없이 삭제 됩니다. </div>
-          <div class="notice">!공지! 2020년 5월 1일 게시글 작성 오류 해결</div>
+          <div class="panel-heading"><%=panelName %></div>
+          <%for(Notice n : noticeList) {%>
+			  <div class="notice">!!공지사항!!<a href="<%= request.getContextPath() %>/noticeDetail.qn?nno=<%=n.getNno()%>"> <%=n.getNtitle() %></a></div>
+		  <%} %>
         </div>
         <br>
         <!-- /panel -->
@@ -96,11 +116,11 @@
 		        			
 		        			<% if(r.getbNo() == a.getbNo()) {  %>
 		        				<input type="hidden" value="<%= a.getbNo() %>">
-		        				<a href="#" class="detail"><img class="card-img-top" 
+		        				<a href="<%= request.getContextPath() %>/detail2.re?bNo=<%=r.getbNo()%>" class="detail"><img class="card-img-top" 
 		        					src="<%= request.getContextPath() %>/uploadFiles/<%= a.getFileName() %>">
 		        				</a>
 				             	<div class="card-body">
-				                	<h5><a href="#"><%= r.getbTitle() %></a></h5>
+				                	<h5><a href="<%= request.getContextPath() %>/detail2.re?bNo=<%=r.getbNo()%>"><%= r.getbTitle() %></a></h5>
 				                	<p class="card-text"><%= r.getbDate() %></p>
 				                	<p class="card-text"><%= r.getmId() %></p>
 				              	</div>
@@ -140,30 +160,6 @@
             </div>
           </div>
       </div>
-
-      <div class="col-lg-1">
-        <%if(loginMember != null) { %>
-        <input type="hidden" id="loginStatus" value="1">
-        <div id="login">
-          <br>
-          <i class="fas fa-user" style="font-size: 30px;"></i>
-          <br><br>
-          	<%=loginMember.getMnickname() %><br>반갑습니다!<br><br>
-          <a href="sellerpage_register.html" style="color: white; margin-bottom: 10px;">판매관리페이지</a>
-          <br>
-          <button type="button" id="loginBtn" onclick="logout();">로그아웃</button>
-        </div>
-		<%} else { %>
-		<input type="hidden" id="loginStatus" value="0">
-        <div id="login">
-          <br>
-          <i class="fas fa-user" style="font-size: 30px;"></i>
-          <br><br>
-          	<button onclick="login();">로그인</button>
-        </div>	
-        <%} %>
-      </div>
-    </div>
     
     <div class="col-lg-1">
          <%if(loginMember != null && loginSeller == null) { %>
@@ -178,7 +174,6 @@
           <button type="button" id="loginBtn" onclick="logout();">로그아웃</button>
         </div>
         <%} else if (loginMember == null && loginSeller != null){ %>
-        <input type="hidden" id="loginStatus" value="0">
           <div id="login">
           <br>
           <i class="fas fa-user" style="font-size: 30px;"></i>
@@ -190,7 +185,6 @@
           <button type="button" id="loginBtn" onclick="logout();">로그아웃</button>
         </div>
       <%} else if (loginMember == null && loginSeller == null) { %>
-      <input type="hidden" id="loginStatus" value="0">
         <div id="login">
           <br>
           <i class="fas fa-user" style="font-size: 30px;"></i>
@@ -279,7 +273,7 @@
   			var loginMember = $("#loginStatus").val();
   			var nCode = $("#nCode").val();
   			
-  		    if(loginMember == "1") {
+  		    if(loginMember =="1") {
   				location.href = "<%=request.getContextPath()%>/recipe/recipeBoardWrite.jsp?nCode=" + nCode;
   			} else {
   				location.href = "<%=request.getContextPath()%>/member/loginHaemukja.jsp"

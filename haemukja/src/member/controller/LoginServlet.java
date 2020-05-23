@@ -23,9 +23,9 @@ public class LoginServlet extends HttpServlet {
 	  String id = request.getParameter("id");
 	  String pw = request.getParameter("password");
 	  String userType = request.getParameter("userType");
-	  String ch = request.getParameter("rememberId");
-	  Cookie idCookie = null;
-	  Cookie typeCookie = null;
+//	  String ch = request.getParameter("rememberId");
+//	  Cookie idCookie = null;
+//	  Cookie typeCookie = null;
 	  HttpSession session = null;
 
 	  
@@ -34,21 +34,21 @@ public class LoginServlet extends HttpServlet {
 		  Member loginMember = new MemberService().loginMember(member);         
 	 
 			 if(loginMember != null) {	//일반회원일때
-				 if(ch != null) {
-					 idCookie = new Cookie("ch", id);
-					 idCookie.setMaxAge(60);
-					 typeCookie = new Cookie("type", userType);
-					 typeCookie.setMaxAge(60);
-					 response.addCookie(idCookie);
-					 response.addCookie(typeCookie);
-				 } else {
-					 idCookie = new Cookie("ch", id);
-					 idCookie.setMaxAge(0);
-					 typeCookie = new Cookie("type", userType);
-					 typeCookie.setMaxAge(0);
-					 response.addCookie(idCookie);
-					 response.addCookie(typeCookie);
-				 }
+//				 if(ch != null) {
+//					 idCookie = new Cookie("ch", id);
+//					 idCookie.setMaxAge(60*60*24*7);
+//					 typeCookie = new Cookie("type", userType);
+//					 typeCookie.setMaxAge(60*60*24*7);
+//					 response.addCookie(idCookie);
+//					 response.addCookie(typeCookie);
+//				 } else {
+//					 idCookie = new Cookie("ch", id);
+//					 idCookie.setMaxAge(0);
+//					 typeCookie = new Cookie("type", userType);
+//					 typeCookie.setMaxAge(0);
+//					 response.addCookie(idCookie);
+//					 response.addCookie(typeCookie);
+//				 }
 				 session = request.getSession();
 				 session.setAttribute("loginMember", loginMember);
 			    
@@ -61,21 +61,21 @@ public class LoginServlet extends HttpServlet {
 	     Seller loginSeller = new MemberService().loginSeller(seller);
 	     
 		     if(loginSeller != null) {
-		    	 if(ch != null) {
-					 idCookie = new Cookie("ch", id);
-					 idCookie.setMaxAge(60);
-					 typeCookie = new Cookie("type", userType);
-					 typeCookie.setMaxAge(60);
-					 response.addCookie(idCookie);
-					 response.addCookie(typeCookie);
-				 } else {
-					 idCookie = new Cookie("ch", id);
-					 idCookie.setMaxAge(0);
-					 typeCookie = new Cookie("type", userType);
-					 typeCookie.setMaxAge(0);
-					 response.addCookie(idCookie);
-					 response.addCookie(typeCookie);
-				 }
+//		    	 if(ch != null) {
+//					 idCookie = new Cookie("ch", id);
+//					 idCookie.setMaxAge(60*60*24*7);
+//					 typeCookie = new Cookie("type", userType);
+//					 typeCookie.setMaxAge(60*60*24*7);
+//					 response.addCookie(idCookie);
+//					 response.addCookie(typeCookie);
+//				 } else {
+//					 idCookie = new Cookie("ch", id);
+//					 idCookie.setMaxAge(0);
+//					 typeCookie = new Cookie("type", userType);
+//					 typeCookie.setMaxAge(0);
+//					 response.addCookie(idCookie);
+//					 response.addCookie(typeCookie);
+//				 }
 		        session = request.getSession();
 		        session.setAttribute("loginSeller", loginSeller);
 		        response.sendRedirect("index.jsp");         

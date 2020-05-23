@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import common.Attachment;
 import recipe.model.service.RecipeService;
+import recipe.model.vo.RComment;
 import recipe.model.vo.Recipe;
 
 /**
@@ -40,6 +41,7 @@ public class RecipeDetailServlet2 extends HttpServlet {
 		String nickname = rs.selectMNickname(bNo);
 		Recipe recipe = rs.selectRecipe(bNo);
 		ArrayList<Attachment> files = rs.selectFiles(bNo);
+		ArrayList<RComment> comments = rs.selectComments(bNo);
 		
 		RequestDispatcher view = null;
 		if(recipe != null) {
@@ -47,8 +49,9 @@ public class RecipeDetailServlet2 extends HttpServlet {
 			request.setAttribute("recipe", recipe);
 			request.setAttribute("files", files);
 			request.setAttribute("nickname", nickname);
+			request.setAttribute("comments", comments);
 		} else {
-			
+			//404
 		}
 		
 		view.forward(request, response);
