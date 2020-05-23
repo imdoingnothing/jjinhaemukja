@@ -1,7 +1,6 @@
-package member.controller;
+package mypage.controller;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -10,21 +9,20 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.json.simple.JSONObject;
-
 import member.model.service.MemberService;
+import mypage.model.service.MypageService;
 
 /**
- * Servlet implementation class PointServlet
+ * Servlet implementation class MypageOrderCancel
  */
-@WebServlet("/point.me")
-public class PointServlet extends HttpServlet {
+@WebServlet("/cancel.my")
+public class MypageOrderCancel extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public PointServlet() {
+    public MypageOrderCancel() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -33,40 +31,20 @@ public class PointServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		int currentPoint = Integer.parseInt(request.getParameter("cureentPoint"));
-		int usePoint =Integer.parseInt(request.getParameter("usePoint"));
-		int allamPrice = Integer.parseInt(request.getParameter("allamprice"));
-		String loginId = request.getParameter("loginId");
+		request.setCharacterEncoding("utf-8");
 		
+		int oid = Integer.valueOf(request.getParameter("oid"));
 		
+		int pid = Integer.valueOf(request.getParameter("pid"));
 		
+		int result = new MypageService().cancelOrder(oid,pid);
+		RequestDispatcher view = null;
+		if(result>0) {
+			request.setAttribute("msg", "주문취소가 완료 되었습니다.");
+			view= request.getRequestDispatcher("member/orderResult.jsp");
+		}
 		
-		
-		int resultPoint=currentPoint - usePoint;
-		int resultPrice = allamPrice-usePoint;
-		
-	
-		JSONObject rlistObj = new JSONObject();
-		
-		rlistObj.put("resultPoint", resultPoint);
-		rlistObj.put("resultPrice", resultPrice);
-		
-		response.setContentType("application/json; charset=utf-8");
-		
-		PrintWriter out = response.getWriter();
-		out.print(rlistObj);
-		out.flush();
-		out.close();
-	
-		
-	
-		
-		
-			
-		
-		
-		
-	
+		view.forward(request, response);
 	}
 
 	/**

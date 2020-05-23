@@ -28,7 +28,7 @@ public class MemberService {
 		Connection conn = getConnection();
 		
 		String id = new MemberDao().findId(conn,name,email);
-		System.out.println("Service¿¡¼­ id : " + id);
+		System.out.println("Serviceï¿½ï¿½ï¿½ï¿½ id : " + id);
 		
 		close(conn);
 		
@@ -73,11 +73,18 @@ public class MemberService {
 		return result1;
 	}
 
-	public int memOrderList(String payment, int count, String userId,String product , int amountPrice) {
+	
+
+	public int selectPid(String ptitle) {
 		Connection conn = getConnection();
-		int productNo = new MemberDao().selectProdeuctNo(conn,product);
-		int result = new MemberDao().mOrderList(conn,payment,count,userId, productNo,amountPrice);
-		
+		int pid = new MemberDao().selectPid(conn,ptitle);
+		close(conn);
+		return pid;
+	}
+
+	public int oIdInsert(int allPrice) {
+		Connection conn = getConnection();
+		int result = new MemberDao().oIdInsert(conn, allPrice);
 		if(result>0) {
 			commit(conn);
 		}else {
@@ -86,6 +93,53 @@ public class MemberService {
 		close(conn);
 		return result;
 	}
+
+	public int selectOid() {
+		Connection conn =getConnection();
+		int oid = new MemberDao().selectOid(conn);
+		close(conn);
+		return oid;
+	}
+
+	public int memOrder(int oid, String payment, String count, String userId, Integer pid) {
+		Connection conn = getConnection();
+		int result = new MemberDao().memOrder(conn,oid,payment,count,userId,pid);
+		if(result>0) {
+			commit(conn);
+		}else {
+			rollback(conn);
+		}
+		close(conn);
+		return result;
+	}
+
+	public int updatePoint(int resultPoint, String userId) {
+		Connection conn = getConnection();
+		int result = new MemberDao().updatePoint(conn,resultPoint,userId);
+		if(result>0) {
+			commit(conn);
+		}else {
+			rollback(conn);
+		}
+		close(conn);
+		return result;
+	}
+
+	public int deleteCart(String cid) {
+		Connection conn = getConnection();
+		int result= new MemberDao().deleteCart(conn,cid);
+		if(result>0) {
+			commit(conn);
+		}else {
+			rollback(conn);
+		}
+		close(conn);
+		return result;
+	}
+
+	
+
+
 
 
 }

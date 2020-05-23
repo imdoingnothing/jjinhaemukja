@@ -20,6 +20,7 @@ public class MyOrder {
 	private int osid;				//교환,환불,배송완료여부ID
 	private String oname;	//교환,환불,배송완료여부
 	private Date refdate;		//교환신청날짜
+	
 	public MyOrder() {
 	}
 	
@@ -36,12 +37,17 @@ public class MyOrder {
 
 
 
-	public MyOrder(String ptitle, Date odate, String shipcom, int shipno, String mid) {
+	public MyOrder(int pid, String ptitle, Date odate, String shipcom, int shipno, String mid, int osid, String oname, int oid, int pamount) {
+		this.pid = pid;
 		this.ptitle = ptitle;
 		this.odate = odate;
 		this.shipcom = shipcom;
 		this.shipno = shipno;
 		this.mid = mid;
+		this.osid=osid;
+		this.oname=oname;
+		this.oid=oid;
+		this.pamount=pamount;
 	}
 	
 	

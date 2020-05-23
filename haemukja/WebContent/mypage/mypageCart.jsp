@@ -1,10 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8" import="member.model.vo.Member,mypage.model.vo.*,java.util.ArrayList"%>
+    pageEncoding="UTF-8" import="member.model.vo.Member,mypage.model.vo.*,java.util.ArrayList,common.Attachment"%>
 <%
 	Member loginMember = (Member)session.getAttribute("loginMember");
 
 	ArrayList<MCart> list = (ArrayList<MCart>)request.getAttribute("list");
 	PageInfo pi = (PageInfo)request.getAttribute("pi");
+	ArrayList<Attachment> flist = (ArrayList<Attachment>)request.getAttribute("flist");
+	
 	
 	int listCount = pi.getListCount();
 	int currentPage = pi.getCurrentPage();
@@ -84,35 +86,43 @@
               <table class="table">
                 <thead>
                   <tr align="center">
-                    <th>
+                   <!--  <th>
                       <input type="checkbox" name="checkbox" class="check" id="checkAll">
-                    </th>
+                    </th> -->
                     <th style="width: 150px"><span></span></th>
                     <th style="width: 500px;"><span>상품명</span></th>
                     <th>수량</th>
                     <th style="width: 100px">선택</th>
                   </tr>
                 </thead>
-               
+               <%if(!list.isEmpty()){ %>
                 <tbody>
              
-                <%for(int i =0; i<list.size(); i++){ %>
+                <%for(int i =0; i<list.size(); i++){ 
+                MCart m = list.get(i);%>
                 <input type="hidden" name="price" value="<%=list.get(i).getPprice() %>">
-                 <input type="hidden" name="product" value=" <%=list.get(i).getPtitle() %>" >
+                <input type="hidden" name="product" value=" <%=list.get(i).getPtitle() %>" >
+                <input type="hidden" name="cid" value="<%=list.get(i).getCid()%>">
                   <tr style="height: 90px;">
-                    <td style="text-align: left; text-align: center; border-right: none;">
-                      <input type="checkbox" name="checkbox" class="check"/>
+                 <%--  <% for(int j =0; j<flist.size() ; j++){ 
+							Attachment a = flist.get(j); %> --%>
+                    <td style="border-left: none; border-right: none;">
+                    	
+							
+							<%-- <% if(a.getSbNo() == m.getSbno()) { %>
+								<img src="<%= request.getContextPath() %>/uploadFiles/<%=a.getFileName() %>"
+									width="200px" height="150px">
+							<% } %> --%>
+						
                     </td>
-                    <td style="border-left: none; border-right: none;"><img style="width: 80%;" src="images/mango.jpg">
-                    </td>
-                   <td style="text-align: left; padding-left: 10px; border-left: none; font-weight: bold;">
+                    <td style="text-align: left; padding-left: 10px; border-left: none; font-weight: bold;">
                     	<%=list.get(i).getPtitle() %>
-                   </td>
+                    </td>
                     <td style="width: 80px;">
                       <input type="number" name="pcount" style="text-align: right; width: 43px; margin-bottom: 5px;" min="1" max="99" step="1" value="<%=list.get(i).getCamount()%>">
                     </td>
                     <td>
-                      <button onclick="location.href='<%=request.getContextPath()%>/member.me?product=<%=list.get(i).getPtitle()%>&pcount=<%=list.get(i).getCamount()%>&price=<%=list.get(i).getPprice()%>'">주문</button>
+                      <button type="button" onclick="location.href='<%=request.getContextPath()%>/member.me?product=<%=list.get(i).getPtitle()%>&pcount=<%=list.get(i).getCamount()%>&price=<%=list.get(i).getPprice()%>&cid=<%=list.get(i).getCid()%>'">주문</button>
                       
                     </td>
                   </tr>
@@ -122,12 +132,30 @@
                   
                   
                 </tbody>
+                <%}else{ %>
+                <tbody>
+             
               
+                
+                  <tr style="height: 90px;">
+	              	  <td style="border-left: none; border-right: none;"></td>
+	                  <td style="text-align: left; padding-left: 10px; border-left: none; font-weight: bold;"></td>
+	                  <td style="width: 80px;"></td>
+	                  <td></td>
+                  </tr>
+             	</tbody>
+                
+              	<%} %>
               </table> <!-- table -->
+              <%if(!list.isEmpty()){%>
               <div class="row" align="right">
-                <div class="col-lg-12"><button type="submit">선택 주문</button>&nbsp;&nbsp;<button type="submit" >전체 주문</button></div>
+                <button type="submit" >전체 주문</button></div>
               </div>
-              
+              <%}else{ %>
+              	<div class="row" align="right">
+                
+              	</div>
+              <%} %>
               
             </form>
           </div>
@@ -197,7 +225,7 @@
   		location.href="<%=request.getContextPath()%>/logout.me";
   	}
   	
-	$(function(){ //전체선택 체크박스 클릭 
+	/* $(function(){ //전체선택 체크박스 클릭 
   		$("#checkAll").click(function(){
   		//만약 전체 선택 체크박스가 체크된상태일경우 
   		if($("#checkAll").prop("checked")) {
@@ -209,8 +237,11 @@
   		$("input[type=checkbox]").prop("checked",false);
   			} 
   			}) 
-  		}) 
+  		})  */
   		
+  		
+  		
+  	
   	
   </script>
 </body>

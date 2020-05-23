@@ -98,20 +98,15 @@ public class MypageOrderServlet extends HttpServlet {
 		 Member member = (Member)(session.getAttribute("loginMember"));
 		 String userId = member.getMid();
 		
-		ArrayList<MyOrder> list = mService.selectOrderList(currentPage,limit,userId);
-		for(int i =0 ;  i<list.size() ; i++ ) {
-			System.out.println(list.get(i));
-		}
+		 ArrayList<MyOrder> list = mService.selectOrderList(currentPage,limit,userId);
 		
-		RequestDispatcher view = null;
-		if(!list.isEmpty()) {
-			view = request.getRequestDispatcher("mypage/mypageOrder.jsp");
-			request.setAttribute("list", list);
-			request.setAttribute("pi", pi);
-		}else {
-		
-			
-		}
+		 
+		 RequestDispatcher view = null;
+	
+		 request.setAttribute("list", list);
+		 request.setAttribute("pi", pi);
+		 view = request.getRequestDispatcher("mypage/mypageOrder.jsp");
+	
 		
 		 view.forward(request, response);
 		 

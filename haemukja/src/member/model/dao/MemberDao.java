@@ -2,6 +2,7 @@ package member.model.dao;
 
 import static common.JDBCTemplate.close;
 
+import java.beans.Statement;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -103,7 +104,7 @@ public class MemberDao {
 			close(rset);
 		}
 		
-		System.out.println("Dao¿¡¼­ id : " + id);
+		System.out.println("Daoï¿½ï¿½ï¿½ï¿½ id : " + id);
 		return id;
 	}
 
@@ -185,7 +186,7 @@ public class MemberDao {
 		int result =0;
 		int shipno = (int)(Math.random() * 1000000 + 1);
 		
-		String query = "INSERT INTO NMORDERLIST VALUES(OID_SEQ.NEXTVAL, SYSDATE , ? , SYSDATE, 'Y','CJ´ëÇÑÅë¿î',?,'N',5)";
+		String query = "INSERT INTO NMORDERLIST VALUES(OID_SEQ.NEXTVAL, SYSDATE , ? , SYSDATE, 'Y','CJï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½',?,'N',5)";
 		try {
 			pstmt = conn.prepareStatement(query);
 			pstmt.setString(1, payment);
@@ -201,66 +202,122 @@ public class MemberDao {
 		return result;
 	}
 
-	public int mOrderList(Connection conn, String payment, int count, String userId,int productNo, int amountPrice) {
+	public int selectPid(Connection conn, String ptitle) {
 		PreparedStatement pstmt = null;
-		int result =0;
-		int shipno = (int)(Math.random() * 1000000 + 1);
-		
-		String query= "INSERT INTO MORDERLIST VALUES(OID_SEQ.NEXTVAL, SYSDATE, ? , SYSDATE, 'Y', 'CJ´ëÇÑÅë¿î', ?, 'N' ,? , ? , ?, ? ";
+		ResultSet rset = null;
+		String query = "SELECT PID FROM PRODUCT WHERE PTITLE = ?";
+		int pid=0;
 		try {
 			pstmt = conn.prepareStatement(query);
-			pstmt.setString(1, payment);
-			pstmt.setInt(2, shipno);
-			pstmt.setInt(3, count);
-			pstmt.setString(4, userId);
-			pstmt.setInt(5, productNo);
-			pstmt.setInt(6, amountPrice);
+			pstmt.setString(1, ptitle);
 			
-			result = pstmt.executeUpdate();
+			rset = pstmt.executeQuery();
+			
+			while(rset.next()) {
+				pid = rset.getInt("pid");
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return pid;
+	}
+
+	public int oIdInsert(Connection conn,int allPrice) {
+		PreparedStatement pstmt = null;
+		int result = 0;
+		String query = "INSERT INTO PAYMENT VALUES(OID_SEQ.NEXTVAL,?)";
+		
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setInt(1, allPrice);
+			result= pstmt.executeUpdate();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}finally {
 			close(pstmt);
-		
 		}
 		
+		System.out.println(result);
 		return result;
 	}
 
-	public int selectProdeuctNo(Connection conn, String product) {
+	public int selectOid(Connection conn) {
 		PreparedStatement pstmt = null;
-		ResultSet rset= null;
-		int productNo = 0;
-		
-		String query = "SELECT PID FROM PRODUCT WHERE PTITLE=?";
+		ResultSet rset = null;
+		int oid = 0;
+		String query = "SELECT OID FROM OID_VIEW WHERE ROWNUM=1";
 		try {
-			pstmt= conn.prepareStatement(query);
-			pstmt.setString(1, product);
-			
+			pstmt = conn.prepareStatement(query);
 			rset = pstmt.executeQuery();
-			while(rset.next()) {
-				productNo = rset.getInt("pid");
-			}
 			
+			while(rset.next()) {
+				oid = rset.getInt("oid");
+			}
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}finally {
 			close(pstmt);
 			close(rset);
 		}
 		
-		return productNo;
+		return oid;
 	}
 
+	public int memOrder(Connection conn, int oid, String payment, String count, String userId, Integer pid) {
+		PreparedStatement pstmt = null;
+		int result =0;
+		String query ="INSERT INTO MORDERLIST VALUES(?,SYSDATE,?,SYSDATE,DEFAULT,DEFAULT,?,?,?,1,DEFAULT)";
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setInt(1, oid);
+			pstmt.setString(2, payment);
+			pstmt.setString(3, count);
+			pstmt.setString(4, userId);
+			pstmt.setInt(5, pid);
+			
+			result=pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally {
+			close(pstmt);
+		}
+		
+		return result;
+	}
+
+	public int updatePoint(Connection conn, int resultPoint, String userId) {
+		PreparedStatement pstmt = null;
+		int result = 0;
+		String query="UPDATE MEMBER SET MPOINT=? WHERE MID=?";
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setInt(1, resultPoint);
+			pstmt.setString(2, userId);
+			result=pstmt.executeUpdate();
+		} catch (SQLException e) {
+		e.printStackTrace();
+		}
+		
+		return result;
+	}
+
+	public int deleteCart(Connection conn, String cid) {
+		PreparedStatement pstmt = null;
+		int result=0;
+		String query = "DELETE FROM MCART WHERE CID=?";
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setString(1, cid);
+			result=pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return result;
+	}
 
 	
-
-
 	
-	
-
 
 	
 

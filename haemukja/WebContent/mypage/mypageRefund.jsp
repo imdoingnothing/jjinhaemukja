@@ -96,6 +96,7 @@
                 <th style="width: 100px;">신청일자</th>
                 <th style="width: 100px;">처리여부</th>
               </thead>
+              <%if(!list.isEmpty()){ %>
               <tbody>
               
               	<%for(MyOrder mo : list){ %>
@@ -109,6 +110,19 @@
                 <%} %>
                 
               </tbody>
+              <%}else{ %>
+              	<tbody>
+              	 <tr>
+                  <td style="width: 100px;"></td>
+                  <td style="width: 300px;"></td>
+                  <td style="width: 100px;"><span></span></td>
+                  <td style="width: 100px;"><span></span></td>
+                  <td style="width: 100px;"><span></span></td>
+                </tr>
+              	
+              	</tbody>
+              	
+              <%} %>
             </table> <!-- table -->
           </div>
         </div>
