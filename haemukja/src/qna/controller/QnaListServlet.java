@@ -40,17 +40,10 @@ public class QnaListServlet extends HttpServlet {
 		PageInfo pi = new PageInfo(totalCount, currentPage, displayRow, displayPage, maxPage, beginPage, endPage);
 		ArrayList<Qna> list = qs.selectList(currentPage, displayRow);
 		ArrayList<Notice> noticeList = qs.selectNotice();
-		if(!list.isEmpty() && !noticeList.isEmpty()) {
-			request.setAttribute("list", list);
-			request.setAttribute("pi", pi);
-			request.setAttribute("notice", noticeList);
-			// 여기 주의할것
-//			String path = "qna.qn?currentPage=" + pi.getCurrentPage();
-//			System.out.println(path);
-			request.getRequestDispatcher("qna/qnaboard.jsp").forward(request, response);
-		}else {
-//			404
-		}
+		request.setAttribute("list", list);
+		request.setAttribute("pi", pi);
+		request.setAttribute("notice", noticeList);
+		request.getRequestDispatcher("qna/qnaboard.jsp").forward(request, response);
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

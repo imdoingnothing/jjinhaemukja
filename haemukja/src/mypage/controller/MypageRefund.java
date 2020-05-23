@@ -36,11 +36,13 @@ public class MypageRefund extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// 두 개의 서비스를 호출하기 떄문에 service를 참조 변수로 놓자.
+		HttpSession session = request.getSession();
+		Member member = (Member)(session.getAttribute("loginMember"));
+		String userId = member.getMid();
 		MypageService mService = new MypageService();
 		
 		// 1_1. 게시판 리스트 갯수 구하기
-		int listCount = mService.getRefundListCount();
+		int listCount = mService.getRefundListCount(userId);
 		// BoardService에 getListCount()만들러 가자!
 		
 //		System.out.println("나오나?"+listCount);
@@ -74,7 +76,7 @@ public class MypageRefund extends HttpServlet {
 		
 		// * maxPAge - 총 페이지 
 		// 목록 수가 123개 이면  페이지 수는 13페이지가 됨
-		maxPage = (int)((double)listCount/limit + 0.9);
+		maxPage = (int)((double)listCount/limit + 1);
 		
 		// * startPage - 현재 페이지에 보여질  시작 페이지 수
 		// 	아래쪽에 페이지 수가 10개씩 보여지게 할 경우
@@ -94,27 +96,17 @@ public class MypageRefund extends HttpServlet {
 		
 		PageInfo pi = new PageInfo(currentPage,listCount,limit,maxPage,startPage,endPage);
 		
-		 HttpSession session = request.getSession();
-		 Member member = (Member)(session.getAttribute("loginMember"));
-		 String userId = member.getMid();
-		
-		
 		ArrayList<MyOrder> list = mService.selectRefundList(currentPage,limit,userId);
 		for(int i =0 ;  i<list.size() ; i++ ) {
 			System.out.println(list.get(i));
 		}
 		
 		RequestDispatcher view = null;
+		view = request.getRequestDispatcher("mypage/mypageRefund.jsp");
+		request.setAttribute("list", list);
+		request.setAttribute("pi", pi);
 		
-			view = request.getRequestDispatcher("mypage/mypageRefund.jsp");
-			request.setAttribute("list", list);
-			request.setAttribute("pi", pi);
-	
-		
-			
-		
-		
-		 view.forward(request, response);
+		view.forward(request, response);
 		 
 
 	}

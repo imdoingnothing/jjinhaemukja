@@ -14,10 +14,10 @@ import static common.JDBCTemplate.*;
 
 public class MypageService {
 	
-	public int getListCount() {
+	public int getListCount(String userId) {
 		Connection conn = getConnection();
 		
-		int listCount = new MypageDao().getListCount(conn);
+		int listCount = new MypageDao().getListCount(conn, userId);
 		
 		close(conn);
 		
@@ -31,17 +31,16 @@ public class MypageService {
 		
 		ArrayList<MCart> list = new MypageDao().selectList(conn,currentPage,limit,userId);
 		
-		
 		close(conn);
 		
 		return list;
 	}
 
 
-	public int getOrderListCount() {
-	Connection conn = getConnection();
+	public int getOrderListCount(String userId) {
+		Connection conn = getConnection();
 		
-		int listCount = new MypageDao().getOrderListCount(conn);
+		int listCount = new MypageDao().getOrderListCount(conn, userId);
 		
 		close(conn);
 		
@@ -63,10 +62,10 @@ public class MypageService {
 
 
 
-	public int getRefundListCount() {
+	public int getRefundListCount(String userId) {
 		Connection conn = getConnection();
 		
-		int listCount = new MypageDao().getRefundListCount(conn);
+		int listCount = new MypageDao().getRefundListCount(conn, userId);
 		
 		close(conn);
 		
@@ -118,8 +117,14 @@ public class MypageService {
 
 
 
-	
-
-
+	public int selectPoint(String id) {
+		Connection conn = getConnection();
+		
+		int point = new MypageDao().selectPoint(conn, id);
+		
+		close(conn);
+		
+		return point;
+	}
 
 }

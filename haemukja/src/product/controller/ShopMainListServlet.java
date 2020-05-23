@@ -45,11 +45,9 @@ public class ShopMainListServlet extends HttpServlet {
 		}
 		
 		RequestDispatcher view = null;
-		if(slist != null && flist != null) {
-			view = request.getRequestDispatcher("haemukshop/haemukshopMain.jsp");
-			request.setAttribute("slist", slist);
-			request.setAttribute("flist", flist);
-		}
+		view = request.getRequestDispatcher("haemukshop/haemukshopMain.jsp");
+		request.setAttribute("slist", slist);
+		request.setAttribute("flist", flist);
 		
 		view.forward(request, response);
 	}

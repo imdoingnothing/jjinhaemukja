@@ -1,18 +1,18 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8" import="member.model.vo.Member,mypage.model.vo.*,java.util.ArrayList,common.Attachment"%>
 <%
-	Member loginMember = (Member)session.getAttribute("loginMember");
+   Member loginMember = (Member)session.getAttribute("loginMember");
 
-	ArrayList<MCart> list = (ArrayList<MCart>)request.getAttribute("list");
-	PageInfo pi = (PageInfo)request.getAttribute("pi");
-	ArrayList<Attachment> flist = (ArrayList<Attachment>)request.getAttribute("flist");
-	
-	
-	int listCount = pi.getListCount();
-	int currentPage = pi.getCurrentPage();
-	int maxPage = pi.getMaxPage();
-	int startPage = pi.getStartPage();
-	int endPage = pi.getEndPage();
+   ArrayList<MCart> list = (ArrayList<MCart>)request.getAttribute("list");
+   PageInfo pi = (PageInfo)request.getAttribute("pi");
+   ArrayList<Attachment> flist = (ArrayList<Attachment>)request.getAttribute("flist");
+   
+   
+   int listCount = pi.getListCount();
+   int currentPage = pi.getCurrentPage();
+   int maxPage = pi.getMaxPage();
+   int startPage = pi.getStartPage();
+   int endPage = pi.getEndPage();
 
 %>
 <!DOCTYPE html>
@@ -58,7 +58,7 @@
 <body>
 
   <!-- Navigation -->
-	<%@ include file="../static/top.jsp"%>
+   <%@ include file="../static/top.jsp"%>
 
 
   <!-- Page Content -->
@@ -66,11 +66,11 @@
     <div class="row">
       <div class="col-lg-2">
         <div class="list-group">
-          <h4><a href="mypageUpdate.jsp">개인정보 수정</a></h4>
-          <h4><a href="<%=request.getContextPath()%>/order.my">주문/배송</a></h4>
-          <h4><a href="<%=request.getContextPath()%>/refund.my">교환/환불</a></h4>
-          <h4><a href="<%=request.getContextPath()%>/cart.my">장바구니</a></h4>
-          <h4><a href="<%=request.getContextPath()%>/mypage/mypagePoint.jsp">포인트 내역</a></h4>
+          <h4><a href="<%=request.getContextPath()%>/mypage/mypageUpdate.jsp">개인정보 수정</a></h4>
+          <h4><a href="<%=request.getContextPath() %>/order.my">주문/배송</a></h4>
+          <h4><a href="<%=request.getContextPath() %>/refund.my">교환/환불</a></h4>
+          <h4><a href="<%=request.getContextPath() %>/cart.my">장바구니</a></h4>
+          <h4><a href="<%=request.getContextPath()%>/point.my">포인트 내역</a></h4>
         </div>
 
       </div>
@@ -109,19 +109,13 @@
                 <input type="hidden" name="product" value=" <%=list.get(i).getPtitle() %>" >
                 <input type="hidden" name="cid" value="<%=list.get(i).getCid()%>">
                   <tr style="height: 90px;">
-                 <%--  <% for(int j =0; j<flist.size() ; j++){ 
-							Attachment a = flist.get(j); %> --%>
+                
                     <td style="border-left: none; border-right: none;">
-                    	
-							
-							<%-- <% if(a.getSbNo() == m.getSbno()) { %>
-								<img src="<%= request.getContextPath() %>/uploadFiles/<%=a.getFileName() %>"
-									width="200px" height="150px">
-							<% } %> --%>
-						
+                       
+                  
                     </td>
                     <td style="text-align: left; padding-left: 10px; border-left: none; font-weight: bold;">
-                    	<%=list.get(i).getPtitle() %>
+                       <%=list.get(i).getPtitle() %>
                     </td>
                     <td style="width: 80px;">
                       <input type="number" name="pcount" style="text-align: right; width: 43px; margin-bottom: 5px;" min="1" max="99" step="1" value="<%=list.get(i).getCamount()%>">
@@ -143,24 +137,20 @@
               
                 
                   <tr style="height: 90px;">
-	              	  <td style="border-left: none; border-right: none;"></td>
-	                  <td style="text-align: left; padding-left: 10px; border-left: none; font-weight: bold;"></td>
-	                  <td style="width: 80px;"></td>
-	                  <td></td>
+                      <td style="border-left: none; border-right: none;"></td>
+                     <td style="text-align: left; padding-left: 10px; border-left: none; font-weight: bold;"></td>
+                     <td style="width: 80px;"></td>
+                     <td></td>
                   </tr>
-             	</tbody>
+                </tbody>
                 
-              	<%} %>
+                 <%} %>
               </table> <!-- table -->
               <%if(!list.isEmpty()){%>
-              <div class="row" align="right">
-                <button type="submit" >전체 주문</button></div>
+              <div class="full-row" align="right">
+                <button type="submit" >전체 주문</button>
               </div>
-              <%}else{ %>
-              	<div class="row" align="right">
-                
-              	</div>
-              <%} %>
+              <% } %>
               
             </form>
           </div>
@@ -219,35 +209,31 @@
   <!-- /.container -->
   <br><br>
   <!-- Footer -->
-	<%@ include file="../static/bottom.jsp"%>
+   <%@ include file="../static/bottom.jsp"%>
 
   <!-- Bootstrap core JavaScript -->
   <script src="<%=request.getContextPath()%>/vendor/jquery/jquery.min.js"></script>
   <script src="<%=request.getContextPath()%>/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-	<script>
-  	
-  	function logout(){
-  		location.href="<%=request.getContextPath()%>/logout.me";
-  	}
-  	
-	/* $(function(){ //전체선택 체크박스 클릭 
-  		$("#checkAll").click(function(){
-  		//만약 전체 선택 체크박스가 체크된상태일경우 
-  		if($("#checkAll").prop("checked")) {
-  		//해당화면에 전체 checkbox들을 체크해준다 
-  		$("input[type=checkbox]").prop("checked",true); 
-  		// 전체선택 체크박스가 해제된 경우 
-  		} else { 
-  		//해당화면에 모든 checkbox들의 체크를해제시킨다. 
-  		$("input[type=checkbox]").prop("checked",false);
-  			} 
-  			}) 
-  		})  */
-  		
-  		
-  		
-  	
-  	
+   <script>
+     
+     function logout(){
+        location.href="<%=request.getContextPath()%>/logout.me";
+     }
+     
+   /* $(function(){ //전체선택 체크박스 클릭 
+        $("#checkAll").click(function(){
+        //만약 전체 선택 체크박스가 체크된상태일경우 
+        if($("#checkAll").prop("checked")) {
+        //해당화면에 전체 checkbox들을 체크해준다 
+        $("input[type=checkbox]").prop("checked",true); 
+        // 전체선택 체크박스가 해제된 경우 
+        } else { 
+        //해당화면에 모든 checkbox들의 체크를해제시킨다. 
+        $("input[type=checkbox]").prop("checked",false);
+           } 
+           }) 
+        })  */
+     
   </script>
 </body>
 

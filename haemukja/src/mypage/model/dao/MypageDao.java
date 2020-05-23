@@ -16,26 +16,26 @@ import product.model.vo.Sale;
 
 public class MypageDao {
 	
-	public int getListCount(Connection conn) {
-		Statement stmt = null;
+	public int getListCount(Connection conn, String userId) {
+		PreparedStatement pstmt = null;
 		ResultSet reset =null;
 		
-		String query = "SELECT COUNT(*) FROM MCART";
+		String query = "SELECT COUNT(*) FROM MCART WHERE MID=?";
 		int listCount = 0;
 		
 		try {
-			stmt= conn.createStatement();
+			pstmt= conn.prepareStatement(query);
+			pstmt.setString(1, userId);
 			
-			reset =stmt.executeQuery(query);
+			reset = pstmt.executeQuery();
 			
 			if(reset.next()) {
 				listCount = reset.getInt(1);
 			}
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} finally {
-			close(stmt);
+			close(pstmt);
 			close(reset);
 		}
 		
@@ -70,40 +70,36 @@ public class MypageDao {
 			}
 			
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}finally {
 			close(rset);
 			close(pstmt);
-			
 		}
-		
-	
 		
 		return list;
 	}
 	
 	
-	public int getOrderListCount(Connection conn) {
-		Statement stmt = null;
+	public int getOrderListCount(Connection conn, String userId) {
+		PreparedStatement pstmt = null;
 		ResultSet reset =null;
 		
-		String query = "SELECT COUNT(*) FROM MORDERLIST";
+		String query = "SELECT COUNT(*) FROM MORDERLIST WHERE MID=?";
 		int listCount = 0;
 		
 		try {
-			stmt= conn.createStatement();
+			pstmt = conn.prepareStatement(query);
+			pstmt.setString(1, userId);
 			
-			reset =stmt.executeQuery(query);
+			reset = pstmt.executeQuery();
 			
 			if(reset.next()) {
 				listCount = reset.getInt(1);
 			}
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} finally {
-			close(stmt);
+			close(pstmt);
 			close(reset);
 		}
 		
@@ -155,27 +151,28 @@ public class MypageDao {
 		return list;
 	}
 
-	public int getRefundListCount(Connection conn) {
+	public int getRefundListCount(Connection conn, String userId) {
 		// TODO Auto-generated method stub
-		Statement stmt = null;
+		PreparedStatement pstmt = null;
 		ResultSet reset =null;
 		
-		String query = "SELECT COUNT(*) FROM REFUNDLIST_VIEW";
+		String query = "SELECT COUNT(*) FROM REFUNDLIST_VIEW WHERE MID=?";
+		
 		int listCount = 0;
 		
 		try {
-			stmt= conn.createStatement();
+			pstmt= conn.prepareStatement(query);
+			pstmt.setString(1, userId);
 			
-			reset =stmt.executeQuery(query);
+			reset = pstmt.executeQuery();
 			
 			if(reset.next()) {
 				listCount = reset.getInt(1);
 			}
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} finally {
-			close(stmt);
+			close(pstmt);
 			close(reset);
 		}
 		
@@ -273,6 +270,31 @@ public class MypageDao {
 		}
 		
 		return list;
+	}
+
+	public int selectPoint(Connection conn, String id) {
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		int point = 0;
+		
+		String query = "SELECT * FROM MEMBER WHERE MID=?";
+		
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setString(1, id);
+			
+			rset = pstmt.executeQuery();
+			while(rset.next()) {
+				point = rset.getInt("MPOINT");
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+			close(rset);
+		}
+		
+		return point;
 	}
 
 	

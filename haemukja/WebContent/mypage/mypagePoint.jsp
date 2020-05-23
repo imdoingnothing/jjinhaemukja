@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8" import = "member.model.vo.Member"%>
-<% Member loginMember = (Member)session.getAttribute("loginMember"); %>
+<% 
+	Member loginMember = (Member)session.getAttribute("loginMember");
+%>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -43,11 +45,11 @@
     <div class="row">
       <div class="col-lg-2">
         <div class="list-group">
-          <h4><a href="mypageUpdate.jsp">개인정보 수정</a></h4>
-          <h4><a href="<%=request.getContextPath()%>/order.my">주문/배송</a></h4>
-          <h4><a href="<%=request.getContextPath()%>/refund.my">교환/환불</a></h4>
-          <h4><a href="<%=request.getContextPath()%>/cart.my">장바구니</a></h4>
-          <h4><a href="<%=request.getContextPath()%>/mypage/mypagePoint.jsp">포인트 내역</a></h4>
+          <h4><a href="<%=request.getContextPath()%>/mypage/mypageUpdate.jsp">개인정보 수정</a></h4>
+          <h4><a href="<%=request.getContextPath() %>/order.my">주문/배송</a></h4>
+          <h4><a href="<%=request.getContextPath() %>/refund.my">교환/환불</a></h4>
+          <h4><a href="<%=request.getContextPath() %>/cart.my">장바구니</a></h4>
+          <h4><a href="<%=request.getContextPath()%>/point.my">포인트 내역</a></h4>
         </div>
 
       </div>
