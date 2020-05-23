@@ -1,6 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8" import="java.util.*, product.model.vo.*, common.Attachment"%>
+    pageEncoding="UTF-8" import="java.util.*, product.model.vo.*, common.Attachment, member.model.vo.*"%>
 <%
+	Member loginMember = (Member)session.getAttribute("loginMember");
+	Seller loginSeller = (Seller)session.getAttribute("loginSeller");
+	
 	ArrayList<Sale> slist = (ArrayList<Sale>)request.getAttribute("slist");
 	ArrayList<Attachment> flist = (ArrayList<Attachment>)request.getAttribute("flist");
 %>
@@ -151,7 +154,13 @@
 	  <!-- 로그인 정보 추가 -->
       <div class="col-lg-4" align="right">
         <div class="user" style="border: 2px solid orange; width: 200px;" align="center">
+          <% if(loginMember == null && loginSeller == null) { %>
           <h4>비회원</h4>
+          <% } else if(loginMember != null && loginSeller == null) { %>
+          <h4><%=loginMember.getMnickname() %></h4>
+          <% } else { %>
+          <h4><%=loginSeller.getCompany() %></h4>
+          <% } %>
           <a href="login_haemukshop.html" style="font-size: 15px;">로그인</a><br>
           <a href="join.html" style="font-size: 15px">회원가입</a>
         </div>
