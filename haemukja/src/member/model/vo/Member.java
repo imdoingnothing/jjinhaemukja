@@ -21,14 +21,14 @@ public class Member implements Serializable{
 	private String mout;
 	private Date enrollDate;
 	private int mscore;
+	private String mcode;
 	
-	public Member(String mid, String mpw) {
-		this.mid = mid;
-		this.mpw = mpw;
+	public Member() {
+		super();
 	}
 
 	public Member(String mid, String mpw, String mname, String mtel, String addr, String email, String mno, int mpoint,
-			String mnickname, Date infoUpdate, String mout, Date enrollDate, int mscore) {
+			String mnickname, Date infoUpdate, String mout, Date enrollDate, int mscore, String mcode) {
 		this.mid = mid;
 		this.mpw = mpw;
 		this.mname = mname;
@@ -42,6 +42,28 @@ public class Member implements Serializable{
 		this.mout = mout;
 		this.enrollDate = enrollDate;
 		this.mscore = mscore;
+		this.mcode = mcode;
+	}
+	
+	public Member(String mid, String mpw) { // login
+		this.mid = mid;
+		this.mpw = mpw;
+	}
+
+
+
+	public Member(String mid, String mpw, String mname, String mtel, String maddr, String email, String mno,
+			String mnickname, String mcode) {  // insert
+		super();
+		this.mid = mid;
+		this.mpw = mpw;
+		this.mname = mname;
+		this.mtel = mtel;
+		this.addr = maddr;
+		this.email = email;
+		this.mno = mno;
+		this.mnickname = mnickname;
+		this.mcode = mcode;
 	}
 
 	public String getMid() {
@@ -147,6 +169,15 @@ public class Member implements Serializable{
 	public void setMscore(int mscore) {
 		this.mscore = mscore;
 	}
+	
+	
+	public String getMcode() {
+		return mcode;
+	}
+
+	public void setMcode(String mcode) {
+		this.mcode = mcode;
+	}
 
 	public static long getSerialversionuid() {
 		return serialVersionUID;
@@ -157,7 +188,7 @@ public class Member implements Serializable{
 		return "Member [mid=" + mid + ", mpw=" + mpw + ", mname=" + mname + ", mtel=" + mtel + ", addr=" + addr
 				+ ", email=" + email + ", mno=" + mno + ", mpoint=" + mpoint + ", mnickname=" + mnickname
 				+ ", infoUpdate=" + infoUpdate + ", mout=" + mout + ", enrollDate=" + enrollDate + ", mscore=" + mscore
-				+ "]";
+				+ ", mcode=" + mcode + "]";
 	}
 	
 }

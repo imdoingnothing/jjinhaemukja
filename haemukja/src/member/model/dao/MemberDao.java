@@ -38,7 +38,8 @@ public class MemberDao {
                   rs.getDate("INFOUPDATE"),
                   rs.getString("MOUT"),
                   rs.getDate("DATE"),
-                  rs.getInt("MSCORE"));
+                  rs.getInt("MSCORE"),
+                  rs.getString("MCODE"));
          }
       } catch(Exception e) {
          e.printStackTrace();
@@ -186,7 +187,7 @@ public class MemberDao {
 		int result =0;
 		int shipno = (int)(Math.random() * 1000000 + 1);
 		
-		String query = "INSERT INTO NMORDERLIST VALUES(OID_SEQ.NEXTVAL, SYSDATE , ? , SYSDATE, 'Y','CJ�������',?,'N',5)";
+		String query = "INSERT INTO NMORDERLIST VALUES(OID_SEQ.NEXTVAL, SYSDATE , ? , SYSDATE, 'Y','CJ占쏙옙占쏙옙占쏙옙占�',?,'N',5)";
 		
 		try {
 			pstmt = conn.prepareStatement(query);
@@ -206,7 +207,7 @@ public class MemberDao {
 		int result =0;
 		int shipno = (int)(Math.random() * 1000000 + 1);
 		
-		String query= "INSERT INTO MORDERLIST VALUES(OID_SEQ.NEXTVAL, SYSDATE, ? , SYSDATE, 'Y', 'CJ�������', ?, 'N' ,? , ? , ?, ? ";
+		String query= "INSERT INTO MORDERLIST VALUES(OID_SEQ.NEXTVAL, SYSDATE, ? , SYSDATE, 'Y', 'CJ占쏙옙占쏙옙占쏙옙占�', ?, 'N' ,? , ? , ?, ? ";
 		
 		try {
 			pstmt = conn.prepareStatement(query);
@@ -252,6 +253,106 @@ public class MemberDao {
 		}
 		
 		return productNo;
+	}
+	
+	public int insertMember(Connection conn, Member member) {
+		PreparedStatement pstmt = null;
+		int result = 0;
+		
+		String query = "INSERT INTO MEMBER VALUES(?,?,?,?,?,?,?,0,?,SYSDATE,'N',SYSDATE,5,?)";
+		
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setString(1, member.getMid());
+			pstmt.setString(2, member.getMpw());
+			pstmt.setString(3, member.getMname());
+			pstmt.setString(4, member.getMtel());
+			pstmt.setString(5, member.getAddr());
+			pstmt.setString(6, member.getEmail());
+			pstmt.setString(7, member.getMno());
+			pstmt.setString(8, member.getMnickname());
+			pstmt.setString(9, member.getMcode());
+			
+			result = pstmt.executeUpdate();
+			System.out.println("회원가입 결과 확인 : " + result);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(conn);
+		}
+		
+		return result;
+	}
+	
+	public int insertMember(Connection conn, Seller seller) {
+		PreparedStatement pstmt = null;
+		int result = 0;
+		
+		String query = "INSERT INTO SELLER VALUES(?,?,?,?,?,?,'N',?)";
+		
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setString(1, seller.getSid());
+			pstmt.setString(2, seller.getSpw());
+			pstmt.setString(3, seller.getCompany());
+			pstmt.setString(4, seller.getStel());
+			pstmt.setString(5, seller.getCaddr());
+			pstmt.setString(6, seller.getCno());
+			pstmt.setString(7, seller.getScode());
+			
+			result = pstmt.executeUpdate();
+			System.out.println("회원가입 결과 확인 : " + result);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(conn);
+		}
+		
+		return result;
+	}
+	
+	public int updateMember(Connection conn, String mpw, String mtel, String email, String mnickname, String mid) {
+		PreparedStatement pstmt = null;
+		int result = 0;
+		
+		String query = "UPDATE MEMBER SET MPW = ?, MTEL = ?, MEMAIL = ?, MNICKNAME =? WHERE MID =?";
+		
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setString(1, mpw);
+			pstmt.setString(2, mtel);
+			pstmt.setString(3, email);
+			pstmt.setString(4, mnickname);
+			pstmt.setString(5, mid);
+			
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+		   return result;
+	}
+	
+	    public int deleteMember(Connection conn, String mid) {
+		
+		PreparedStatement pstmt = null;
+		int result = 0;
+		
+		String query = "DELETE FROM MEMBER WHERE MID =?";
+		
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setString(1, mid);
+			
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+		
+		return result;
 	}
 
 }

@@ -97,6 +97,66 @@ public class MemberService {
 		
 		return result;
 	}
+	
+	public int insertMember(Member member) {
+        Connection conn = getConnection();
+        
+        int result = new MemberDao().insertMember(conn, member);
+        
+        if(result > 0) {
+        	commit(conn);
+        }else {
+        	rollback(conn);
+        }
+		
+		return result;
+	}
+	
+	public int insertMember(Seller seller) {
+		 Connection conn = getConnection();
+	        
+	        int result = new MemberDao().insertMember(conn, seller);
+	        
+	        if(result > 0) {
+	        	commit(conn);
+	        }else {
+	        	rollback(conn);
+	        }
+			
+			return result;
+	}
+	
+	public int updateMember(String mpw, String mtel, String email, String mnickname, String mid) {
+		Connection conn = getConnection();
+		
+		int result = new MemberDao().updateMember(conn, mpw, mtel, email, mnickname, mid);
+		
+		
+		if(result > 0) {
+			commit(conn);
+		}else {
+			rollback(conn);
+		}
+		
+		close(conn);
+		
+		return result;
+		
+	}
 
-
+		public int deleteMember(String mid) {
+		
+		Connection conn =getConnection();
+		
+		int result = new MemberDao().deleteMember(conn, mid);
+		
+		if(result > 0) {
+			commit(conn);
+		}else {
+			rollback(conn);
+		}
+		  
+		return result;
+	}
+	
 }
