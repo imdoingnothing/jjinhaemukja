@@ -187,7 +187,7 @@ public class MemberDao {
 		int result =0;
 		int shipno = (int)(Math.random() * 1000000 + 1);
 		
-		String query = "INSERT INTO NMORDERLIST VALUES(OID_SEQ.NEXTVAL, SYSDATE , ? , SYSDATE, 'Y','CJ�������',?,'N',5)";
+		String query = "INSERT INTO NMORDERLIST VALUES(OID_SEQ.NEXTVAL, SYSDATE , ? , SYSDATE, 'Y','CJ占쏙옙占쏙옙占쏙옙占�',?,'N',5)";
 		
 		try {
 			pstmt = conn.prepareStatement(query);
@@ -207,7 +207,7 @@ public class MemberDao {
 		int result =0;
 		int shipno = (int)(Math.random() * 1000000 + 1);
 		
-		String query= "INSERT INTO MORDERLIST VALUES(OID_SEQ.NEXTVAL, SYSDATE, ? , SYSDATE, 'Y', 'CJ�������', ?, 'N' ,? , ? , ?, ? ";
+		String query= "INSERT INTO MORDERLIST VALUES(OID_SEQ.NEXTVAL, SYSDATE, ? , SYSDATE, 'Y', 'CJ占쏙옙占쏙옙占쏙옙占�', ?, 'N' ,? , ? , ?, ? ";
 		
 		try {
 			pstmt = conn.prepareStatement(query);

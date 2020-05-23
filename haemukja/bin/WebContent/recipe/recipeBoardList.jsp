@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8" import="java.util.*, member.model.vo.*, recipe.model.vo.*, common.Attachment"%>
+    pageEncoding="UTF-8" import="java.util.*, member.model.vo.*, recipe.model.vo.*, common.*"%>
 <%
 	Member loginMember = (Member)session.getAttribute("loginMember");
 	Seller loginSeller = (Seller)session.getAttribute("loginSeller");
@@ -8,13 +8,13 @@
 	
 	ArrayList<Recipe> rlist = (ArrayList<Recipe>)request.getAttribute("rlist");
 	ArrayList<Attachment> flist = (ArrayList<Attachment>)request.getAttribute("flist");
-	RPageInfo rp = (RPageInfo)request.getAttribute("rp");
+	PageInfo pi = (PageInfo)request.getAttribute("pi");
 
-	int listCount = rp.getListCount();
-	int currentPage = rp.getCurrentPage();
-	int maxPage = rp.getMaxPage();
-	int startPage = rp.getStartPage();
-	int endPage = rp.getEndPage();
+	int listCount = pi.getListCount();
+	int currentPage = pi.getCurrentPage();
+	int maxPage = pi.getMaxPage();
+	int startPage = pi.getStartPage();
+	int endPage = pi.getEndPage();
 %>
 <!DOCTYPE html>
 <html>

@@ -144,7 +144,7 @@ public class MemberService {
 		
 	}
 
-		public int deleteMember(String mid) {
+	public int deleteMember(String mid) {
 		
 		Connection conn =getConnection();
 		
@@ -158,5 +158,3 @@ public class MemberService {
 		  
 		return result;
 	}
-
-}
