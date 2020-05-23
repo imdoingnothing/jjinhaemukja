@@ -1,6 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8" import="java.util.*, product.model.vo.*, common.Attachment"%>
+    pageEncoding="UTF-8" import="java.util.*, product.model.vo.*, common.Attachment, member.model.vo.*"%>
 <%
+	Member loginMember = (Member)session.getAttribute("loginMember");
+	Seller loginSeller = (Seller)session.getAttribute("loginSeller");
+	
 	ArrayList<Sale> slist = (ArrayList<Sale>)request.getAttribute("slist");
 	ArrayList<Attachment> flist = (ArrayList<Attachment>)request.getAttribute("flist");
 %>
@@ -138,20 +141,26 @@
   <div class="container" style="height: 120px; padding: 20px;">
     <div class="row">
       <div class="col-lg-4">
-        <a href="<%=request.getContextPath() %>/index.jsp">
+        <a href="<%=request.getContextPath() %>/main.re">
         	<img class="logo" src="<%=request.getContextPath() %>/images/haemukjalogo_size.png">
         </a>
       </div>
 
       <div class="col-lg-4" align="center">
-        <a href="<%=request.getContextPath() %>/haemukshop/haemukshopMain.jsp">
+        <a href="<%=request.getContextPath() %>/mainList.sh">
         	<img class="logo" src="<%=request.getContextPath() %>/images/haemukshoplogo.png">
         </a>
       </div>
-
+	  <!-- 로그인 정보 추가 -->
       <div class="col-lg-4" align="right">
         <div class="user" style="border: 2px solid orange; width: 200px;" align="center">
+          <% if(loginMember == null && loginSeller == null) { %>
           <h4>비회원</h4>
+          <% } else if(loginMember != null && loginSeller == null) { %>
+          <h4><%=loginMember.getMnickname() %></h4>
+          <% } else { %>
+          <h4><%=loginSeller.getCompany() %></h4>
+          <% } %>
           <a href="login_haemukshop.html" style="font-size: 15px;">로그인</a><br>
           <a href="join.html" style="font-size: 15px">회원가입</a>
         </div>
@@ -232,8 +241,8 @@
 		        	<% if(s.getSbNo() == a.getSbNo()) {  %>
 		        		<input type="hidden" value="<%= a.getSbNo() %>">
 		        		<a href="#" class="detail"><img class="card-img-top" 
-		        			src="<%= request.getContextPath() %>/uploadFiles/<%= a.getFileName() %>">
-		        		</a>
+				        	src="<%= request.getContextPath() %>/uploadFiles/<%= a.getFileName() %>">
+				        </a>
 				        <div class="card-body">
 				        	<h5><a href="#"><%= s.getSbTitle() %></a></h5>
 				            <p class="card-text"><%= s.getSbDate() %></p>

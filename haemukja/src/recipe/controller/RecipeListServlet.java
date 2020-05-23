@@ -13,8 +13,8 @@ import javax.servlet.http.HttpServletResponse;
 import common.Attachment;
 import qna.model.service.QnaService;
 import qna.model.vo.Notice;
+import common.PageInfo;
 import recipe.model.service.RecipeService;
-import recipe.model.vo.RPageInfo;
 import recipe.model.vo.Recipe;
 
 /**
@@ -63,7 +63,7 @@ public class RecipeListServlet extends HttpServlet {
 			endPage = maxPage;
 		}
 		
-		RPageInfo rp = new RPageInfo(currentPage, listCount, limit, maxPage, startPage, endPage);
+		PageInfo pi = new PageInfo(currentPage, listCount, limit, maxPage, startPage, endPage);
 		
 		ArrayList<Recipe> rlist = rs.selectRList(currentPage, limit, nCode);
 		
@@ -74,13 +74,20 @@ public class RecipeListServlet extends HttpServlet {
 		}
 		ArrayList<Notice> noticeList = new QnaService().selectNotice();
 		
+		ArrayList<String> nicknames = new ArrayList<>();
+		for(int i = 0; i < rlist.size(); i++) {
+			String nickname = rs.selectMNickname(rlist.get(i).getbNo());
+			nicknames.add(nickname);
+		}
+		
 		RequestDispatcher view = null;
 		if(rlist != null && flist != null && noticeList != null) {
 			view = request.getRequestDispatcher("recipe/recipeBoardList.jsp");
 			request.setAttribute("rlist", rlist);
 			request.setAttribute("flist", flist);
-			request.setAttribute("rp", rp);
+			request.setAttribute("pi", pi);
 			request.setAttribute("noticeList", noticeList);
+			request.setAttribute("nicknames", nicknames);
 		}
 		
 		view.forward(request, response);

@@ -1,15 +1,18 @@
 package mypage.model.dao;
 
+import static common.JDBCTemplate.close;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
-import static common.JDBCTemplate.*;
 
+import common.Attachment;
 import mypage.model.vo.MCart;
 import mypage.model.vo.MyOrder;
+import product.model.vo.Sale;
 
 public class MypageDao {
 	
@@ -61,7 +64,8 @@ public class MypageDao {
 						rset.getString("mid"),
 						rset.getString("ptitle"),
 						rset.getInt("camount"),
-						rset.getInt("pprice"));
+						rset.getInt("pprice"),
+						rset.getInt("sbno"));
 				list.add(mcart);
 			}
 			
@@ -124,12 +128,16 @@ public class MypageDao {
 			
 			rset = pstmt.executeQuery();
 			while(rset.next()) {
-				MyOrder mo = new MyOrder(
+				MyOrder mo = new MyOrder(					rset.getInt("pid"),
 															rset.getString("ptitle"),
 															rset.getDate("odate"),
 															rset.getString("shipcom"),
 															rset.getInt("shipno"),
-															rset.getString("mid")
+															rset.getString("mid"),
+															rset.getInt("osid"),
+															rset.getString("o_name"),
+															rset.getInt("oid"),
+															rset.getInt("pamount")
 															);
 				list.add(mo);
 			}
@@ -152,7 +160,7 @@ public class MypageDao {
 		Statement stmt = null;
 		ResultSet reset =null;
 		
-		String query = "SELECT COUNT(*) FROM ";
+		String query = "SELECT COUNT(*) FROM REFUNDLIST_VIEW";
 		int listCount = 0;
 		
 		try {
@@ -210,8 +218,66 @@ public class MypageDao {
 	}
 	
 
+	public int cancelOrder(Connection conn, int oid, int pid) {
+		PreparedStatement pstmt = null;
+		int result = 0;
+		
+		String query ="DELETE FROM MORDERLIST WHERE OID=? AND PID=?";
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setInt(1, oid);
+			pstmt.setInt(2, pid);
+			
+			result=pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally {
+			close(pstmt);
+		}
+		
+		
+		return result;
+	}
 
+	public ArrayList<Attachment> selectThumbnail(Connection conn) {
+		Statement stmt = null;
+		ResultSet rs = null;
+		
+		ArrayList<Attachment> list =  new ArrayList<>();
+		
+		String query = "SELECT * FROM ATTACHMENT WHERE FILELEVEL=0";
+		try {
+			stmt = conn.createStatement();
+			rs = stmt.executeQuery(query);
+			
+			
+			
+			while(rs.next()) {
+				Attachment ac = new Attachment(
+						rs.getInt("aid"),
+						rs.getInt("bno"),
+						rs.getInt("sbno"),
+						rs.getString("fileName"),
+						rs.getString("filePath"),
+						rs.getDate("uploaddate"),
+						rs.getInt("filelevel"),
+						rs.getString("status"),
+						rs.getString("tag")
+						);	
+				
+				list.add(ac);
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return list;
+	}
 
+	
+
+	
 
 
 }

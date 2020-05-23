@@ -100,23 +100,50 @@ int endPage = pi.getEndPage();
                 <th style="width: 300px;">제품명</th>
                 <th style="width: 100px;">구매일자</th>
                 <th style="width: 100px;">배송정보</th>
+                <th style="width: 100px;">주문상태</th>
                 <th style="width: 100px;"></th>
               </thead>
+              <%if(!list.isEmpty()){ %>
               <tbody>
               <%for(MyOrder mo : list){ %>
                 <tr>
                   <td style="width: 50px;"><img src="images/mango.jpg"></td>
                   <td style="width: 300px;"><%=mo.getPtitle() %></td>
+                  <input type="hidden" name="oid" value=<%=mo.getOid()%>>
+                  <input type="hidden" name="pid" value=<%=mo.getPid()%>>
                   <td style="width: 100px;"><%=mo.getOdate() %></td>
+                  
+                  <%if(mo.getOsid()==4 || mo.getOsid()==5 ){%>
                   <td style="width: 100px;"><button type="button" class="shipInfoBtn">배송정보<br>확인</button></td>
+                  <%}else if(mo.getOsid()>=1 & mo.getOsid()<=3){ %>
+                   <td style="width: 100px;"><button type="button" class="shipInfoBtn">주문정보<br>확인</button></td>
+                  <%} %>
+                  <td style="width: 100px;"><%=mo.getOname() %></td>
+                  <%if(mo.getOsid()==4 || mo.getOsid()==5 ){ %>
                   <td style="width: 100px;"><button type="button" id="review">리뷰작성</button><br><button type="button" id="reBuy">재구매</button></td>
+                  <%}else if(mo.getOsid()>=1 & mo.getOsid()<=3){ %>
+                  <td style="width: 100px;"><button type="button" onclick="location.href='<%=request.getContextPath()%>/cancel.my?oid=<%=mo.getOid()%>&pid=<%=mo.getPid()%>'">주문취소</button></td>
+                  <%} %>
+                 
                 </tr>
                 <tr class="shipInfo">
+                  <%if(mo.getOsid()==4 || mo.getOsid()==5 ){%>
                   <td colspan="5">택배사 : <span><%=mo.getShipcom() %></span><br>운송장번호 : <span><%=mo.getShipno() %></span></td>
+                  <%}else if(mo.getOsid()>=1 & mo.getOsid()<=3){ %>
+                  <td colspan="5"><span>주문번호 : </span><span><%=mo.getOid() %></span><br>구매물품 : <span><%=mo.getPtitle() %></span><br>구매수량 : <span><%=mo.getPamount() %></span></td>
+                   <%} %>
                 </tr>
-                <%} %>
+               <%} %>
                 
               </tbody>
+              <%}else{ %>
+              <tbody>
+              
+              </tbody>
+              
+              
+              <%} %>
+              
             </table> <!--/table-->
           </div>
         </div>
@@ -185,7 +212,7 @@ int endPage = pi.getEndPage();
     
     
     function logout(){
-  		location.href="<%=request.getContextPath()%>/logout.me";
+    	location.href="<%=request.getContextPath()%>/logout.me";
   	}
   </script>
 

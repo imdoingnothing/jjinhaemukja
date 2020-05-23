@@ -37,7 +37,6 @@ public class ShopMainListServlet extends HttpServlet {
 		ProductService ps = new ProductService();
 	
 		ArrayList<Sale> slist = ps.selectSList();
-		System.out.println("Servlet단에서 slist : " + slist);
 		
 		ArrayList<Attachment> flist = new ArrayList<>();
 		for(int i = 0; i < slist.size(); i++) {

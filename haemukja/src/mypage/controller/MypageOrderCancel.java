@@ -1,4 +1,4 @@
-package member.controller;
+package mypage.controller;
 
 import java.io.IOException;
 
@@ -10,19 +10,19 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import member.model.service.MemberService;
-import member.model.vo.Member;
+import mypage.model.service.MypageService;
 
 /**
- * Servlet implementation class FindPwdServlet
+ * Servlet implementation class MypageOrderCancel
  */
-@WebServlet("/pwd.me")
-public class FindPwdServlet extends HttpServlet {
+@WebServlet("/cancel.my")
+public class MypageOrderCancel extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public FindPwdServlet() {
+    public MypageOrderCancel() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -33,22 +33,17 @@ public class FindPwdServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("utf-8");
 		
-		String id = request.getParameter("id");
-		String name = request.getParameter("name");
-		String email = request.getParameter("email");
+		int oid = Integer.valueOf(request.getParameter("oid"));
 		
+		int pid = Integer.valueOf(request.getParameter("pid"));
 		
-		String changePwd = new MemberService().findPwd(id,name,email);
-	
+		int result = new MypageService().cancelOrder(oid,pid);
 		RequestDispatcher view = null;
-		
-		if(changePwd != null) {
-			view = request.getRequestDispatcher("member/findPwd.jsp");
-			request.setAttribute("changePwd", changePwd);
-		}else {
-			view = request.getRequestDispatcher("member/findPwd.jsp");
-			request.setAttribute("msg", "입력하신 회원 정보가 없습니다.");
+		if(result>0) {
+			request.setAttribute("msg", "주문취소가 완료 되었습니다.");
+			view= request.getRequestDispatcher("member/orderResult.jsp");
 		}
+		
 		view.forward(request, response);
 	}
 

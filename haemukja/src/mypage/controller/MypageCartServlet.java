@@ -11,10 +11,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import common.Attachment;
 import member.model.vo.Member;
 import mypage.model.service.MypageService;
 import mypage.model.vo.MCart;
 import mypage.model.vo.PageInfo;
+import product.model.vo.Sale;
 
 /**
  * Servlet implementation class MypageCartServlet
@@ -98,19 +100,20 @@ public class MypageCartServlet extends HttpServlet {
 				 String userId = member.getMid();
 				
 				ArrayList<MCart> list = mService.selectList(currentPage,limit,userId);
-				for(int i =0 ;  i<list.size() ; i++ ) {
-					System.out.println(list.get(i));
-				}
+				
+			
+				
+				
+				ArrayList<Attachment> flist = mService.selectThumbnail();
 				
 				RequestDispatcher view = null;
-				if(!list.isEmpty()) {
+			
 					view = request.getRequestDispatcher("mypage/mypageCart.jsp");
 					request.setAttribute("list", list);
+					request.setAttribute("filst", flist);
 					request.setAttribute("pi", pi);
-				}else {
-				
 					
-				}
+				
 				
 				 view.forward(request, response);
 				 

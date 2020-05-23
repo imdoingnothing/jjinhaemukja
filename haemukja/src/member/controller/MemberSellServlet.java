@@ -39,9 +39,9 @@ public class MemberSellServlet extends HttpServlet {
 			 
 			 
 			 String [] ptitle = request.getParameterValues("product");
-			
 			 String[] camount=request.getParameterValues("pcount"); // 수량
 			 String[] price = request.getParameterValues("price");
+			 String[] cid = request.getParameterValues("cid");
 			
 			 
 			 ArrayList<String> ptitleAr= new ArrayList<String>();
@@ -53,13 +53,15 @@ public class MemberSellServlet extends HttpServlet {
 			 for(int i =0 ; i<ptitle.length;i++) {
 				camountAr.add(camount[i]);
 			 }
-	
+		
 			 
-			 
+			 ArrayList<String> cidAr = new ArrayList<String>();
+			 for(int i =0 ; i<cid.length;i++) {
+				cidAr.add(cid[i]);
+			 }
 			
 		
 			
-			 
 			
 			 
 			 // camount[] 형변환
@@ -101,56 +103,13 @@ public class MemberSellServlet extends HttpServlet {
 			 request.setAttribute("camount", camountAr);
 			 request.setAttribute("amprice",ampriceAr);
 			 request.setAttribute("allamprice",allamprice);
+			 request.setAttribute("cid",cidAr);
 			 view= request.getRequestDispatcher("member/member.jsp");
 			 view.forward(request, response);
 			 
 			 
 			
-//			 String ptitle = request.getParameter("product");
-//			 int camount = Integer.valueOf(request.getParameter("pcount")); //수량
-//			 System.out.println("수량:" + camount);
-//			 int price = new MemberService().selectPrice(ptitle); //가격
-//			 System.out.println("하나가격:"+ price);
-//			 String amprice = String.valueOf(camount * price);  // 총가격
-//			 System.out.println("총가격" + amprice);
-//			 RequestDispatcher view = null;
-//			 
-//			 request.setAttribute("ptitle", ptitle);
-//			 request.setAttribute("camount", camount);
-//			 request.setAttribute("amprice", amprice);
-//			 view= request.getRequestDispatcher("member/member.jsp");
-//			 view.forward(request, response);
-			 
-//			int usepoint = Integer.valueOf(request.getParameter("point"));
-//			int price = Integer.valueOf(request.getParameter("price"));
-//			int count = Integer.valueOf( request.getParameter("count"));
-			
-//			
-//			String email1 = request.getParameter("email1");
-//			String email2 = request.getParameter("email2");
-//			
-//			
-//			String name= request.getParameter("orderer");
-//			String email = email1 +"@" + email2;
-//			String payment = request.getParameter("payment");
-//			int amountPrice = price*count - usepoint; 
-//			String product = request.getParameter("product");
-//			
-//			String userId= new MemberService().findId(name, email);
-//			int result = new MemberService().memOrderList(payment,count,userId,product,amountPrice);
-//			
-//			RequestDispatcher view = null;
-//			if(result>0) {
-//				
-//				view = request.getRequestDispatcher("index.jsp");
-//			}else {
-//				
-//			}
-//			view.forward(request, response);
-			
-//			request.setAttribute("amountPrice", amountPrice);
-//			request.setAttribute("usepoint", usepoint );
-//			request.getRequestDispatcher("member/member.jsp").forward(request, response);
+
 			
 			
 	}

@@ -98,20 +98,21 @@ public class MypageRefund extends HttpServlet {
 		 Member member = (Member)(session.getAttribute("loginMember"));
 		 String userId = member.getMid();
 		
+		
 		ArrayList<MyOrder> list = mService.selectRefundList(currentPage,limit,userId);
 		for(int i =0 ;  i<list.size() ; i++ ) {
 			System.out.println(list.get(i));
 		}
 		
 		RequestDispatcher view = null;
-		if(!list.isEmpty()) {
+		
 			view = request.getRequestDispatcher("mypage/mypageRefund.jsp");
 			request.setAttribute("list", list);
 			request.setAttribute("pi", pi);
-		}else {
+	
 		
 			
-		}
+		
 		
 		 view.forward(request, response);
 		 

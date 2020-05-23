@@ -193,22 +193,45 @@ public class RecipeDao {
 		ResultSet rset = null;
 		ArrayList<Recipe> list = new ArrayList<>();
 		
-		String query = "SELECT * "
-				+ "FROM (SELECT ROWNUM AS RNUM1, BNO, BTITLE, BDATE, BCONTENT, BUP, BDOWN, BVIEWS, MID, NCODE FROM RLIST WHERE NCODE=?)"
-				+ "WHERE RNUM1 BETWEEN ? AND ?";
+		String query = "";
+		if(nCode.length() == 3) {
+			query = "SELECT * "
+					+ "FROM (SELECT ROWNUM AS RNUM1, BNO, BTITLE, BDATE, BCONTENT, BUP, BDOWN, BVIEWS, MID, NCODE FROM RLIST WHERE NCODE=?)"
+					+ "WHERE RNUM1 BETWEEN ? AND ?";			
+		} else {
+			if(nCode.equals("AS")) {
+				query = "SELECT * "
+						+ "FROM (SELECT ROWNUM AS RNUM1, BNO, BTITLE, BDATE, BCONTENT, BUP, BDOWN, BVIEWS, MID, NCODE FROM RLIST WHERE NCODE LIKE 'AS%')"
+						+ "WHERE RNUM1 BETWEEN ? AND ?";				
+			} else if(nCode.equals("EU")) {
+				query = "SELECT * "
+						+ "FROM (SELECT ROWNUM AS RNUM1, BNO, BTITLE, BDATE, BCONTENT, BUP, BDOWN, BVIEWS, MID, NCODE FROM RLIST WHERE NCODE LIKE 'EU%')"
+						+ "WHERE RNUM1 BETWEEN ? AND ?";
+			} else {
+				query = "SELECT * "
+						+ "FROM (SELECT ROWNUM AS RNUM1, BNO, BTITLE, BDATE, BCONTENT, BUP, BDOWN, BVIEWS, MID, NCODE FROM RLIST WHERE NCODE LIKE 'AM%')"
+						+ "WHERE RNUM1 BETWEEN ? AND ?";
+			}
+			
+		}
+		
 		
 		int endRow = 9 * currentPage;
 		int startRow = endRow - 8;
 	
 		try {
-			pstmt = conn.prepareStatement(query);
-			pstmt.setString(1, nCode);
-			pstmt.setInt(2, startRow);
-			pstmt.setInt(3, endRow);
+			if(nCode.length() == 3) {
+				pstmt = conn.prepareStatement(query);
+				pstmt.setString(1, nCode);
+				pstmt.setInt(2, startRow);
+				pstmt.setInt(3, endRow);				
+			} else {
+				pstmt = conn.prepareStatement(query);
+				pstmt.setInt(1, startRow);
+				pstmt.setInt(2, endRow);				
+			}
 			
 			rset = pstmt.executeQuery();
-			
-			list = new ArrayList<>();
 			
 			while(rset.next()) {
 				Recipe r = new Recipe(rset.getInt("BNO"),
@@ -332,11 +355,26 @@ public class RecipeDao {
 		ResultSet rset = null;
 		int listCount = 0;
 		
-		String query = "SELECT COUNT(*) FROM RECIPE WHERE NCODE=?";
+		String query = "";
+		if(nCode.length() == 3) {
+			query = "SELECT COUNT(*) FROM RECIPE WHERE NCODE=?";
+		} else {
+			if(nCode.equals("AS")) {
+				query = "SELECT COUNT(*) FROM RECIPE WHERE NCODE LIKE 'AS%'";
+			} else if(nCode.equals("EU")) {
+				query = "SELECT COUNT(*) FROM RECIPE WHERE NCODE LIKE 'EU%'";
+			} else {
+				query = "SELECT COUNT(*) FROM RECIPE WHERE NCODE LIKE 'AM%'";
+			}
+		}
 		
 		try {
-			pstmt = conn.prepareStatement(query);
-			pstmt.setString(1, nCode);
+			if(nCode.length() == 3) {
+				pstmt = conn.prepareStatement(query);
+				pstmt.setString(1, nCode);				
+			} else {
+				pstmt = conn.prepareStatement(query);
+			}
 			
 			rset = pstmt.executeQuery();
 			
@@ -395,6 +433,7 @@ public class RecipeDao {
 		return result;
 	}
 
+<<<<<<< HEAD
 	public ArrayList<RComment> selectComments(Connection conn, int bNo) {
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -457,6 +496,47 @@ public class RecipeDao {
 		}
 		return result;
 	}
+=======
+	public ArrayList<Recipe> selectRList(Connection conn) {
+		Statement stmt = null;
+		ResultSet rset = null;
+		ArrayList<Recipe> rlist = new ArrayList<>();
+		
+		String query = "SELECT * "
+				+ "FROM (SELECT ROWNUM AS RNUM1, BNO, BTITLE, BDATE, BCONTENT, BUP, BDOWN, BVIEWS, MID, NCODE FROM RLIST_BEST)"
+				+ "WHERE RNUM1 BETWEEN 1 AND 6";
+		
+		try {
+			stmt = conn.createStatement();
+			
+			rset = stmt.executeQuery(query);
+			
+			while(rset.next()) {
+				Recipe r = new Recipe(rset.getInt("BNO"),
+						rset.getString("BTITLE"),
+						rset.getDate("BDATE"),
+						rset.getString("BCONTENT"),
+						rset.getInt("BUP"),
+						rset.getInt("BDOWN"),
+						rset.getInt("BVIEWS"),
+						rset.getString("MID"),
+						rset.getString("NCODE"));
+				
+				rlist.add(r);
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(stmt);
+			close(rset);
+		}
+		
+		return rlist;
+	}
+	
+	
+>>>>>>> refs/remotes/origin/master
 
 }
 

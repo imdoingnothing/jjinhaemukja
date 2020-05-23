@@ -1,8 +1,17 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8" import="member.model.vo.*"%>
+    pageEncoding="UTF-8" import="java.util.*, member.model.vo.*, product.model.vo.*, common.*"%>
 <%
    Member loginMember = (Member)session.getAttribute("loginMember");
-   Seller loginSeller = (Seller)session.getAttribute("loginSeller"); 
+   Seller loginSeller = (Seller)session.getAttribute("loginSeller");
+   ArrayList<Product> plist = (ArrayList<Product>)request.getAttribute("plist");
+   
+   PageInfo pi = (PageInfo)request.getAttribute("pi");
+
+   int listCount = pi.getListCount();
+   int currentPage = pi.getCurrentPage();
+   int maxPage = pi.getMaxPage();
+   int startPage = pi.getStartPage();
+   int endPage = pi.getEndPage();
 %>
 <!DOCTYPE html>
 <html>
@@ -42,16 +51,7 @@
 <body>
 
   <!-- Navigation -->
-  <nav class="navbar navbar-default bg-white">
-    <div class="container">
-      <a class="navbar-brand" href="../index.html">
-        <img class="logo" src="../images/haemukjalogo.png" />
-      </a>
-      <a class="navbar-brand" align="right" href="#">
-        <img class="logo" src="../images/haemukshoplogo.png" />
-      </a>
-    </div>
-  </nav>
+  <%@ include file="../static/top.jsp"%>
 
   <!-- Page Content -->
   <div class="container">
@@ -60,9 +60,8 @@
         <div class="list-group">
           <h4><a href="<%=request.getContextPath() %>/seller/sellerPageInsert.jsp">제품 등록</a></h4>
           <h4><a href="<%=request.getContextPath() %>/seller/sellerPageExplain.jsp">제품 설명</a></h4>
-          <h4><a href="<%=request.getContextPath() %>/seller/sellerPageManage.jsp">제품 관리</a></h4>
-          <h4><a href="sellerpage_order.html">주문 관리</a></h4>
-          <h4><a href="sellerpage_qna.html">문의글 답변</a></h4>
+          <h4><a href="<%=request.getContextPath() %>/list.pr">제품 관리</a></h4>
+          <h4><a href="<%=request.getContextPath() %>/seller/sellerPageOrder.jsp">주문 관리</a></h4>
           <h4><a href="<%=request.getContextPath() %>/seller/sellerPageEdit.jsp">상세페이지 수정</a></h4>
         </div>
 
@@ -87,159 +86,34 @@
                     <th style="width: 350px;">제품명</th>
                     <th style="width: 100px;">제품 삭제</th>
                     <th style="width: 100px;">판매 여부</th>
+                    <th style="width: 100px;">품절 처리</th>
                   </tr>
                 </thead>
                 <tbody>
+                  <% for(int i = 0; i < plist.size(); i++) { %>
                   <tr>
                     <td style="width: 100px;">
-                      1
-                      <input type="hidden" value="">
+                      <%=plist.get(i).getpId() %>
+                      <input type="hidden" value="<%=plist.get(i).getpId() %>" class="pId">
                     </td>
                     <td style="width: 350px;">
-                      고등어
+                      <%=plist.get(i).getpTitle() %>
                     </td>
                     <td style="width: 100px;">
-                      <button type="button" onclick="delete()">삭제하기</button>
+                      <button type="button" class="delete">삭제하기</button>
+                    </td>
+                    <td>
+                    	<% if(plist.get(i).getSoldout().equals("N")) { %>
+                    		판매중
+                    	<% } else { %>
+                    		품절
+                    	<% } %>
                     </td>
                     <td style="width: 100px;">
-                      <button type="button" onclick="updateSoldOut()">품절처리</button>
+                      <button type="button" class="soldout">품절처리</button>
                     </td>
                   </tr>
-                  <tr>
-                    <td style="width: 100px;">
-                      1
-                      <input type="hidden" value="">
-                    </td>
-                    <td style="width: 350px;">
-                      고등어
-                    </td>
-                    <td style="width: 100px;">
-                      <button type="button" onclick="delete()">삭제하기</button>
-                    </td>
-                    <td style="width: 100px;">
-                      <button type="button" onclick="updateSoldOut()">품절처리</button>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td style="width: 100px;">
-                      1
-                      <input type="hidden" value="">
-                    </td>
-                    <td style="width: 350px;">
-                      고등어
-                    </td>
-                    <td style="width: 100px;">
-                      <button type="button" onclick="delete()">삭제하기</button>
-                    </td>
-                    <td style="width: 100px;">
-                      <button type="button" onclick="updateSoldOut()">품절처리</button>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td style="width: 100px;">
-                      1
-                      <input type="hidden" value="">
-                    </td>
-                    <td style="width: 350px;">
-                      고등어
-                    </td>
-                    <td style="width: 100px;">
-                      <button type="button" onclick="delete()">삭제하기</button>
-                    </td>
-                    <td style="width: 100px;">
-                      <button type="button" onclick="updateSoldOut()">품절처리</button>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td style="width: 100px;">
-                      1
-                      <input type="hidden" value="">
-                    </td>
-                    <td style="width: 350px;">
-                      고등어
-                    </td>
-                    <td style="width: 100px;">
-                      <button type="button" onclick="delete()">삭제하기</button>
-                    </td>
-                    <td style="width: 100px;">
-                      <button type="button" onclick="updateSoldOut()">품절처리</button>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td style="width: 100px;">
-                      1
-                      <input type="hidden" value="">
-                    </td>
-                    <td style="width: 350px;">
-                      고등어
-                    </td>
-                    <td style="width: 100px;">
-                      <button type="button" onclick="delete()">삭제하기</button>
-                    </td>
-                    <td style="width: 100px;">
-                      <button type="button" onclick="updateSoldOut()">품절처리</button>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td style="width: 100px;">
-                      1
-                      <input type="hidden" value="">
-                    </td>
-                    <td style="width: 350px;">
-                      고등어
-                    </td>
-                    <td style="width: 100px;">
-                      <button type="button" onclick="delete()">삭제하기</button>
-                    </td>
-                    <td style="width: 100px;">
-                      <button type="button" onclick="updateSoldOut()">품절처리</button>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td style="width: 100px;">
-                      1
-                      <input type="hidden" value="">
-                    </td>
-                    <td style="width: 350px;">
-                      고등어
-                    </td>
-                    <td style="width: 100px;">
-                      <button type="button" onclick="delete()">삭제하기</button>
-                    </td>
-                    <td style="width: 100px;">
-                      <button type="button" onclick="updateSoldOut()">품절처리</button>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td style="width: 100px;">
-                      1
-                      <input type="hidden" value="">
-                    </td>
-                    <td style="width: 350px;">
-                      고등어
-                    </td>
-                    <td style="width: 100px;">
-                      <button type="button" onclick="delete()">삭제하기</button>
-                    </td>
-                    <td style="width: 100px;">
-                      <button type="button" onclick="updateSoldOut()">품절처리</button>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td style="width: 100px;">
-                      1
-                      <input type="hidden" value="">
-                    </td>
-                    <td style="width: 350px;">
-                      고등어
-                    </td>
-                    <td style="width: 100px;">
-                      <button type="button" onclick="delete()">삭제하기</button>
-                    </td>
-                    <td style="width: 100px;">
-                      <button type="button" onclick="updateSoldOut()">품절처리</button>
-                    </td>
-                  </tr>
+                  <% } %>
                 </tbody>
               </table>
           </div>
@@ -279,6 +153,7 @@
         <div id="login">
           <br>
           <i class="fas fa-user" style="font-size: 30px;"></i>
+          
           <br><br>
              <button onclick="login();">로그인</button>
         </div>   
@@ -295,45 +170,67 @@
     </div>
     <!-- /.row -->
     <br><br>
+    <!-- 페이징 처리 시작 -->
     <div class="row">
       <div class="col-sm-12" style="text-align: center; font-size: 25px;">
-        <button onclick="" class="paging"> << </button>
-        <button onclick="" class="paging"> < </button>
-        <button onclick="" class="paging"> 1 </button>
-        <button onclick="" class="paging"> 2 </button>
-        <button onclick="" class="paging"> 3 </button>
-        <button onclick="" class="paging"> 4 </button>
-        <button onclick="" class="paging"> 5 </button>
-        <button onclick="" class="paging"> 6 </button>
-        <button onclick="" class="paging"> 7 </button>
-        <button onclick="" class="paging"> 8 </button>
-        <button onclick="" class="paging"> 9 </button>
-        <button onclick="" class="paging"> 10 </button>
-        <button onclick="" class="paging"> > </button>
-        <button onclick="" class="paging"> >> </button>
-      </div>
-    </div>
+      	<!-- 처음으로(<<) -->
+        <button onclick="location.href='<%=request.getContextPath()%>/list.pr?currentPage=1"
+        		class="paging"> << </button>
+        
+        <!--  이전 페이지로(<) -->
+		<%if(currentPage == 1) {%>
+			<button disabled class="paging"> < </button>
+		<% } else {%>
+			<button onclick="location.href='<%=request.getContextPath()%>/list.pr?currentPage=<%=currentPage-1 %>"
+					class="paging"> < </button>
+		<% } %>
+		
+		<!-- 10개의 페이지 목록 -->
+		<% for(int p = startPage; p <= endPage; p++){ %>
+			<% if(currentPage == p){ %>
+				<button disabled class="paging"><%=p %></button>
+			<% } else {%>
+				<button onclick="location.href='<%=request.getContextPath()%>/list.pr?currentPage=<%=p %>"
+						class="paging"><%=p %></button>
+			<% } %>
+		<% } %>
+		
+		<!--  다음 페이지로(>) -->
+		<%if(currentPage == maxPage) {%>
+			<button disabled class="paging"> > </button>
+		<% } else {%>
+			<button onclick="location.href='<%=request.getContextPath()%>/list.pr?currentPage=<%=currentPage+1 %>" 
+					class="paging"> > </button>
+		<% } %>
+		
+		<!--  마지막으로(>>) -->
+		<button onclick="location.href='<%=request.getContextPath()%>/list.pr?currentPage=<%=maxPage %>"
+				class="paging"> >> </button>
+  		</div>
+  	</div>
   </div>
   <!-- /.container -->
   <br><br>
   <!-- Footer -->
-  <footer>
-    <div class="container">
-      <br>
-      <div class="row">
-        <div class="col-md-12" style="text-align: center">
-          <h5>Copyright &copy; 2020</h5>
-          <h5>김예지 지정수 조정규 박두리 김소현 고범석</h5>
-        </div>
-      </div>
-    </div>
-  </footer>
+  <%@ include file="../static/bottom.jsp"%>
 
   <!-- Bootstrap core JavaScript -->
   <script src="../vendor/jquery/jquery.min.js"></script>
   <script src="../vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
   
   <script>
+  	$(function(){
+  		$(".delete").click(function(){
+  			var pId = $(this).parent().parent().children().children(".pId").val();
+			location.href="<%= request.getContextPath() %>/delete.pr?pId=" + pId;
+  		});
+  		
+  		$(".soldout").click(function(){
+  			var pId = $(this).parent().parent().children().children(".pId").val();
+			location.href="<%= request.getContextPath() %>/update.pr?pId=" + pId;
+  		});
+  	});
+  
      function login(){
         location.href="<%=request.getContextPath()%>/member/loginHaemukja.jsp";
      }

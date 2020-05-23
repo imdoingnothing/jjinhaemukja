@@ -182,6 +182,16 @@ public class RecipeService {
 		return list;
 	}
 
+	public ArrayList<Recipe> selectRList() {
+		Connection conn = getConnection();
+		
+		ArrayList<Recipe> rlist = new RecipeDao().selectRList(conn);
+		
+		close(conn);
+		
+		return rlist;
+	}
+
 }
 
 
