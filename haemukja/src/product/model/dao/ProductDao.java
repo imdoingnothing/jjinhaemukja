@@ -10,9 +10,9 @@ import java.sql.Statement;
 import java.util.ArrayList;
 
 import common.Attachment;
+import product.model.vo.Order;
 import product.model.vo.Product;
 import product.model.vo.Sale;
-import recipe.model.vo.Recipe;
 
 public class ProductDao {
 
@@ -468,6 +468,117 @@ public class ProductDao {
 		}
 		
 		return count;
+	}
+
+	public int getListCount2(Connection conn, String sId) {
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		int count = 0;
+		
+		String query = "SELECT COUNT(*) FROM MORDERLIST M JOIN PRODUCT P ON(M.PID=P.PID) WHERE SID=?";
+		
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setString(1, sId);
+			
+			rset = pstmt.executeQuery();
+			while(rset.next()) {
+				count = rset.getInt(1);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+			close(rset);
+		}
+		
+		return count;
+	}
+
+	public ArrayList<Order> selectOlist(Connection conn, int currentPage, int limit, String sId) {
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		ArrayList<Order> olist = new ArrayList<>();
+		
+		String query = "SELECT * FROM MORDERLIST M JOIN PRODUCT P ON(M.PID=P.PID) WHERE SID=?";
+		
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setString(1, sId);
+			
+			rset = pstmt.executeQuery();
+			while(rset.next()) {
+				Order o = new Order(rset.getInt("OID"),
+								rset.getDate("ODATE"),
+								rset.getString("OWAY"),
+								rset.getDate("OPAYDATE"),
+								rset.getString("SHIPCOM"),
+								rset.getInt("SHIPNO"),
+								rset.getInt("PAMOUNT"),
+								rset.getString("MID"),
+								rset.getInt("PID"),
+								rset.getInt("OSID"),
+								rset.getDate("REFDATE"));
+				
+				olist.add(o);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+			close(rset);
+		}
+		
+		return olist;
+	}
+
+	public ArrayList<String> selectPtitles(Connection conn, ArrayList<Order> olist) {
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		ArrayList<String> pTitles = new ArrayList<>();
+		
+		String query = "SELECT PTITLE FROM MORDERLIST M JOIN PRODUCT P ON(M.PID=P.PID) WHERE OID=?";
+		
+		try {
+			for(int i = 0; i < olist.size(); i++) {
+				pstmt = conn.prepareStatement(query);
+				pstmt.setInt(1, olist.get(i).getoId());
+				
+				rset = pstmt.executeQuery();
+				while(rset.next()) {
+					pTitles.add(rset.getString(1));
+				}
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+			close(rset);
+		}
+		
+		return pTitles;
+	}
+
+	public int updateOrder(Connection conn, int oId, String shipCom, int shipNo) {
+		PreparedStatement pstmt = null;
+		int result = 0;
+		
+		String query = "UPDATE MORDERLIST SET SHIPCOM=?, SHIPNO=? WHERE OID=?";
+		
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setString(1, shipCom);
+			pstmt.setInt(2, shipNo);
+			pstmt.setInt(3, oId);
+			
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+		
+		return result;
 	}
 
 }

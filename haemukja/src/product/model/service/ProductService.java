@@ -1,14 +1,18 @@
 package product.model.service;
 
+import static common.JDBCTemplate.close;
+import static common.JDBCTemplate.commit;
+import static common.JDBCTemplate.getConnection;
+import static common.JDBCTemplate.rollback;
+
 import java.sql.Connection;
 import java.util.ArrayList;
 
 import common.Attachment;
 import product.model.dao.ProductDao;
+import product.model.vo.Order;
 import product.model.vo.Product;
 import product.model.vo.Sale;
-
-import static common.JDBCTemplate.*;
 
 public class ProductService {
 
@@ -183,6 +187,50 @@ public class ProductService {
 		close(conn);
 		
 		return count;
+	}
+
+	public int getListCount2(String sId) {
+		Connection conn = getConnection();
+		
+		int count = new ProductDao().getListCount2(conn, sId);
+		
+		close(conn);
+		
+		return count;
+	}
+
+	public ArrayList<Order> selectOlist(int currentPage, int limit, String sId) {
+		Connection conn = getConnection();
+		
+		ArrayList<Order> olist = new ProductDao().selectOlist(conn, currentPage, limit, sId);
+		
+		close(conn);
+		
+		return olist;
+	}
+
+	public ArrayList<String> selectPtitles(ArrayList<Order> olist) {
+		Connection conn = getConnection();
+		
+		ArrayList<String> pTitles = new ProductDao().selectPtitles(conn, olist);
+		
+		close(conn);
+		
+		return pTitles;
+	}
+
+	public int updateOrder(int oId, String shipCom, int shipNo) {
+		Connection conn = getConnection();
+		
+		int result = new ProductDao().updateOrder(conn, oId, shipCom, shipNo);
+		
+		if(result > 0) {
+			commit(conn);
+		} else {
+			rollback(conn);
+		}
+		
+		return result;
 	}
 
 }

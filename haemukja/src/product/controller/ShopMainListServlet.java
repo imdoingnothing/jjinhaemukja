@@ -12,7 +12,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import common.Attachment;
 import product.model.service.ProductService;
-import product.model.vo.SPageInfo;
 import product.model.vo.Sale;
 
 /**

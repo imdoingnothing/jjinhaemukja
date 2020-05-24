@@ -82,7 +82,7 @@
                   <button type="submit" class="btn btn-primary" style="background-color: orange; border: none;">
                     로그인
                   </button>&nbsp;&nbsp;
-                  <button type="button" class="btn btn-primary" style="background-color: orange; border: none;">
+                  <button type="button" class="btn btn-primary" onclick="location.href='<%=request.getContextPath()%>/member/join.jsp'" style="background-color: orange; border: none;">
                     회원가입
                   </button>
                   <br><br>
